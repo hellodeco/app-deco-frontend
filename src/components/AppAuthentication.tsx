@@ -1,42 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Flex, Heading } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
-import type { User } from '../types/types';
-import Userfront from '@userfront/core';
-import LoginPage from '../auth-components/LoginPage';
-import SignupPage from '../auth-components/SignupPage';
-import ResetPasswordPage from '../auth-components/ResetPasswordPage';
-
-interface AppDashboardProps {
-   userData: User;
-}
-
-function AppAuthentication({ userData }: AppDashboardProps) {
-   const [loginType, setLoginType] = useState('');
-
-   const loginTypes = {
-      login: 'login',
-      signup: 'signup',
-      resetPassword: 'resetPassword',
-   };
-
-   const renderAuthComponents = (componentType: string) => {
-      if (Userfront.accessToken()) {
-         return;
-      }
-
-      switch (componentType) {
-         case loginTypes.login: {
-            return <LoginPage />;
-         }
-         case loginTypes.signup: {
-            return <SignupPage />;
-         }
-         case loginTypes.resetPassword: {
-            return <ResetPasswordPage />;
-         }
-      }
-   };
+function AppAuthentication() {
+   let navigate = useNavigate();
 
    return (
       <Flex flexDirection='column' alignContent='center' justifyContent='center'>
@@ -46,19 +13,20 @@ function AppAuthentication({ userData }: AppDashboardProps) {
             </Heading>
 
             <Flex mt='12px'>
-               <Button variant='link' ml='24px' onClick={() => setLoginType(loginTypes.login)}>
+               <Button variant='link' ml='24px' onClick={() => navigate('/')}>
+                  Home
+               </Button>
+               <Button variant='link' ml='24px' onClick={() => navigate('/login')}>
                   Login
                </Button>
-               <Button variant='link' ml='24px' onClick={() => setLoginType(loginTypes.signup)}>
+               <Button variant='link' ml='24px' onClick={() => navigate('/signup')}>
                   Signup
                </Button>
-               <Button variant='link' ml='24px' onClick={() => setLoginType(loginTypes.resetPassword)}>
+               <Button variant='link' ml='24px' onClick={() => navigate('/reset-password')}>
                   Reset password
                </Button>
             </Flex>
          </Flex>
-
-         {renderAuthComponents(loginType)}
       </Flex>
    );
 }

@@ -12,6 +12,9 @@ import AuthedRoute, { AuthedRouteProps } from './auth-components/AuthedRoute';
 import AppAccount from './components/AppAccount';
 import './App.css';
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, ApolloProvider, useQuery, gql } from '@apollo/client';
+import NavBar from './components/NavBar';
+import LoginPage from './auth-components/LoginPage';
+import SignupPage from './auth-components/SignupPage';
 
 const theme = extendTheme({
    colors: {
@@ -61,6 +64,7 @@ function App() {
             <meta property='og:url' content='https://apps.hellodeco.co' />
          </Helmet>
          <Box maxW='920px' maxH='700px' mx='auto' mt='60px'>
+            <NavBar userData={userData} />
             <Routes>
                {/* redirect to this URL on successful login is set within Userfront dashboard */}
                <Route
@@ -70,7 +74,11 @@ function App() {
 
                <Route path='/reset-password' element={<PasswordResetPage />} />
 
-               <Route path='/' element={<AppAuthentication userData={userData} />} />
+               <Route path='/login' element={<LoginPage />} />
+
+               <Route path='/signup' element={<SignupPage />} />
+
+               {/* <Route path='/' element={<AppAuthentication userData={userData} />} /> */}
             </Routes>
          </Box>
       </ChakraProvider>
