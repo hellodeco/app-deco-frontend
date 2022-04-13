@@ -1,0 +1,51 @@
+import React from 'react';
+import { Box } from '@chakra-ui/react';
+import { Button, Stack, InputGroup, Input } from '@chakra-ui/react';
+import Userfront from '@userfront/core';
+
+function PasswordResetPage() {
+   const [password, setPassword] = React.useState('');
+   const [verifyPassword, setVerifyPassword] = React.useState('');
+
+   const handlePasswordReset = (event: React.FormEvent) => {
+      event.preventDefault();
+
+      if (password !== verifyPassword) {
+         return;
+      }
+
+      Userfront.resetPassword({
+         password: password,
+      });
+   };
+
+   return (
+      <Box width='100%' height='100%' px='24%'>
+         <>
+            <Stack spacing={4}>
+               <InputGroup>
+                  <Input
+                     type='password'
+                     placeholder='Enter new password'
+                     onChange={(event) => setPassword(event.target.value)}
+                  />
+               </InputGroup>
+
+               <InputGroup>
+                  <Input
+                     type='password'
+                     placeholder='Verify new password'
+                     onChange={(event) => setVerifyPassword(event.target.value)}
+                  />
+               </InputGroup>
+            </Stack>
+
+            <Button mr={3} mt={6} onClick={(event) => handlePasswordReset(event)}>
+               Reset Password
+            </Button>
+         </>
+      </Box>
+   );
+}
+
+export default PasswordResetPage;
