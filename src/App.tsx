@@ -11,6 +11,7 @@ import PasswordResetPage from './auth-components/PasswordResetPage';
 import AuthedRoute, { AuthedRouteProps } from './auth-components/AuthedRoute';
 import AppAccount from './components/AppAccount';
 import './App.css';
+import { ApolloClient, InMemoryCache, NormalizedCacheObject, ApolloProvider, useQuery, gql } from '@apollo/client';
 
 const theme = extendTheme({
    colors: {
@@ -34,20 +35,10 @@ const theme = extendTheme({
    },
 });
 
-interface ContainerProps {
-   children: React.ReactNode;
-   setUserData: (user: User) => void;
-}
-
-function DesktopContainer({ children }: ContainerProps) {
-   const { space } = useTheme();
-
-   return (
-      <Box w='100vw' h='100vh' maxW='1500px' maxH='100vh' mx='auto' p={space['24']}>
-         {children}
-      </Box>
-   );
-}
+const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
+   uri: `${process.env.REACT_APP_API_URL}/api`,
+   cache: new InMemoryCache(),
+});
 
 function App() {
    const { userData, setUserData } = useUserData();
@@ -56,8 +47,6 @@ function App() {
    const isMobileDevice = useMediaQuery({
       query: '(max-device-width: 450px)',
    });
-
-   const Container = DesktopContainer;
 
    const defaultAuthedRouteProps: Omit<AuthedRouteProps, 'outlet'> = {
       isAuthenticated: Userfront.accessToken(),
@@ -71,7 +60,7 @@ function App() {
          <Helmet>
             <meta property='og:url' content='https://apps.hellodeco.co' />
          </Helmet>
-         <Container setUserData={setUserData}>
+         <Box maxW='920px' maxH='700px' mx='auto' mt='60px'>
             <Routes>
                {/* redirect to this URL on successful login is set within Userfront dashboard */}
                <Route
@@ -83,14 +72,16 @@ function App() {
 
                <Route path='/' element={<AppAuthentication userData={userData} />} />
             </Routes>
-         </Container>
+         </Box>
       </ChakraProvider>
    );
 }
 
 const WrappedApp = () => (
    <Router>
-      <App />
+      <ApolloProvider client={client}>
+         <App />
+      </ApolloProvider>
    </Router>
 );
 
