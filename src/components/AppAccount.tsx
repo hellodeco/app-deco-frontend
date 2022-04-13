@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import type { User } from '../types/types';
@@ -10,6 +10,7 @@ interface AppAccountProps {
 
 function AppAccount({ userData }: AppAccountProps) {
    let navigate = useNavigate();
+   const [message, setMessage] = useState('');
 
    const handleLogout = () => {
       Userfront.logout();
@@ -18,6 +19,17 @@ function AppAccount({ userData }: AppAccountProps) {
    const handleResetPassword = () => {
       navigate('/reset-password');
    };
+
+   useEffect(() => {
+      const backendResponse = async () => {
+         const res: any = await fetch('http://localhost:4000/healthz');
+
+         const message = await res.json();
+
+         setMessage(res.message);
+      };
+      backendResponse();
+   }, []);
 
    return (
       <Flex flexDirection='column' alignContent='center' justifyContent='center'>
@@ -40,6 +52,7 @@ function AppAccount({ userData }: AppAccountProps) {
          <Flex direction='column' alignItems={'flex-start'}>
             <Heading px='13px' py='5px' size='sm'>
                {Userfront.user.email}
+               {message}
             </Heading>
          </Flex>
       </Flex>

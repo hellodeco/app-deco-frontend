@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { authedRequest } from '../helpers/authedRequest';
 import type { User, UserMetaData } from '../types/types';
 import Userfront from '@userfront/core';
 
@@ -12,17 +11,9 @@ export function useUserData() {
             return;
          }
 
-         const userMeta = await authedRequest<UserMetaData>({
-            route: '/api/user_meta/current',
-         });
+         // we will need to set up Apollo to query user data from Graphql Server here
 
-         if (userMeta) {
-            setUserData({
-               shareable_url_hash: userMeta.shareable_url_hash,
-            });
-         }
-
-         return;
+         setUserData({ email: 'george@deco.so' });
       };
       fetchInitialUserData();
       /**
