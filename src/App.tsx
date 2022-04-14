@@ -15,6 +15,7 @@ import { ApolloClient, InMemoryCache, NormalizedCacheObject, ApolloProvider, use
 import NavBar from './components/NavBar';
 import LoginPage from './auth-components/LoginPage';
 import SignupPage from './auth-components/SignupPage';
+import PostCheckout from './components/PostCheckout';
 
 const theme = extendTheme({
    colors: {
@@ -64,7 +65,7 @@ function App() {
             <meta property='og:url' content='https://apps.hellodeco.co' />
          </Helmet>
          <Box maxW='920px' maxH='700px' mx='auto' mt='60px'>
-            <NavBar userData={userData} />
+            <NavBar />
             <Routes>
                {/* redirect to this URL on successful login is set within Userfront dashboard */}
                <Route
@@ -77,6 +78,8 @@ function App() {
                <Route path='/login' element={<LoginPage />} />
 
                <Route path='/signup' element={<SignupPage />} />
+
+               <Route path='/post-checkout' element={<PostCheckout />} />
 
                {/* <Route path='/' element={<AppAuthentication userData={userData} />} /> */}
             </Routes>

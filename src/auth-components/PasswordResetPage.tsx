@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import { Button, Stack, InputGroup, Input } from '@chakra-ui/react';
 import Userfront from '@userfront/core';
 
@@ -8,6 +8,7 @@ function PasswordResetPage() {
    const [verifyPassword, setVerifyPassword] = React.useState('');
 
    const handlePasswordReset = (event: React.FormEvent) => {
+      // todo - handle differently depending on whether user is logged in or out
       event.preventDefault();
 
       if (password !== verifyPassword) {
@@ -20,31 +21,32 @@ function PasswordResetPage() {
    };
 
    return (
-      <Box width='100%' height='100%' px='24%'>
-         <>
-            <Stack spacing={4}>
-               <InputGroup>
-                  <Input
-                     type='password'
-                     placeholder='Enter new password'
-                     onChange={(event) => setPassword(event.target.value)}
-                  />
-               </InputGroup>
+      <Flex maxWidth='md' flexDirection={'column'}>
+         <Heading size={'md'} mb='6'>
+            Reset password
+         </Heading>
+         <Stack spacing={4}>
+            <InputGroup>
+               <Input
+                  type='password'
+                  placeholder='Enter new password'
+                  onChange={(event) => setPassword(event.target.value)}
+               />
+            </InputGroup>
 
-               <InputGroup>
-                  <Input
-                     type='password'
-                     placeholder='Verify new password'
-                     onChange={(event) => setVerifyPassword(event.target.value)}
-                  />
-               </InputGroup>
-            </Stack>
+            <InputGroup>
+               <Input
+                  type='password'
+                  placeholder='Verify new password'
+                  onChange={(event) => setVerifyPassword(event.target.value)}
+               />
+            </InputGroup>
+         </Stack>
 
-            <Button mr={3} mt={6} onClick={(event) => handlePasswordReset(event)}>
-               Reset Password
-            </Button>
-         </>
-      </Box>
+         <Button mr={3} mt={6} onClick={(event) => handlePasswordReset(event)}>
+            Reset Password
+         </Button>
+      </Flex>
    );
 }
 

@@ -8,9 +8,7 @@ function AppAuthentication() {
    return (
       <Flex flexDirection='column' alignContent='center' justifyContent='center'>
          <Flex alignItems='flex-start' justifyContent='space-between' height='120px' width='100%'>
-            <Heading color='black' pl='10px'>
-               Welcome to Hellodeco
-            </Heading>
+            <Heading color='black'>Welcome to Hellodeco</Heading>
 
             <Flex mt='12px'>
                <Button variant='link' ml='24px' onClick={() => navigate('/')}>
