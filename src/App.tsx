@@ -16,6 +16,8 @@ import NavBar from './components/NavBar';
 import LoginPage from './auth-components/LoginPage';
 import SignupPage from './auth-components/SignupPage';
 import PostCheckout from './components/PostCheckout';
+import AccountBilling from './components/AccountBilling';
+import AccountSettings from './components/AccountSettings';
 
 const theme = extendTheme({
    colors: {
@@ -71,6 +73,18 @@ function App() {
                <Route
                   path='/account'
                   element={<AuthedRoute {...defaultAuthedRouteProps} outlet={<AppAccount userData={userData} />} />}
+               />
+
+               <Route
+                  path='/billing'
+                  element={<AuthedRoute {...defaultAuthedRouteProps} outlet={<AccountBilling userData={userData} />} />}
+               />
+
+               <Route
+                  path='/settings'
+                  element={
+                     <AuthedRoute {...defaultAuthedRouteProps} outlet={<AccountSettings userData={userData} />} />
+                  }
                />
 
                <Route path='/reset-password' element={<PasswordResetPage />} />

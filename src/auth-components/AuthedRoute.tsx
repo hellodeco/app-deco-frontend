@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-
+import { Flex } from '@chakra-ui/react';
+import AccountNav from '../components/AccountNav';
 export interface AuthedRouteProps {
    isAuthenticated: boolean;
    authenticationPath: string;
@@ -9,7 +10,12 @@ export interface AuthedRouteProps {
 
 const RequireAuth = ({ isAuthenticated, authenticationPath, outlet }: AuthedRouteProps) => {
    if (isAuthenticated) {
-      return outlet;
+      return (
+         <Flex>
+            <AccountNav />
+            {outlet}
+         </Flex>
+      );
    } else {
       return <Navigate to={{ pathname: authenticationPath }} />;
    }

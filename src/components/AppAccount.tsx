@@ -21,12 +21,9 @@ function AppAccount({ userData }: AppAccountProps) {
    // }, []);
 
    return (
-      <Flex flexDirection='column' alignContent='center' justifyContent='center'>
-         <Flex direction='column' alignItems={'flex-start'}>
-            <Heading px='13px' py='5px' size='sm'>
-               {Userfront.user.email}
-            </Heading>
-         </Flex>
+      <Flex flexDirection='column'>
+         <Heading size='md'>Account Details</Heading>
+         {Userfront.user.email}
       </Flex>
    );
 }
