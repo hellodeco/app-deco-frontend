@@ -1,16 +1,12 @@
 import React from 'react';
 import { Heading, Button, Stack, InputGroup, Input, Alert, AlertIcon, AlertTitle, Flex } from '@chakra-ui/react';
-
 import Userfront from '@userfront/core';
-
-// todo - allow styling props
 
 const LoginPage = () => {
    const [email, setEmail] = React.useState('');
    const [password, setPassword] = React.useState('');
    const [errorMessage, setErrorMessage] = React.useState('');
    const [successMessage, setSuccessMessage] = React.useState('');
-   const [resetPassword, setResetPassword] = React.useState(false);
 
    const handleLogin = (event: React.FormEvent) => {
       event.preventDefault();
@@ -25,48 +21,35 @@ const LoginPage = () => {
    };
 
    return (
-      <Flex maxWidth='md' flexDirection={'column'} ml='40px'>
+      <Flex maxWidth='md' flexDirection={'column'}>
          <Heading size={'md'} pb='6'>
             Login to Hellodeco
          </Heading>
 
          <Stack spacing={4} pb='6'>
-            {!resetPassword ? (
-               <>
-                  <InputGroup>
-                     <Input placeholder='Email' onChange={(event) => setEmail(event.target.value)} />
-                  </InputGroup>
+            <>
+               <InputGroup>
+                  <Input placeholder='Email' onChange={(event) => setEmail(event.target.value)} />
+               </InputGroup>
 
-                  <InputGroup>
-                     <Input
-                        type='password'
-                        placeholder='Enter password'
-                        onChange={(event) => setPassword(event.target.value)}
-                     />
-                  </InputGroup>
-               </>
-            ) : (
-               <>
-                  <p>Enter the email associated with your account. We'll email you a link to reset your password!</p>
-                  <InputGroup>
-                     <Input placeholder='Email' onChange={(event) => setEmail(event.target.value)} />
-                  </InputGroup>
-               </>
-            )}
-            {errorMessage.length ? (
+               <InputGroup>
+                  <Input
+                     type='password'
+                     placeholder='Enter password'
+                     onChange={(event) => setPassword(event.target.value)}
+                  />
+               </InputGroup>
+            </>
+            {errorMessage.length && (
                <Alert status='error'>
                   <AlertIcon />
                   <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
                </Alert>
-            ) : (
-               <></>
             )}
-            {successMessage.length ? (
+            {successMessage.length && (
                <Alert status='success'>
                   <AlertTitle mr={2}>{successMessage}!</AlertTitle>
                </Alert>
-            ) : (
-               <></>
             )}
          </Stack>
 
