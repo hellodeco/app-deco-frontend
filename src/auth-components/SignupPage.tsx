@@ -1,13 +1,13 @@
 import React from 'react';
 import { Heading, Button, Text, Flex } from '@chakra-ui/react';
 
-import Userfront from '@userfront/core';
-
 const SignupPage = () => {
-   const handleSignup = (event: React.FormEvent) => {
+   const handleSignup = async (event: React.FormEvent) => {
       event.preventDefault();
 
-      console.log('signup!');
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/create-checkout-session`, { method: 'POST' });
+      const resBody = await response.json();
+      window.location = resBody.sessionUrl;
    };
 
    return (
