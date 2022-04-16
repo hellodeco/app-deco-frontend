@@ -5,7 +5,7 @@ const SignupPage = () => {
    const handleSignup = async (event: React.FormEvent) => {
       event.preventDefault();
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/create-checkout-session`, { method: 'POST' });
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/stripe/checkout-session`, { method: 'POST' });
       const resBody = await response.json();
       window.location = resBody.sessionUrl;
    };
