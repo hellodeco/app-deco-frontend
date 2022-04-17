@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Flex, Heading } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import type { User } from '../types/types';
-import Userfront from '@userfront/core';
 
 interface AppAccountProps {
    userData: User;
