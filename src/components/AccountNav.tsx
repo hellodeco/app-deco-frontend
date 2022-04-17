@@ -7,15 +7,12 @@ function AccountNav() {
    let navigate = useNavigate();
 
    return (
-      <Flex flexDirection='column' width='140px' alignItems={'flex-start'}>
+      <Flex flexDirection='column' width='300px' alignItems={'flex-start'}>
+         <Button variant='link' mb='24px' onClick={() => navigate('/email')}>
+            Email
+         </Button>
          <Button variant='link' mb='24px' onClick={() => navigate('/account')}>
             Account
-         </Button>
-         <Button variant='link' mb='24px' onClick={() => navigate('/billing')}>
-            Billing
-         </Button>
-         <Button variant='link' mb='24px' onClick={() => navigate('/settings')}>
-            Settings
          </Button>
          <Button variant='link' mb='24px' onClick={() => Userfront.logout()}>
             Logout
