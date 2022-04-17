@@ -21,8 +21,7 @@ import NavBar from './components/NavBar';
 import LoginPage from './auth-components/LoginPage';
 import SignupPage from './auth-components/SignupPage';
 import PostCheckout from './components/PostCheckout';
-import AccountBilling from './components/AccountBilling';
-import AccountSettings from './components/AccountSettings';
+import DecoEmail from './components/DecoEmail';
 
 const theme = extendTheme({
    colors: {
@@ -80,8 +79,6 @@ function App() {
             <meta property='og:url' content='https://apps.hellodeco.co' />
          </Helmet>
          <Box maxW='920px' maxH='700px' mx='auto' mt='60px'>
-            {loading && <>LOADING</>}
-            {error && <Text>{error.message}</Text>}
             <NavBar />
             <Routes>
                {/* redirect to this URL on successful login is set within Userfront dashboard */}
@@ -91,17 +88,8 @@ function App() {
                />
 
                <Route
-                  path='/billing'
-                  element={
-                     <AuthedRoute {...defaultAuthedRouteProps} outlet={<AccountBilling userData={newUserData} />} />
-                  }
-               />
-
-               <Route
-                  path='/settings'
-                  element={
-                     <AuthedRoute {...defaultAuthedRouteProps} outlet={<AccountSettings userData={newUserData} />} />
-                  }
+                  path='/email'
+                  element={<AuthedRoute {...defaultAuthedRouteProps} outlet={<DecoEmail userData={newUserData} />} />}
                />
 
                <Route path='/reset-password' element={<PasswordResetPage />} />
