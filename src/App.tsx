@@ -1,17 +1,22 @@
 import React from 'react';
 import Userfront from '@userfront/core';
 import { Helmet } from 'react-helmet';
-import { ChakraProvider, extendTheme, Box, useTheme } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, Box, Text } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import AppAuthentication from './components/AppAuthentication';
-import { useUserData } from './hooks/useUserData';
-import type { User } from './types/types';
 import PasswordResetPage from './auth-components/PasswordResetPage';
 import AuthedRoute, { AuthedRouteProps } from './auth-components/AuthedRoute';
 import AppAccount from './components/AppAccount';
 import './App.css';
-import { ApolloClient, InMemoryCache, NormalizedCacheObject, ApolloProvider, useQuery, gql } from '@apollo/client';
+import {
+   ApolloClient,
+   InMemoryCache,
+   NormalizedCacheObject,
+   ApolloProvider,
+   HttpLink,
+   useQuery,
+   gql,
+} from '@apollo/client';
 import NavBar from './components/NavBar';
 import LoginPage from './auth-components/LoginPage';
 import SignupPage from './auth-components/SignupPage';
@@ -41,13 +46,21 @@ const theme = extendTheme({
    },
 });
 
-const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-   uri: `${process.env.REACT_APP_API_URL}/api`,
-   cache: new InMemoryCache(),
-});
+const GET_USER_META = gql`
+   query currentUser {
+      currentUser {
+         fullName
+         userfrontID
+         emailAddress
+         signupEmail
+      }
+   }
+`;
 
 function App() {
-   const { userData, setUserData } = useUserData();
+   const { loading, error, data } = useQuery(GET_USER_META);
+
+   const newUserData = data?.currentUser;
 
    // retaining for future mobile options
    const isMobileDevice = useMediaQuery({
@@ -67,23 +80,27 @@ function App() {
             <meta property='og:url' content='https://apps.hellodeco.co' />
          </Helmet>
          <Box maxW='920px' maxH='700px' mx='auto' mt='60px'>
+            {loading && <>LOADING</>}
+            {error && <Text>{error.message}</Text>}
             <NavBar />
             <Routes>
                {/* redirect to this URL on successful login is set within Userfront dashboard */}
                <Route
                   path='/account'
-                  element={<AuthedRoute {...defaultAuthedRouteProps} outlet={<AppAccount userData={userData} />} />}
+                  element={<AuthedRoute {...defaultAuthedRouteProps} outlet={<AppAccount userData={newUserData} />} />}
                />
 
                <Route
                   path='/billing'
-                  element={<AuthedRoute {...defaultAuthedRouteProps} outlet={<AccountBilling userData={userData} />} />}
+                  element={
+                     <AuthedRoute {...defaultAuthedRouteProps} outlet={<AccountBilling userData={newUserData} />} />
+                  }
                />
 
                <Route
                   path='/settings'
                   element={
-                     <AuthedRoute {...defaultAuthedRouteProps} outlet={<AccountSettings userData={userData} />} />
+                     <AuthedRoute {...defaultAuthedRouteProps} outlet={<AccountSettings userData={newUserData} />} />
                   }
                />
 
@@ -102,12 +119,26 @@ function App() {
    );
 }
 
-const WrappedApp = () => (
-   <Router>
-      <ApolloProvider client={client}>
-         <App />
-      </ApolloProvider>
-   </Router>
-);
+const WrappedApp = () => {
+   const accessTokenData = Userfront.tokens;
+
+   const link = new HttpLink({
+      uri: `${process.env.REACT_APP_API_URL}/api`,
+      headers: { Authorization: `Bearer ${accessTokenData?.accessToken}` },
+   });
+
+   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
+      link: link,
+      cache: new InMemoryCache(),
+   });
+
+   return (
+      <Router>
+         <ApolloProvider client={client}>
+            <App />
+         </ApolloProvider>
+      </Router>
+   );
+};
 
 export default WrappedApp;
