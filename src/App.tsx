@@ -16,7 +16,9 @@ import {
    HttpLink,
    useQuery,
    gql,
+   createHttpLink,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import NavBar from './components/NavBar';
 import LoginPage from './auth-components/LoginPage';
 import SignupPage from './auth-components/SignupPage';
@@ -55,6 +57,27 @@ const GET_USER_META = gql`
       }
    }
 `;
+
+const httpLink = createHttpLink({
+   uri: `${process.env.REACT_APP_API_URL}/api`,
+});
+
+const authLink = setContext((_, { headers }) => {
+   // get the authentication token from local storage if it exists
+   const accessTokenData = Userfront.tokens;
+   // return the headers to the context so httpLink can read them
+   return {
+      headers: {
+         ...headers,
+         authorization: `Bearer ${accessTokenData?.accessToken}`,
+      },
+   };
+});
+
+const client = new ApolloClient({
+   link: authLink.concat(httpLink),
+   cache: new InMemoryCache(),
+});
 
 function App() {
    const { loading, error, data } = useQuery(GET_USER_META);
@@ -108,18 +131,6 @@ function App() {
 }
 
 const WrappedApp = () => {
-   const accessTokenData = Userfront.tokens;
-
-   const link = new HttpLink({
-      uri: `${process.env.REACT_APP_API_URL}/api`,
-      headers: { Authorization: `Bearer ${accessTokenData?.accessToken}` },
-   });
-
-   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-      link: link,
-      cache: new InMemoryCache(),
-   });
-
    return (
       <Router>
          <ApolloProvider client={client}>
