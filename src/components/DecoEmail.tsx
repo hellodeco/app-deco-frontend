@@ -30,7 +30,7 @@ interface DecoEmailProps {
 
 const GET_EMAIL_AVAILABILITY = gql`
    query isEmailAvailable($decoEmail: String) {
-      checkEmailAddressAvailability(decoEmail: $decoEmail)
+       emailAddressAvailable(email: $decoEmail)
    }
 `;
 
