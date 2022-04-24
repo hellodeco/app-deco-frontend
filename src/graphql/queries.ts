@@ -16,3 +16,21 @@ export const GET_EMAIL_AVAILABILITY = gql`
       emailAddressAvailable(email: $decoEmail)
    }
 `;
+
+export const GET_NOTION_AUTH = gql`
+   query getNotionIntegrationByUserfrontID {
+      getNotionIntegrationByUserfrontID {
+         userfrontUserId
+         tokenType
+         workspaceId
+         workspaceName
+         workspaceIcon
+         botID
+         userID
+         userFullName
+         avatarURL
+         type
+         email
+      }
+   }
+`;

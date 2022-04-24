@@ -37,7 +37,7 @@ function DecoEmail({ userData }: DecoEmailProps) {
    return (
       <Flex flexDirection='column' w='100%'>
          <ManageDecoEmail userData={userData} />
-         {/* <NotionAuth /> */}
+         <NotionAuth />
          <FormatNotionPage />
       </Flex>
    );
