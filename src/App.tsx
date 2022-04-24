@@ -24,6 +24,7 @@ import LoginPage from './auth-components/LoginPage';
 import SignupPage from './auth-components/SignupPage';
 import PostCheckout from './components/PostCheckout';
 import DecoEmail from './components/DecoEmail';
+import HomePage from './components/HomePage';
 
 const theme = extendTheme({
    colors: {
@@ -122,6 +123,8 @@ function App() {
                <Route path='/signup' element={<SignupPage />} />
 
                <Route path='/post-checkout' element={<PostCheckout />} />
+
+               <Route path='/' element={<HomePage />} />
 
                {/* <Route path='/' element={<AppAuthentication userData={userData} />} /> */}
             </Routes>
