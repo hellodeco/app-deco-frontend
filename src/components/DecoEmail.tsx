@@ -15,32 +15,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 import type { User } from '../types/types';
 import Userfront from '@userfront/core';
-import {
-   ApolloClient,
-   InMemoryCache,
-   NormalizedCacheObject,
-   ApolloProvider,
-   HttpLink,
-   useQuery,
-   gql,
-   useMutation,
-} from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_EMAIL_AVAILABILITY } from '../graphql/queries';
+import { UPDATE_USERS_DECO_EMAIL } from '../graphql/mutations';
 
 interface DecoEmailProps {
    userData: User;
 }
-
-const GET_EMAIL_AVAILABILITY = gql`
-   query isEmailAvailable($decoEmail: String) {
-      emailAddressAvailable(email: $decoEmail)
-   }
-`;
-
-const UPDATE_USERS_DECO_EMAIL = gql`
-   mutation updateDecoEmail($decoEmail: String) {
-      updateDecoEmail(emailAddress: $decoEmail)
-   }
-`;
 
 function DecoEmail({ userData }: DecoEmailProps) {
    const [decoEmail, setDecoEmail] = useState('');

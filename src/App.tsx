@@ -8,16 +8,7 @@ import PasswordResetPage from './auth-components/PasswordResetPage';
 import AuthedRoute, { AuthedRouteProps } from './auth-components/AuthedRoute';
 import AppAccount from './components/AppAccount';
 import './App.css';
-import {
-   ApolloClient,
-   InMemoryCache,
-   NormalizedCacheObject,
-   ApolloProvider,
-   HttpLink,
-   useQuery,
-   gql,
-   createHttpLink,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import NavBar from './components/NavBar';
 import LoginPage from './auth-components/LoginPage';
@@ -25,6 +16,7 @@ import SignupPage from './auth-components/SignupPage';
 import PostCheckout from './components/PostCheckout';
 import DecoEmail from './components/DecoEmail';
 import HomePage from './components/HomePage';
+import { GET_USER_META } from './graphql/queries';
 
 const theme = extendTheme({
    colors: {
@@ -47,17 +39,6 @@ const theme = extendTheme({
       mono: '"SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace"',
    },
 });
-
-const GET_USER_META = gql`
-   query currentUser {
-      currentUser {
-         fullName
-         userfrontID
-         emailAddress
-         signupEmail
-      }
-   }
-`;
 
 const httpLink = createHttpLink({
    uri: `${process.env.REACT_APP_API_URL}/api`,
