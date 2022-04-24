@@ -18,6 +18,9 @@ import Userfront from '@userfront/core';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_EMAIL_AVAILABILITY } from '../graphql/queries';
 import { UPDATE_USERS_DECO_EMAIL } from '../graphql/mutations';
+import { ManageDecoEmail } from './deco-email/ManageDecoEmail';
+import { NotionAuth } from './deco-email/NotionAuth';
+import { FormatNotionPage } from './deco-email/FormatNotionPage';
 
 interface DecoEmailProps {
    userData: User;
