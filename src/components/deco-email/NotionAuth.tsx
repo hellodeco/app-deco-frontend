@@ -18,12 +18,11 @@ import { GET_NOTION_AUTH } from '../../graphql/queries';
 
 interface IProps {}
 
-const accessTokenData = Userfront.tokens;
-const accessToken = accessTokenData?.accessToken;
-
 const handleAuthWithNotion = () => {
-   window.location.href = `${process.env.REACT_APP_API_URL}/oauth/notion?authToken=${accessToken}`;
-};
+   const params = new URLSearchParams()
+   params.append('authToken', Userfront.tokens?.accessToken)
+   window.location.href = `${process.env.REACT_APP_API_URL}/oauth/notion?${params.toString()}`;
+}
 
 export const NotionAuth = (props: IProps) => {
    const { loading, error, data } = useQuery(GET_NOTION_AUTH);
