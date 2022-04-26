@@ -26,7 +26,14 @@ const handleAuthWithNotion = () => {
 
 export const NotionAuth = (props: IProps) => {
    const { loading, error, data } = useQuery(GET_NOTION_AUTH);
-   const notionData = data?.getNotionIntegrationByUserfrontID;
+
+   if (loading) {
+      return (
+         <span>loading...</span>
+      )
+   }
+
+   const notionData = data?.getCurrentUserNotionIntegration;
 
    if (notionData) {
       return (
