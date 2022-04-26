@@ -21,7 +21,9 @@ interface IProps {}
 const handleAuthWithNotion = () => {
    const params = new URLSearchParams()
    params.append('authToken', Userfront.tokens?.accessToken)
-   window.location.href = `${process.env.REACT_APP_API_URL}/oauth/notion?${params.toString()}`;
+   const authUrl = `${process.env.REACT_APP_API_URL}/oauth/notion?${params.toString()}`
+   const tab = window.open(authUrl, '_blank')
+   tab?.focus()
 }
 
 export const NotionAuth = (props: IProps) => {

@@ -17,6 +17,8 @@ import PostCheckout from './components/PostCheckout';
 import DecoEmail from './components/DecoEmail';
 import HomePage from './components/HomePage';
 import { GET_USER_META } from './graphql/queries';
+import { NotionAuthFail } from './components/deco-email/NotionAuthFail';
+import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess';
 
 const theme = extendTheme({
    colors: {
@@ -104,6 +106,10 @@ function App() {
                <Route path='/signup' element={<SignupPage />} />
 
                <Route path='/post-checkout' element={<PostCheckout />} />
+
+               <Route path='/oauth/notion/fail' element={<NotionAuthFail />} />
+
+               <Route path='/oauth/notion/success' element={<NotionAuthSuccess />} />
 
                <Route path='/' element={<HomePage />} />
 
