@@ -18,8 +18,8 @@ export const GET_EMAIL_AVAILABILITY = gql`
 `;
 
 export const GET_NOTION_AUTH = gql`
-   query getNotionIntegrationByUserfrontID {
-      getNotionIntegrationByUserfrontID {
+   query getCurrentUserNotionIntegration  {
+         getCurrentUserNotionIntegration {
          userfrontUserId
          tokenType
          workspaceId
