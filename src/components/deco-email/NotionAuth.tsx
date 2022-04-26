@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
    Flex,
    Heading,
@@ -18,16 +18,23 @@ import { GET_NOTION_AUTH } from '../../graphql/queries';
 
 interface IProps {}
 
-const handleAuthWithNotion = () => {
-   const params = new URLSearchParams()
-   params.append('authToken', Userfront.tokens?.accessToken)
-   const authUrl = `${process.env.REACT_APP_API_URL}/oauth/notion?${params.toString()}`
-   const tab = window.open(authUrl, '_blank')
-   tab?.focus()
-}
-
 export const NotionAuth = (props: IProps) => {
-   const { loading, error, data } = useQuery(GET_NOTION_AUTH);
+   const { loading, error, data, refetch } = useQuery(GET_NOTION_AUTH);
+
+   const handleAuthWithNotion = useCallback(() => {
+      const params = new URLSearchParams()
+      params.append('authToken', Userfront.tokens?.accessToken)
+      const authUrl = `${process.env.REACT_APP_API_URL}/oauth/notion?${params.toString()}`
+      const tab = window.open(authUrl, '_blank')
+      tab?.focus()
+
+      const interval = setInterval(() => {
+         if (tab?.closed) {
+            refetch()
+            clearInterval(interval)
+         }
+      }, 300)
+   }, [refetch])
 
    if (loading) {
       return (
