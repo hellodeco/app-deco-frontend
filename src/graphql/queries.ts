@@ -12,14 +12,14 @@ export const GET_USER_META = gql`
 `;
 
 export const GET_EMAIL_AVAILABILITY = gql`
-   query isEmailAvailable($decoEmail: String) {
-      emailAddressAvailable(email: $decoEmail)
+   query emailUsernameAvailable($username: String!) {
+      emailUsernameAvailable(username: $username)
    }
 `;
 
 export const GET_NOTION_AUTH = gql`
-   query getCurrentUserNotionIntegration  {
-         getCurrentUserNotionIntegration {
+   query getCurrentUserNotionIntegration {
+      getCurrentUserNotionIntegration {
          userfrontUserId
          tokenType
          workspaceId
