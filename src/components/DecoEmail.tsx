@@ -15,8 +15,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import type { User } from '../types/types';
 import Userfront from '@userfront/core';
-import { useQuery, useMutation } from '@apollo/client';
-import { GET_EMAIL_AVAILABILITY } from '../graphql/queries';
+import { useMutation } from '@apollo/client';
 import { UPDATE_USERS_DECO_EMAIL } from '../graphql/mutations';
 import { ManageDecoEmail } from './deco-email/ManageDecoEmail';
 import { NotionAuth } from './deco-email/NotionAuth';
@@ -27,13 +26,6 @@ interface DecoEmailProps {
 }
 
 function DecoEmail({ userData }: DecoEmailProps) {
-   const [decoEmailIsAvailable, setDecoEmailIsAvailable] = useState('');
-
-   const [handleUpdateEmail, updateEmailResult] = useMutation(UPDATE_USERS_DECO_EMAIL);
-
-   const accessTokenData = Userfront.tokens;
-   const accessToken = accessTokenData?.accessToken;
-
    return (
       <Flex flexDirection='column' w='100%'>
          <ManageDecoEmail userData={userData} />

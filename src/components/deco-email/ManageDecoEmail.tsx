@@ -49,11 +49,10 @@ const AddNewEmailForm = () => {
    };
 
    const { loading, error, data } = useQuery(GET_EMAIL_AVAILABILITY, {
-      variables: { decoEmail: newDecoEmail },
+      variables: { username: newDecoEmail },
    });
-
    const checkEmailAvailability = async () => {
-      if (data?.emailAddressAvailable) {
+      if (data?.emailUsernameAvailable) {
          setEmailAvailable(true);
          setShowCreateButton(true);
       } else {
