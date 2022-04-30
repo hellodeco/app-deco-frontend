@@ -28,9 +28,19 @@ export const GET_NOTION_AUTH = gql`
          botId
          userId
          userFullName
-         avatarURL
+         avatarUrl
          type
          email
+      }
+   }
+`;
+
+export const GET_NOTION_DATABASE_INFO = gql`
+   query getNotionDatabaseInfo {
+      getNotionDatabaseInfo {
+         title
+         url
+         icon
       }
    }
 `;
