@@ -11,47 +11,65 @@ import {
    FormHelperText,
    Tag,
    Text,
+   Link,
 } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import Userfront from '@userfront/core';
 import { useQuery } from '@apollo/client';
-import { GET_NOTION_AUTH } from '../../graphql/queries';
+import { GET_NOTION_AUTH, GET_NOTION_DATABASE_INFO } from '../../graphql/queries';
 
-interface IProps {}
-
-export const NotionAuth = (props: IProps) => {
-   const { loading, error, data, refetch } = useQuery(GET_NOTION_AUTH);
+export const NotionAuth = () => {
+   const notionIntegration = useQuery(GET_NOTION_AUTH);
+   const notionDatabase = useQuery(GET_NOTION_DATABASE_INFO);
 
    const handleAuthWithNotion = useCallback(() => {
-      const params = new URLSearchParams()
-      params.append('authToken', Userfront.tokens?.accessToken)
-      const authUrl = `${process.env.REACT_APP_API_URL}/oauth/notion?${params.toString()}`
-      const tab = window.open(authUrl, '_blank')
-      tab?.focus()
+      const params = new URLSearchParams();
+      params.append('authToken', Userfront.tokens?.accessToken);
+      const authUrl = `${process.env.REACT_APP_API_URL}/oauth/notion?${params.toString()}`;
+      const tab = window.open(authUrl, '_blank');
+      tab?.focus();
 
       const interval = setInterval(() => {
          if (tab?.closed) {
-            refetch()
-            clearInterval(interval)
+            notionIntegration.refetch();
+            notionDatabase.refetch();
+            clearInterval(interval);
          }
-      }, 300)
-   }, [refetch])
+      }, 300);
+   }, [notionIntegration, notionDatabase]);
 
-   if (loading) {
-      return (
-         <span>loading...</span>
-      )
+   if (notionIntegration.loading || notionDatabase.loading) {
+      return <span>Loading notion data...</span>;
    }
 
-   const notionData = data?.getCurrentUserNotionIntegration;
+   const notionIntegrationData = notionIntegration.data?.getCurrentUserNotionIntegration;
+   const notionDatabaseData = notionDatabase.data?.getNotionDatabaseInfo;
 
-   if (notionData) {
+   if (notionIntegrationData && notionDatabaseData) {
       return (
          <>
-            <Heading size='md'>Connected to Workspace:</Heading>
+            <Heading size='md'>Your Connected Notion Page</Heading>
 
-            <Tag mt='15px' width='-webkit-fit-content' size='lg' variant='solid' colorScheme='green'>
-               {notionData.workspaceName}
+            <Heading mt='15px' size='sm'>
+               Workspace:
+            </Heading>
+
+            <Tag mt='15px' width='-webkit-fit-content' size='lg' variant='solid' colorScheme='gray'>
+               {notionIntegrationData.workspaceIcon} {notionIntegrationData.workspaceName} - Owner:{' '}
+               {notionIntegrationData.userFullName} - Email: {notionIntegrationData.email}
             </Tag>
+
+            <Heading mt='15px' size='sm'>
+               Database:
+            </Heading>
+
+            <Link mt='15px' href={notionDatabaseData.url} isExternal>
+               {notionDatabaseData.icon} {notionDatabaseData.title} <ExternalLinkIcon mx='2px' />
+            </Link>
+
+            <Button w='300px' my='30px' onClick={handleAuthWithNotion}>
+               Change Connected Notion Page
+            </Button>
          </>
       );
    }

@@ -1,17 +1,5 @@
-import React, { useState } from 'react';
-import {
-   Flex,
-   Heading,
-   Divider,
-   Button,
-   Input,
-   FormControl,
-   FormLabel,
-   FormErrorMessage,
-   FormHelperText,
-   Tag,
-   Text,
-} from '@chakra-ui/react';
+import React from 'react';
+import { Flex } from '@chakra-ui/react';
 import type { User } from '../types/types';
 import { ManageDecoEmail } from './deco-email/ManageDecoEmail';
 import { NotionAuth } from './deco-email/NotionAuth';
