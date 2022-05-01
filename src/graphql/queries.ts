@@ -41,6 +41,7 @@ export const GET_NOTION_DATABASE_INFO = gql`
          title
          url
          icon
+         needsFormatting
       }
    }
 `;

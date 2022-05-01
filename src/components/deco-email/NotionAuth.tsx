@@ -76,7 +76,6 @@ export const NotionAuth = () => {
 
    return (
       <>
-         <Divider my='30px' />
          <Heading size='md'>Connect your Notion Account</Heading>
          <Button w='300px' my='30px' onClick={handleAuthWithNotion}>
             Connect to Notion
