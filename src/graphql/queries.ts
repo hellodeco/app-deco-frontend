@@ -25,8 +25,8 @@ export const GET_NOTION_AUTH = gql`
          workspaceId
          workspaceName
          workspaceIcon
-         botID
-         userID
+         botId
+         userId
          userFullName
          avatarURL
          type
