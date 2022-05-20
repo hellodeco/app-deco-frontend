@@ -45,6 +45,8 @@ export const NotionAuth = () => {
    const notionIntegrationData = notionIntegration.data?.getCurrentUserNotionIntegration;
    const notionDatabaseData = notionDatabase.data?.getCurrentUserNotionDatabaseInfo;
 
+   console.log(notionDatabaseData, notionIntegrationData);
+
    if (notionIntegrationData && notionDatabaseData) {
       return (
          <>
