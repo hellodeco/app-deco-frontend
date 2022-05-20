@@ -43,7 +43,7 @@ export const NotionAuth = () => {
    }
 
    const notionIntegrationData = notionIntegration.data?.getCurrentUserNotionIntegration;
-   const notionDatabaseData = notionDatabase.data?.getNotionDatabaseInfo;
+   const notionDatabaseData = notionDatabase.data?.getCurrentUserNotionDatabaseInfo;
 
    if (notionIntegrationData && notionDatabaseData) {
       return (
