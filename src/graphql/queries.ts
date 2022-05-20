@@ -36,8 +36,8 @@ export const GET_NOTION_AUTH = gql`
 `;
 
 export const GET_NOTION_DATABASE_INFO = gql`
-   query getNotionDatabaseInfo {
-      getNotionDatabaseInfo {
+   query getCurrentUserNotionDatabaseInfo {
+      getCurrentUserNotionDatabaseInfo {
          title
          url
          icon
