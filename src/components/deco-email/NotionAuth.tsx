@@ -47,9 +47,9 @@ export const NotionAuth = () => {
     }, 300);
   }, [notionIntegration, notionDatabase]);
 
-  const handleFormatNotionDatabase = () => {
-    formatNotionDatabase();
-    notionDatabase.refetch();
+  const handleFormatNotionDatabase = async () => {
+    await formatNotionDatabase();
+    await notionDatabase.refetch();
   };
 
   if (notionIntegration.loading || notionDatabase.loading) {
@@ -60,8 +60,6 @@ export const NotionAuth = () => {
     notionIntegration.data?.getCurrentUserNotionIntegration;
   const notionDatabaseData =
     notionDatabase.data?.getCurrentUserNotionDatabaseInfo;
-
-  console.log(notionDatabaseData, notionIntegrationData);
 
   if (notionIntegrationData && notionDatabaseData) {
     return (
