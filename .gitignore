@@ -117,3 +117,4 @@ api/database/db/awesome-app-db.sqlite
 # directory to store database certs
 api/src/database/certs
 
+build
