@@ -31,7 +31,7 @@ const AddNewEmailForm = () => {
 
    const verifyEmail = (email: string) => {
       // TODO - update this regex to use the live domain @deco.so after we go live
-      const emailRegex = /^\w+([\.-]?\w+)*@deco\.email$/;
+      const emailRegex = /^\w+([\.-]?\w+)*$/;
       return emailRegex.test(email);
    };
 
@@ -51,6 +51,7 @@ const AddNewEmailForm = () => {
    const { loading, error, data } = useQuery(GET_EMAIL_AVAILABILITY, {
       variables: { username: newDecoEmail },
    });
+
    const checkEmailAvailability = async () => {
       if (data?.emailUsernameAvailable) {
          setEmailAvailable(true);
@@ -61,7 +62,7 @@ const AddNewEmailForm = () => {
       }
    };
 
-   const [handleUpdateEmail, updateEmailResult] = useMutation(UPDATE_USERS_DECO_EMAIL, {
+   const [ handleUpdateEmail ] = useMutation(UPDATE_USERS_DECO_EMAIL, {
       // Then re-run
       refetchQueries: [{ query: GET_USER_META }],
    });
@@ -77,15 +78,18 @@ const AddNewEmailForm = () => {
                   Enter an email address ending in "@deco.email". Once you choose, you can't change it, so choose
                   wisely!
                </FormLabel>
-               <Input
-                  w='450px'
-                  size='lg'
-                  id='email'
-                  type='email'
-                  value={newDecoEmail}
-                  onChange={handleChange}
-                  placeholder='name@deco.email'
-               />
+               <Flex flexDir="row" alignItems="center">
+                 <Input
+                    w='450px'
+                    size='lg'
+                    id='email'
+                    type='email'
+                    value={newDecoEmail}
+                    onChange={handleChange}
+                    placeholder='name'
+                 />
+                 <Text color="gray.dark" pl="13px">@deco.email</Text>
+               </Flex>
                {!emailValid && <FormErrorMessage>Email address is invalid</FormErrorMessage>}
                {!emailAvailable && <FormErrorMessage>Email address already taken</FormErrorMessage>}
             </FormControl>
@@ -100,7 +104,7 @@ const AddNewEmailForm = () => {
                      my='20px'
                      onClick={() =>
                         handleUpdateEmail({
-                           variables: { decoEmail: newDecoEmail },
+                           variables: { username: newDecoEmail },
                         })
                      }
                      disabled={!emailValid}>
