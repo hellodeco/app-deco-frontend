@@ -1,7 +1,7 @@
 import React from 'react';
 import Userfront from '@userfront/core';
 import { Helmet } from 'react-helmet';
-import { ChakraProvider, extendTheme, Box, Text } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, Box } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import PasswordResetPage from './auth-components/PasswordResetPage';
@@ -65,7 +65,8 @@ const client = new ApolloClient({
 });
 
 function App() {
-   const { loading, error, data } = useQuery(GET_USER_META);
+   const { loading, data } = useQuery(GET_USER_META);
+
 
    const newUserData = data?.currentUser;
 
@@ -78,6 +79,10 @@ function App() {
       isAuthenticated: Userfront.accessToken(),
       authenticationPath: '/',
    };
+
+   if (loading) {
+      return null
+   }
 
    // Shout out to the below stack overflow for the great protected route component guide
    // https://stackoverflow.com/questions/47747754/how-to-rewrite-the-protected-private-route-using-typescript-and-react-router-4
@@ -92,12 +97,16 @@ function App() {
                {/* redirect to this URL on successful login is set within Userfront dashboard */}
                <Route
                   path='/account'
-                  element={<AuthedRoute {...defaultAuthedRouteProps} outlet={<AppAccount userData={newUserData} />} />}
+                  element={<AuthedRoute {...defaultAuthedRouteProps}
+                  outlet={<AppAccount userData={newUserData} />}
+               />}
                />
 
                <Route
                   path='/email'
-                  element={<AuthedRoute {...defaultAuthedRouteProps} outlet={<DecoEmail userData={newUserData} />} />}
+                  element={<AuthedRoute {...defaultAuthedRouteProps}
+                  outlet={<DecoEmail userData={newUserData} />}
+               />}
                />
 
                <Route path='/reset-password' element={<PasswordResetPage />} />
