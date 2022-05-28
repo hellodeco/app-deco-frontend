@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import Userfront from '@userfront/core';
 
-Userfront.init('wn95p6n5');
+Userfront.init('wn95p6n5')
 
 ReactDOM.render(
    <React.StrictMode>

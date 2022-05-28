@@ -116,7 +116,7 @@ function App() {
                   }
                />
 
-               <Route
+               {/*<Route
                   path='/auth/password/set'
                   element={
                      <AuthedRoute
@@ -124,7 +124,7 @@ function App() {
                         outlet={<SetPassword userData={userData}/>}
                      />
                   }
-               />
+               />*/}
 
                <Route path='/reset-password' element={<PasswordResetPage />} />
 

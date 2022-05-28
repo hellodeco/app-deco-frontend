@@ -25,8 +25,6 @@ export function SetPassword({ userData }: SetPasswordProps) {
   const [password, setPassword] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  console.log('helllo!!!!!!!!!!!1', userData)
-
   const handlePasswordChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     evt.preventDefault()
     setPassword(evt.target.value)
@@ -35,13 +33,11 @@ export function SetPassword({ userData }: SetPasswordProps) {
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true)
-      const res = await Userfront.resetPassword({ password })
-      // const res = await Userfront.signup({
-      //   method: 'password',
-      //   email: userData?.signupEmail,
-      //   password,
-      // })
-      console.log({ res })
+      await Userfront.signup({
+        method: 'password',
+        email: userData?.signupEmail,
+        password,
+      })
     } catch (err) {
       console.error(err)
     } finally {
