@@ -37,7 +37,7 @@ const AddNewEmailForm = () => {
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
-      const decoEmail = e.target.value;
+      const decoEmail = e.target.value
       setNewDecoEmail(decoEmail);
       setShowCreateButton(false);
 

@@ -20,6 +20,7 @@ import { GET_USER_META } from './graphql/queries';
 import { NotionAuthFail } from './components/deco-email/NotionAuthFail';
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess';
 import { PasswordlessLogin } from './components/PasswordlessLogin';
+import { SetPassword } from './auth-components/SetPassword';
 
 const theme = extendTheme({
    colors: {
@@ -68,7 +69,7 @@ function App() {
    const { loading, data } = useQuery(GET_USER_META);
 
 
-   const newUserData = data?.currentUser;
+   const userData = data?.currentUser;
 
    // retaining for future mobile options
    const isMobileDevice = useMediaQuery({
@@ -97,16 +98,32 @@ function App() {
                {/* redirect to this URL on successful login is set within Userfront dashboard */}
                <Route
                   path='/account'
-                  element={<AuthedRoute {...defaultAuthedRouteProps}
-                  outlet={<AppAccount userData={newUserData} />}
-               />}
+                  element={
+                     <AuthedRoute
+                        {...defaultAuthedRouteProps}
+                        outlet={<AppAccount userData={userData} />}
+                     />
+                  }
                />
 
                <Route
                   path='/email'
-                  element={<AuthedRoute {...defaultAuthedRouteProps}
-                  outlet={<DecoEmail userData={newUserData} />}
-               />}
+                  element={
+                     <AuthedRoute
+                     {...defaultAuthedRouteProps}
+                     outlet={<DecoEmail userData={userData} />}
+                     />
+                  }
+               />
+
+               <Route
+                  path='/auth/password/set'
+                  element={
+                     <AuthedRoute
+                        {...defaultAuthedRouteProps}
+                        outlet={<SetPassword userData={userData}/>}
+                     />
+                  }
                />
 
                <Route path='/reset-password' element={<PasswordResetPage />} />
