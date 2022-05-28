@@ -35,12 +35,12 @@ export function SetPassword({ userData }: SetPasswordProps) {
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true)
-      // await Userfront.resetPassword({ password, uuid: 'abc', token: '123' })
-      const res = await Userfront.signup({
-        method: 'password',
-        email: userData?.signupEmail,
-        password,
-      })
+      const res = await Userfront.resetPassword({ password })
+      // const res = await Userfront.signup({
+      //   method: 'password',
+      //   email: userData?.signupEmail,
+      //   password,
+      // })
       console.log({ res })
     } catch (err) {
       console.error(err)
