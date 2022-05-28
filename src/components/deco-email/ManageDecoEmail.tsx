@@ -15,42 +15,57 @@ import {
 import type { User } from '../../types/types';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_EMAIL_AVAILABILITY, GET_USER_META } from '../../graphql/queries';
-import { UPDATE_USERS_DECO_EMAIL } from '../../graphql/mutations';
+import { SET_USERS_DECO_EMAIL } from '../../graphql/mutations';
 
 interface IProps {
    userData: User;
 }
 
-const AddNewEmailForm = () => {
-   const [newDecoEmail, setNewDecoEmail] = useState('');
-   const [emailValid, setEmailValid] = useState(false);
+function getSetEmailErrorText(errorReason: string) {
+   switch (errorReason) {
+      case 'ALREADY_TAKEN':
+         return 'Email address is already in use by another user'
+      case 'CANNOT_CHANGE_EMAIL':
+         return 'Sorry, you\'ve already chosen an email and unfortunately, you can\'t change it'
+      case 'INVALID_FORMAT':
+         // we should be specific here
+         return 'Format invalid, please try again'
+
+      case 'NO_SUBSCRIPTION':
+         return 'You need a valid subscription to set an email'
+      default:
+         return 'Sorry, we hit a snag while trying to create you\'re email address'
+   }
+}
+
+function AddNewEmailForm() {
+   const [newDecoEmailUsername, setNewDecoEmail] = useState('');
+   const [emailValid, setEmailValid] = useState(true);
    const [emailAvailable, setEmailAvailable] = useState(true);
    const [showCreateButton, setShowCreateButton] = useState(false);
    // TODO add error handling for failed query or mutation
    const [showError, setShowError] = useState(false);
 
-   const verifyEmail = (email: string) => {
-      // TODO - update this regex to use the live domain @deco.so after we go live
-      const emailRegex = /^\w+([\.-]?\w+)*@deco\.email$/;
+   const isValidEmailUsername = (email: string) => {
+      const emailRegex = /^\w+([\.-]?\w+)*$/;
       return emailRegex.test(email);
    };
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
-      const decoEmail = e.target.value;
-      setNewDecoEmail(decoEmail);
+      const decoEmailUsername = e.target.value
+      setNewDecoEmail(decoEmailUsername);
       setShowCreateButton(false);
 
-      if (verifyEmail(decoEmail)) {
-         setEmailValid(true);
-      } else {
-         setEmailValid(false);
-      }
+      setEmailValid(
+         isValidEmailUsername(decoEmailUsername)
+      )
    };
 
-   const { loading, error, data } = useQuery(GET_EMAIL_AVAILABILITY, {
-      variables: { username: newDecoEmail },
+   const { data } = useQuery(GET_EMAIL_AVAILABILITY, {
+      variables: { username: newDecoEmailUsername },
    });
+
    const checkEmailAvailability = async () => {
       if (data?.emailUsernameAvailable) {
          setEmailAvailable(true);
@@ -61,10 +76,18 @@ const AddNewEmailForm = () => {
       }
    };
 
-   const [handleUpdateEmail, updateEmailResult] = useMutation(UPDATE_USERS_DECO_EMAIL, {
-      // Then re-run
+   const [
+      handleSetEmail,
+      { data: setEmailData },
+   ] = useMutation(SET_USERS_DECO_EMAIL, {
       refetchQueries: [{ query: GET_USER_META }],
    });
+
+   // TODO: display this to the user
+   if (setEmailData && !setEmailData.success) {
+      const errorReason = getSetEmailErrorText(setEmailData.errorReason)
+      console.log(errorReason)
+   }
 
    return (
       <>
@@ -77,15 +100,18 @@ const AddNewEmailForm = () => {
                   Enter an email address ending in "@deco.email". Once you choose, you can't change it, so choose
                   wisely!
                </FormLabel>
-               <Input
-                  w='450px'
-                  size='lg'
-                  id='email'
-                  type='email'
-                  value={newDecoEmail}
-                  onChange={handleChange}
-                  placeholder='name@deco.email'
-               />
+               <Flex flexDir="row" alignItems="center">
+                 <Input
+                    w='450px'
+                    size='lg'
+                    id='email'
+                    type='email'
+                    value={newDecoEmailUsername}
+                    onChange={handleChange}
+                    placeholder='name'
+                 />
+                 <Text color="gray.dark" pl="13px">@deco.email</Text>
+               </Flex>
                {!emailValid && <FormErrorMessage>Email address is invalid</FormErrorMessage>}
                {!emailAvailable && <FormErrorMessage>Email address already taken</FormErrorMessage>}
             </FormControl>
@@ -99,8 +125,8 @@ const AddNewEmailForm = () => {
                      w='300px'
                      my='20px'
                      onClick={() =>
-                        handleUpdateEmail({
-                           variables: { decoEmail: newDecoEmail },
+                        handleSetEmail({
+                           variables: { username: newDecoEmailUsername },
                         })
                      }
                      disabled={!emailValid}>
@@ -117,7 +143,7 @@ const AddNewEmailForm = () => {
    );
 };
 
-export const ManageDecoEmail = (props: IProps) => {
+export function ManageDecoEmail(props: IProps) {
    const { userData } = props;
 
    return (

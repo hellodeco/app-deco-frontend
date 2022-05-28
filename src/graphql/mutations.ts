@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client';
 
-export const UPDATE_USERS_DECO_EMAIL = gql`
-   mutation updateDecoEmail($decoEmail: String) {
-      updateDecoEmail(emailAddress: $decoEmail)
+export const SET_USERS_DECO_EMAIL = gql`
+   mutation setDecoEmail($username: String) {
+      setDecoEmail(username: $username) {
+         success
+         errorReason
+      }
    }
 `;
 
