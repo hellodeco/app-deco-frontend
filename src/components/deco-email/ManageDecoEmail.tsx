@@ -30,6 +30,9 @@ function getSetEmailErrorText(errorReason: string) {
       case 'INVALID_FORMAT':
          // we should be specific here
          return 'Format invalid, please try again'
+
+      case 'NO_SUBSCRIPTION':
+         return 'You need a valid subscription to set an email'
       default:
          return 'Sorry, we hit a snag while trying to create you\'re email address'
    }
@@ -42,8 +45,6 @@ function AddNewEmailForm() {
    const [showCreateButton, setShowCreateButton] = useState(false);
    // TODO add error handling for failed query or mutation
    const [showError, setShowError] = useState(false);
-
-   console.log({ emailValid })
 
    const isValidEmailUsername = (email: string) => {
       const emailRegex = /^\w+([\.-]?\w+)*$/;
