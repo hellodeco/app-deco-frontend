@@ -65,13 +65,18 @@ function AddNewEmailForm() {
       refetchQueries: [{ query: GET_USER_META }],
    });
 
+   const showValidationError =
+      !emailValid ||
+      !emailAvailable ||
+      setEmailData?.__typename === 'UpdateDecoEmailFail'
+
    return (
       <>
          <Heading size='md' mt='20px'>
             Let's get your Deco email address set up
          </Heading>
          <>
-            <FormControl mt='30px' isInvalid={!emailValid || !emailAvailable}>
+            <FormControl mt='30px' isInvalid={showValidationError}>
                <FormLabel htmlFor='email'>
                   Enter an email address ending in "@deco.email". Once you choose, you can't change it, so choose
                   wisely!
