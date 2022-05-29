@@ -8,7 +8,6 @@ import {
    FormControl,
    FormLabel,
    FormErrorMessage,
-   FormHelperText,
    Tag,
    Text,
 } from '@chakra-ui/react';
@@ -19,23 +18,6 @@ import { SET_USERS_DECO_EMAIL } from '../../graphql/mutations';
 
 interface IProps {
    userData: User;
-}
-
-function getSetEmailErrorText(errorReason: string) {
-   switch (errorReason) {
-      case 'ALREADY_TAKEN':
-         return 'Email address is already in use by another user'
-      case 'CANNOT_CHANGE_EMAIL':
-         return 'Sorry, you\'ve already chosen an email and unfortunately, you can\'t change it'
-      case 'INVALID_FORMAT':
-         // we should be specific here
-         return 'Format invalid, please try again'
-
-      case 'NO_SUBSCRIPTION':
-         return 'You need a valid subscription to set an email'
-      default:
-         return 'Sorry, we hit a snag while trying to create you\'re email address'
-   }
 }
 
 function AddNewEmailForm() {
@@ -83,12 +65,6 @@ function AddNewEmailForm() {
       refetchQueries: [{ query: GET_USER_META }],
    });
 
-   // TODO: display this to the user
-   if (setEmailData && !setEmailData.success) {
-      const errorReason = getSetEmailErrorText(setEmailData.errorReason)
-      console.log(errorReason)
-   }
-
    return (
       <>
          <Heading size='md' mt='20px'>
@@ -114,6 +90,9 @@ function AddNewEmailForm() {
                </Flex>
                {!emailValid && <FormErrorMessage>Email address is invalid</FormErrorMessage>}
                {!emailAvailable && <FormErrorMessage>Email address already taken</FormErrorMessage>}
+               {setEmailData?.__typename === 'UpdateDecoEmailFail' && (
+                  <FormErrorMessage>{setEmailData?.message}</FormErrorMessage>
+               )}
             </FormControl>
 
             {showCreateButton ? (

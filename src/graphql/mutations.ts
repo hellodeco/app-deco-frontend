@@ -3,8 +3,15 @@ import { gql } from '@apollo/client';
 export const SET_USERS_DECO_EMAIL = gql`
    mutation setDecoEmail($username: String) {
       setDecoEmail(username: $username) {
-         success
-         errorReason
+         ... on UpdateDecoEmailFail {
+           __typename
+            message
+         }
+    
+         ... on UpdateDecoEmailSuccess {
+           __typename
+           emailAddress
+         }
       }
    }
 `;
