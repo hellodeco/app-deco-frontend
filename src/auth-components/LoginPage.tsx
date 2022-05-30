@@ -14,15 +14,20 @@ import Userfront from "@userfront/core";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  // Login with password state
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
   const [successMessage, setSuccessMessage] = React.useState("");
+  // Login with magic link state
+  const [showMagicLinkForm, setShowMagicLinkForm] = React.useState(false);
+  const [magicLinkEmail, setMagicLinkEmail] = React.useState("");
 
   let navigate = useNavigate();
 
-  const handleLogin = (event: React.FormEvent) => {
+  const handleLogin = (event: React.SyntheticEvent) => {
     event.preventDefault();
+    setErrorMessage("");
 
     Userfront.login({
       method: "password",
@@ -33,52 +38,100 @@ const LoginPage = () => {
     });
   };
 
+  const handleMagicLinkLogin = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setErrorMessage("");
+
+    Userfront.sendLoginLink(magicLinkEmail).catch((error: any) => {
+      setErrorMessage(error.message);
+    });
+  };
+
   return (
     <Flex maxWidth="md" flexDirection={"column"}>
       <Heading size={"md"} pb="6">
         Login to Hellodeco
       </Heading>
 
-      <Stack spacing={4} pb="6">
-        <>
-          <InputGroup>
-            <Input
-              placeholder="Email"
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </InputGroup>
-
-          <InputGroup>
-            <Input
-              type="password"
-              placeholder="Enter password"
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </InputGroup>
-        </>
-        {errorMessage.length && (
-          <Alert status="error">
-            <AlertIcon />
-            <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
-          </Alert>
-        )}
-        {successMessage.length && (
-          <Alert status="success">
-            <AlertTitle mr={2}>{successMessage}!</AlertTitle>
-          </Alert>
-        )}
-      </Stack>
-
-      <Flex width="100%" justifyContent="flex-end">
-        <Button onClick={(event) => handleLogin(event)}>Login</Button>
+      <Flex width="100%" justifyContent="flex-start">
         <Button
+          my="40px"
+          onClick={() => setShowMagicLinkForm(!showMagicLinkForm)}
           variant="link"
-          ml="24px"
-          onClick={() => navigate("/forgot-password")}
         >
-          Forgot Password?
+          {showMagicLinkForm ? "Login with Password" : "Login with Email Link"}
         </Button>
       </Flex>
+      {showMagicLinkForm ? (
+        <>
+          <Stack spacing={4} pb="6">
+            <>
+              <InputGroup>
+                <Input
+                  placeholder="Email"
+                  onChange={(event) => setMagicLinkEmail(event.target.value)}
+                />
+              </InputGroup>
+            </>
+            {errorMessage.length && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
+              </Alert>
+            )}
+            {successMessage.length && (
+              <Alert status="success">
+                <AlertTitle mr={2}>{successMessage}!</AlertTitle>
+              </Alert>
+            )}
+          </Stack>
+          <Flex width="100%" justifyContent="flex-end">
+            <Button onClick={handleMagicLinkLogin}>Send Login Link</Button>
+          </Flex>
+        </>
+      ) : (
+        <>
+          <Stack spacing={4} pb="6">
+            <>
+              <InputGroup>
+                <Input
+                  placeholder="Email"
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              </InputGroup>
+
+              <InputGroup>
+                <Input
+                  type="password"
+                  placeholder="Enter password"
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+              </InputGroup>
+            </>
+            {errorMessage.length && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
+              </Alert>
+            )}
+            {successMessage.length && (
+              <Alert status="success">
+                <AlertTitle mr={2}>{successMessage}!</AlertTitle>
+              </Alert>
+            )}
+          </Stack>
+          <Flex width="100%" justifyContent="flex-end">
+            <Button onClick={(event) => handleLogin(event)}>Login</Button>
+            <Button
+              variant="link"
+              ml="24px"
+              onClick={() => navigate("/forgot-password")}
+            >
+              Forgot Password?
+            </Button>
+          </Flex>
+        </>
+      )}
     </Flex>
   );
 };
