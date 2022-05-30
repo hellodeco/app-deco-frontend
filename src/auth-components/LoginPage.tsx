@@ -1,63 +1,86 @@
-import React from 'react';
-import { Heading, Button, Stack, InputGroup, Input, Alert, AlertIcon, AlertTitle, Flex } from '@chakra-ui/react';
-import Userfront from '@userfront/core';
+import React from "react";
+import {
+  Heading,
+  Button,
+  Stack,
+  InputGroup,
+  Input,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Flex,
+} from "@chakra-ui/react";
+import Userfront from "@userfront/core";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-   const [email, setEmail] = React.useState('');
-   const [password, setPassword] = React.useState('');
-   const [errorMessage, setErrorMessage] = React.useState('');
-   const [successMessage, setSuccessMessage] = React.useState('');
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [successMessage, setSuccessMessage] = React.useState("");
 
-   const handleLogin = (event: React.FormEvent) => {
-      event.preventDefault();
+  let navigate = useNavigate();
 
-      Userfront.login({
-         method: 'password',
-         email: email,
-         password: password,
-      }).catch((error: any) => {
-         setErrorMessage(error.message);
-      });
-   };
+  const handleLogin = (event: React.FormEvent) => {
+    event.preventDefault();
 
-   return (
-      <Flex maxWidth='md' flexDirection={'column'}>
-         <Heading size={'md'} pb='6'>
-            Login to Hellodeco
-         </Heading>
+    Userfront.login({
+      method: "password",
+      email: email,
+      password: password,
+    }).catch((error: any) => {
+      setErrorMessage(error.message);
+    });
+  };
 
-         <Stack spacing={4} pb='6'>
-            <>
-               <InputGroup>
-                  <Input placeholder='Email' onChange={(event) => setEmail(event.target.value)} />
-               </InputGroup>
+  return (
+    <Flex maxWidth="md" flexDirection={"column"}>
+      <Heading size={"md"} pb="6">
+        Login to Hellodeco
+      </Heading>
 
-               <InputGroup>
-                  <Input
-                     type='password'
-                     placeholder='Enter password'
-                     onChange={(event) => setPassword(event.target.value)}
-                  />
-               </InputGroup>
-            </>
-            {errorMessage.length && (
-               <Alert status='error'>
-                  <AlertIcon />
-                  <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
-               </Alert>
-            )}
-            {successMessage.length && (
-               <Alert status='success'>
-                  <AlertTitle mr={2}>{successMessage}!</AlertTitle>
-               </Alert>
-            )}
-         </Stack>
+      <Stack spacing={4} pb="6">
+        <>
+          <InputGroup>
+            <Input
+              placeholder="Email"
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </InputGroup>
 
-         <Flex width='100%' justifyContent='flex-end'>
-            <Button onClick={(event) => handleLogin(event)}>Login</Button>
-         </Flex>
+          <InputGroup>
+            <Input
+              type="password"
+              placeholder="Enter password"
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </InputGroup>
+        </>
+        {errorMessage.length && (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
+          </Alert>
+        )}
+        {successMessage.length && (
+          <Alert status="success">
+            <AlertTitle mr={2}>{successMessage}!</AlertTitle>
+          </Alert>
+        )}
+      </Stack>
+
+      <Flex width="100%" justifyContent="flex-end">
+        <Button onClick={(event) => handleLogin(event)}>Login</Button>
+        <Button
+          variant="link"
+          ml="24px"
+          onClick={() => navigate("/forgot-password")}
+        >
+          Forgot Password?
+        </Button>
       </Flex>
-   );
+    </Flex>
+  );
 };
 
 export default LoginPage;
