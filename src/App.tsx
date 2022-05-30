@@ -27,7 +27,6 @@ import { GET_USER_META } from "./graphql/queries";
 import { NotionAuthFail } from "./components/deco-email/NotionAuthFail";
 import { NotionAuthSuccess } from "./components/deco-email/NotionAuthSuccess";
 import { PasswordlessLogin } from "./components/PasswordlessLogin";
-import { SetPassword } from "./auth-components/SetPassword";
 
 const theme = extendTheme({
   colors: {
