@@ -30,7 +30,6 @@ import ResetPasswordPage from "./auth-components/ResetPasswordPage";
 import { GET_USER_META } from "./graphql/queries";
 import { NotionAuthFail } from "./components/deco-email/NotionAuthFail";
 import { NotionAuthSuccess } from "./components/deco-email/NotionAuthSuccess";
-import { PasswordlessLogin } from "./components/PasswordlessLogin";
 import { usePasswordlessLogin } from "./hooks/usePasswordlessLogin"
 
 const theme = extendTheme({
@@ -138,8 +137,6 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
 
           <Route path="/forgot-password" element={<ResetPasswordPage />} />
-
-          <Route path="/magic-link-login" element={<PasswordlessLogin />} />
 
           <Route path="/post-checkout" element={<PostCheckout />} />
 
