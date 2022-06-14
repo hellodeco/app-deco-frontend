@@ -1,32 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Flex, Text } from '@chakra-ui/react'
-import { useQuery } from '../hooks/useQuery'
-import Userfront from '@userfront/core';
+import { usePasswordlessLogin } from '../hooks/usePasswordlessLogin'
+
 
 export function PasswordlessLogin() {
-  const [authError, setAuthError] = useState(false)
-  const queryStrings = useQuery()
-
-  useEffect(() => {
-    const login = async () => {
-      const params = new URLSearchParams(window.location.search)
-      const token = params.get('token')
-      const uuid = params.get('uuid')
-
-      try {
-        await Userfront.login({
-          method: 'link',
-          uuid,
-          token,
-        })
-      } catch (err) {
-        setAuthError(true)
-        console.error(err)
-      }
-    }
-
-    login()
-  }, [queryStrings]) 
+  const { authError } = usePasswordlessLogin()
 
   if (authError) {
     return (
