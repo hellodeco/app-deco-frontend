@@ -38,13 +38,20 @@ const LoginPage = () => {
     });
   };
 
-  const handleMagicLinkLogin = (event: React.SyntheticEvent) => {
+  const handleMagicLinkLogin = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     setErrorMessage("");
 
-    Userfront.sendLoginLink(magicLinkEmail).catch((error: any) => {
-      setErrorMessage(error.message);
-    });
+    try {
+      const resp = await Userfront.sendLoginLink(magicLinkEmail)
+      // log the login link in dev mode
+      const loginLink = resp?.result?.url
+      if (loginLink) {
+        console.log(loginLink)
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message);
+    }
   };
 
   return (

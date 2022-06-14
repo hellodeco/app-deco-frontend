@@ -17,7 +17,7 @@ export const GET_EMAIL_AVAILABILITY = gql`
    }
 `;
 
-export const GET_NOTION_AUTH = gql`
+export const GET_CURRENT_USER_NOTION_INTEGRATION = gql`
    query getCurrentUserNotionIntegration {
       getCurrentUserNotionIntegration {
          userfrontUserId
@@ -35,7 +35,7 @@ export const GET_NOTION_AUTH = gql`
    }
 `;
 
-export const GET_NOTION_DATABASE_INFO = gql`
+export const GET_CURRENT_USER_NOTION_DATABASE_INFO = gql`
    query getCurrentUserNotionDatabaseInfo {
       getCurrentUserNotionDatabaseInfo {
          title
