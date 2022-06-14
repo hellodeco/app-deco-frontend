@@ -2,7 +2,11 @@ import React from "react";
 import Userfront from "@userfront/core";
 import { Helmet } from "react-helmet";
 import { ChakraProvider, extendTheme, Box } from "@chakra-ui/react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import PasswordResetPage from "./auth-components/PasswordResetPage";
 import AuthedRoute, { AuthedRouteProps } from "./auth-components/AuthedRoute";
@@ -26,7 +30,7 @@ import ResetPasswordPage from "./auth-components/ResetPasswordPage";
 import { GET_USER_META } from "./graphql/queries";
 import { NotionAuthFail } from "./components/deco-email/NotionAuthFail";
 import { NotionAuthSuccess } from "./components/deco-email/NotionAuthSuccess";
-import { PasswordlessLogin } from "./components/PasswordlessLogin";
+import { usePasswordlessLogin } from "./hooks/usePasswordlessLogin"
 
 const theme = extendTheme({
   colors: {
@@ -73,6 +77,11 @@ const client = new ApolloClient({
 
 function App() {
   const { loading, data } = useQuery(GET_USER_META);
+  const { authError } = usePasswordlessLogin()
+
+  if (authError) {
+    console.error(authError)
+  }
 
   const userData = data?.currentUser;
 
@@ -128,8 +137,6 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
 
           <Route path="/forgot-password" element={<ResetPasswordPage />} />
-
-          <Route path="/magic-link-login" element={<PasswordlessLogin />} />
 
           <Route path="/post-checkout" element={<PostCheckout />} />
 
