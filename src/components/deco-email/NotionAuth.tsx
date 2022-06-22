@@ -4,6 +4,9 @@ import {
   Button,
   Tag,
   Link,
+  Image,
+  Text,
+  Flex,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import Userfront from "@userfront/core";
@@ -96,22 +99,18 @@ export const NotionAuth = () => {
 
         {formatNotionDatabaseData?.loading && <>Formatting your notion db...</>}
 
-        <Heading mt="15px" size="sm">
+        <Heading my="15px" size="sm">
           Workspace:
         </Heading>
 
-        <Tag
-          mt="15px"
-          width="-webkit-fit-content"
-          size="lg"
-          variant="solid"
-          colorScheme="gray"
-        >
-          {notionIntegrationData.workspaceIcon}{" "}
-          {notionIntegrationData.workspaceName} - Owner:{" "}
-          {notionIntegrationData.userFullName} - Email:{" "}
-          {notionIntegrationData.email}
-        </Tag>
+        <Flex flexDir="row" alignItems="flex-end">
+          <Image
+            src={notionIntegrationData.workspaceIcon} 
+            alt="notion workspace icon"
+            height="40px"
+          />
+          <Text ml="10px" >{notionIntegrationData.workspaceName}</Text>
+        </Flex>
 
         <Heading mt="15px" size="sm">
           Database:
