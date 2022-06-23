@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react'
+import { Flex, Heading } from "@chakra-ui/react"
 
 export const NotionAuthSuccess = () => {
   useEffect(() => {
     setTimeout(() => {
       window.close()
-    }, 2000)
+    }, 4000)
   }, [])
 
   return (
-    <div>Successfully connected to Notion!</div>
+    <Flex>
+      <Heading size="md">
+        Successfully connected to Notion!
+      </Heading>
+    </Flex>
   )
 }
