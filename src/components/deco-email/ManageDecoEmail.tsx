@@ -30,9 +30,10 @@ function getSetEmailErrorText(errorReason: string) {
       case 'INVALID_FORMAT':
          // we should be specific here
          return 'Format invalid, please try again'
-
       case 'NO_SUBSCRIPTION':
          return 'You need a valid subscription to set an email'
+      case 'NOT_ENOUGH_CHARS':
+         return 'Email username must be at least 3 characters long'
       default:
          return 'Sorry, we hit a snag while trying to create you\'re email address'
    }
