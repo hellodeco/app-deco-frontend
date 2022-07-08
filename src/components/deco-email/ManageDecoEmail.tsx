@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import type { User } from '../../types/types';
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_EMAIL_AVAILABILITY, GET_USER_META } from '../../graphql/queries';
+import { EMAIL_DOMAIN, GET_EMAIL_AVAILABILITY, GET_USER_META } from '../../graphql/queries';
 import { SET_USERS_DECO_EMAIL } from '../../graphql/mutations';
 
 interface IProps {
@@ -63,6 +63,9 @@ function AddNewEmailForm() {
       )
    };
 
+   const { data: emailDomainData } = useQuery(EMAIL_DOMAIN)
+   const emailDomain = emailDomainData?.emailDomain
+
    const { data } = useQuery(GET_EMAIL_AVAILABILITY, {
       variables: { username: newDecoEmailUsername },
    });
@@ -96,26 +99,27 @@ function AddNewEmailForm() {
             Let's get your Deco email address set up
          </Heading>
          <>
-            <FormControl mt='30px' isInvalid={!emailValid || !emailAvailable}>
-               <FormLabel htmlFor='email'>
-                  Enter an email address ending in "@deco.email". Once you choose, you can't change it, so choose
-                  wisely!
-               </FormLabel>
-               <Flex flexDir="row" alignItems="center">
-                 <Input
-                    w='450px'
-                    size='lg'
-                    id='email'
-                    type='email'
-                    value={newDecoEmailUsername}
-                    onChange={handleChange}
-                    placeholder='name'
-                 />
-                 <Text color="gray.dark" pl="13px">@deco.email</Text>
-               </Flex>
-               {!emailValid && <FormErrorMessage>Email address is invalid</FormErrorMessage>}
-               {!emailAvailable && <FormErrorMessage>Email address already taken</FormErrorMessage>}
-            </FormControl>
+            {emailDomain && (
+               <FormControl mt='30px' isInvalid={!emailValid || !emailAvailable}>
+                  <FormLabel htmlFor='email'>
+                     Claim an email address. Once you choose, you can't change it, so choose wisely!
+                  </FormLabel>
+                  <Flex flexDir="row" alignItems="center">
+                    <Input
+                       w='450px'
+                       size='lg'
+                       id='email'
+                       type='email'
+                       value={newDecoEmailUsername}
+                       onChange={handleChange}
+                       placeholder='name'
+                    />
+                    <Text color="gray.dark" pl="13px">@{emailDomain}</Text>
+                  </Flex>
+                  {!emailValid && <FormErrorMessage>Email address is invalid</FormErrorMessage>}
+                  {!emailAvailable && <FormErrorMessage>Email address already taken</FormErrorMessage>}
+               </FormControl>
+            )}
 
             {showCreateButton ? (
                <>

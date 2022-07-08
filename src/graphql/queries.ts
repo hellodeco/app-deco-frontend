@@ -45,3 +45,9 @@ export const GET_CURRENT_USER_NOTION_DATABASE_INFO = gql`
       }
    }
 `;
+
+export const EMAIL_DOMAIN = gql`
+   query emailDomain {
+      emailDomain
+   }
+`
