@@ -1,10 +1,10 @@
-import Userfront from "@userfront/core";
-import { Heading } from "@chakra-ui/react";
-import { Navigate } from "react-router-dom";
+import Userfront from '@userfront/core'
+import { Heading } from '@chakra-ui/react'
+import { Navigate } from 'react-router-dom'
 
 function HomePage() {
   if (Userfront.accessToken()) {
-    return <Navigate to={"/account"} />;
+    return <Navigate to={'/account'} />
   }
 
   return (
@@ -15,7 +15,7 @@ function HomePage() {
       Login or Signup to start receiving emails straight to your Notion
       workspace!
     </>
-  );
+  )
 }
 
-export default HomePage;
+export default HomePage

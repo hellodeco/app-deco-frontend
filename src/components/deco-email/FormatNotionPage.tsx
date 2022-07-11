@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 interface IProps {}
 
 export const FormatNotionPage = (props: IProps) => {
-   return <></>;
-};
+  return <></>
+}

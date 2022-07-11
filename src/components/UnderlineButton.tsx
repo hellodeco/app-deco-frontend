@@ -1,10 +1,10 @@
-import React from 'react';
-import { Button } from '@chakra-ui/react';
+import React from 'react'
+import { Button } from '@chakra-ui/react'
 
 interface UnderlineButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  leftIcon?: React.ReactElement;
+  children: React.ReactNode
+  onClick?: () => void
+  leftIcon?: React.ReactElement
 }
 
 function UnderlineButton({ children, ...rest }: UnderlineButtonProps) {
@@ -13,7 +13,7 @@ function UnderlineButton({ children, ...rest }: UnderlineButtonProps) {
       textDecor="underline"
       variant="ghost"
       _hover={{
-        textDecor: "none"
+        textDecor: 'none',
       }}
       pl="0px"
       pr="9px"
@@ -21,8 +21,7 @@ function UnderlineButton({ children, ...rest }: UnderlineButtonProps) {
     >
       {children}
     </Button>
-  );
+  )
 }
 
-export default UnderlineButton;
-
+export default UnderlineButton

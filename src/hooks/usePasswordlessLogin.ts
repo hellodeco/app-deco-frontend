@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Userfront from '@userfront/core';
+import Userfront from '@userfront/core'
 import { useQuery } from './useQuery'
 
 export function usePasswordlessLogin() {
@@ -29,7 +29,7 @@ export function usePasswordlessLogin() {
     }
 
     login()
-  }, [queryStrings]) 
+  }, [queryStrings])
 
   return {
     authError,

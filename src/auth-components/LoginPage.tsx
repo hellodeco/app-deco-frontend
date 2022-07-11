@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Heading,
   Button,
@@ -9,38 +9,38 @@ import {
   AlertIcon,
   AlertTitle,
   Flex,
-} from "@chakra-ui/react";
-import Userfront from "@userfront/core";
-import { useNavigate } from "react-router-dom";
+} from '@chakra-ui/react'
+import Userfront from '@userfront/core'
+import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
   // Login with password state
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [errorMessage, setErrorMessage] = React.useState("");
-  const [successMessage, setSuccessMessage] = React.useState("");
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const [errorMessage, setErrorMessage] = React.useState('')
+  const [successMessage, setSuccessMessage] = React.useState('')
   // Login with magic link state
-  const [showMagicLinkForm, setShowMagicLinkForm] = React.useState(false);
-  const [magicLinkEmail, setMagicLinkEmail] = React.useState("");
+  const [showMagicLinkForm, setShowMagicLinkForm] = React.useState(false)
+  const [magicLinkEmail, setMagicLinkEmail] = React.useState('')
 
-  let navigate = useNavigate();
+  let navigate = useNavigate()
 
   const handleLogin = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    setErrorMessage("");
+    event.preventDefault()
+    setErrorMessage('')
 
     Userfront.login({
-      method: "password",
+      method: 'password',
       email: email,
       password: password,
     }).catch((error: any) => {
-      setErrorMessage(error.message);
-    });
-  };
+      setErrorMessage(error.message)
+    })
+  }
 
   const handleMagicLinkLogin = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    setErrorMessage("");
+    event.preventDefault()
+    setErrorMessage('')
 
     try {
       const resp = await Userfront.sendLoginLink(magicLinkEmail)
@@ -50,13 +50,13 @@ const LoginPage = () => {
         console.log(loginLink)
       }
     } catch (err: any) {
-      setErrorMessage(err.message);
+      setErrorMessage(err.message)
     }
-  };
+  }
 
   return (
-    <Flex maxWidth="md" flexDirection={"column"}>
-      <Heading size={"md"} pb="6">
+    <Flex maxWidth="md" flexDirection={'column'}>
+      <Heading size={'md'} pb="6">
         Login to Hellodeco
       </Heading>
 
@@ -66,7 +66,7 @@ const LoginPage = () => {
           onClick={() => setShowMagicLinkForm(!showMagicLinkForm)}
           variant="link"
         >
-          {showMagicLinkForm ? "Login with Password" : "Login with Email Link"}
+          {showMagicLinkForm ? 'Login with Password' : 'Login with Email Link'}
         </Button>
       </Flex>
       {showMagicLinkForm ? (
@@ -132,7 +132,7 @@ const LoginPage = () => {
             <Button
               variant="link"
               ml="24px"
-              onClick={() => navigate("/forgot-password")}
+              onClick={() => navigate('/forgot-password')}
             >
               Forgot Password?
             </Button>
@@ -140,7 +140,7 @@ const LoginPage = () => {
         </>
       )}
     </Flex>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

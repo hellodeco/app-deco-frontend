@@ -1,37 +1,37 @@
-import { Flex, Heading, Divider, Button } from "@chakra-ui/react";
-import React from "react";
-import type { User } from "../types/types";
-import Userfront from "@userfront/core";
+import { Flex, Heading, Divider, Button } from '@chakra-ui/react'
+import React from 'react'
+import type { User } from '../types/types'
+import Userfront from '@userfront/core'
 
 interface AppAccountProps {
-  userData: User;
+  userData: User
 }
 
 function AppAccount({ userData }: AppAccountProps) {
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/stripe/billing-portal`,
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userfrontUserId: userData?.userfrontID }),
-      }
-    );
+      },
+    )
 
     if (response.status !== 200) {
-      console.log("Error opening Stripe billing portal");
-      return;
+      console.log('Error opening Stripe billing portal')
+      return
     }
-    const resBody = await response.json();
-    window.location = resBody.sessionUrl;
-  };
+    const resBody = await response.json()
+    window.location = resBody.sessionUrl
+  }
 
   const handlePasswordReset = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    await Userfront.sendResetLink(userData?.signupEmail);
-  };
+    event.preventDefault()
+    await Userfront.sendResetLink(userData?.signupEmail)
+  }
 
   return (
     <Flex flexDirection="column">
@@ -51,7 +51,7 @@ function AppAccount({ userData }: AppAccountProps) {
         Reset Password
       </Button>
     </Flex>
-  );
+  )
 }
 
-export default AppAccount;
+export default AppAccount

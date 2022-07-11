@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Modal as ChakraModal,
   ModalOverlay,
@@ -7,43 +7,28 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from '@chakra-ui/react';
-
+} from '@chakra-ui/react'
 
 interface ModalProps {
-  header: React.ReactNode;
-  content: React.ReactNode;
-  footer: React.ReactNode;
-  isOpen: boolean;
-  handleClose: () => void;
+  header: React.ReactNode
+  content: React.ReactNode
+  footer: React.ReactNode
+  isOpen: boolean
+  handleClose: () => void
 }
 
-function Modal({
-  header,
-  content,
-  footer,
-  isOpen,
-  handleClose,
-}: ModalProps) {
+function Modal({ header, content, footer, isOpen, handleClose }: ModalProps) {
   return (
     <ChakraModal isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {header}
-        </ModalHeader>
+        <ModalHeader>{header}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          {content}
-        </ModalBody>
+        <ModalBody>{content}</ModalBody>
       </ModalContent>
-      <ModalFooter>
-        {footer}
-      </ModalFooter>
+      <ModalFooter>{footer}</ModalFooter>
     </ChakraModal>
-        
-  );
+  )
 }
 
-export default Modal;
-
+export default Modal
