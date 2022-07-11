@@ -74,6 +74,7 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env.development
 
 # Auth0 deploy cli configs (contains sensitive info like "client_secret" etc)
 auth/auth0-*-config.json
