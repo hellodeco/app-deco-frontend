@@ -28,6 +28,8 @@ import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
 import { usePasswordlessLogin } from './hooks/usePasswordlessLogin'
 
+const MAIN_YELLOW = '#F7CD45'
+
 const theme = extendTheme({
   colors: {
     purple: {
@@ -95,12 +97,22 @@ function App() {
     return null
   }
 
+
   // Shout out to the below stack overflow for the great protected route component guide
   // https://stackoverflow.com/questions/47747754/how-to-rewrite-the-protected-private-route-using-typescript-and-react-router-4
   return (
     <ChakraProvider theme={theme}>
       <Helmet>
-        <meta property="og:url" content="https://apps.hellodeco.co" />
+        <meta property="og:url" content="https://app.hellodeco.so" />
+        <meta property="og:title" content="Email for your Notion workspace" />
+        <meta property="og:description" content="Route email directly to a Notion database—no coding required!" />
+        <meta property="og:image" content="./hellodeco.png?v=1" />
+        <meta property="og:site_name" content="Hellodeco" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@hellodecoapp" />
+        <link rel="icon" href="./favicon.ico" />
+        <meta name="theme-color" content={MAIN_YELLOW} />
+        <meta name="twitter:image:alt" content="Home screen of the apps that I use at work" />
       </Helmet>
       <Box maxW="920px" maxH="700px" mx="auto" mt="60px">
         <NavBar />
