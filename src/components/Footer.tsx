@@ -1,14 +1,12 @@
-import React from 'react';
-import '../App.css';
+import React from 'react'
+import '../App.css'
 
-interface IProps {
-}
+interface IProps {}
 
 export const Footer = (props: IProps) => {
-    return (
-        <footer className="Footer">
-              <nav>
-              </nav>
-        </footer>
-    );
+  return (
+    <footer className="Footer">
+      <nav></nav>
+    </footer>
+  )
 }

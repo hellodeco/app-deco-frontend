@@ -1,28 +1,28 @@
-import React from "react";
-import { Flex, Heading } from "@chakra-ui/react";
-import { Button, Stack, InputGroup, Input } from "@chakra-ui/react";
-import Userfront from "@userfront/core";
+import React from 'react'
+import { Flex, Heading } from '@chakra-ui/react'
+import { Button, Stack, InputGroup, Input } from '@chakra-ui/react'
+import Userfront from '@userfront/core'
 
 function PasswordResetPage() {
-  const [password, setPassword] = React.useState("");
-  const [verifyPassword, setVerifyPassword] = React.useState("");
+  const [password, setPassword] = React.useState('')
+  const [verifyPassword, setVerifyPassword] = React.useState('')
 
   const handlePasswordReset = (event: React.SyntheticEvent) => {
-    event.preventDefault();
+    event.preventDefault()
 
     // todo - add error handling
     if (password !== verifyPassword) {
-      return;
+      return
     }
 
     Userfront.resetPassword({
       password: password,
-    });
-  };
+    })
+  }
 
   return (
-    <Flex maxWidth="md" flexDirection={"column"}>
-      <Heading size={"md"} mb="6">
+    <Flex maxWidth="md" flexDirection={'column'}>
+      <Heading size={'md'} mb="6">
         Reset password
       </Heading>
       <Stack spacing={4}>
@@ -47,7 +47,7 @@ function PasswordResetPage() {
         Reset Password
       </Button>
     </Flex>
-  );
+  )
 }
 
-export default PasswordResetPage;
+export default PasswordResetPage

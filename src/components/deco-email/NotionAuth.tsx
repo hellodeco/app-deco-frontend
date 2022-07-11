@@ -1,60 +1,52 @@
-import React, { useCallback } from "react";
-import {
-  Heading,
-  Button,
-  Tag,
-  Link,
-  Image,
-  Text,
-  Flex,
-} from "@chakra-ui/react";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
-import Userfront from "@userfront/core";
-import { useQuery, useMutation } from "@apollo/client";
+import React, { useCallback } from 'react'
+import { Heading, Button, Tag, Link, Image, Text, Flex } from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import Userfront from '@userfront/core'
+import { useQuery, useMutation } from '@apollo/client'
 import {
   GET_CURRENT_USER_NOTION_INTEGRATION,
   GET_CURRENT_USER_NOTION_DATABASE_INFO,
-} from "../../graphql/queries";
-import { DROP_AND_MIGRATE_USERS_NOTION_DATABASE } from "../../graphql/mutations";
+} from '../../graphql/queries'
+import { DROP_AND_MIGRATE_USERS_NOTION_DATABASE } from '../../graphql/mutations'
 
 export const NotionAuth = () => {
-  const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION);
-  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO);
+  const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
+  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
   const [formatNotionDatabase, formatNotionDatabaseData] = useMutation(
-    DROP_AND_MIGRATE_USERS_NOTION_DATABASE
-  );
+    DROP_AND_MIGRATE_USERS_NOTION_DATABASE,
+  )
 
   const handleAuthWithNotion = useCallback(() => {
-    const params = new URLSearchParams();
-    params.append('authToken', Userfront.tokens?.accessToken);
+    const params = new URLSearchParams()
+    params.append('authToken', Userfront.tokens?.accessToken)
     const authUrl = `${
       process.env.REACT_APP_API_URL
-    }/oauth/notion?${params.toString()}`;
-    const tab = window.open(authUrl, '_blank');
-    tab?.focus();
+    }/oauth/notion?${params.toString()}`
+    const tab = window.open(authUrl, '_blank')
+    tab?.focus()
 
     const interval = setInterval(() => {
       if (tab?.closed) {
-        notionIntegration.refetch();
-        notionDatabase.refetch();
-        clearInterval(interval);
+        notionIntegration.refetch()
+        notionDatabase.refetch()
+        clearInterval(interval)
       }
-    }, 300);
-  }, [notionIntegration, notionDatabase]);
+    }, 300)
+  }, [notionIntegration, notionDatabase])
 
   const handleFormatNotionDatabase = async () => {
-    await formatNotionDatabase();
-    await notionDatabase.refetch();
-  };
+    await formatNotionDatabase()
+    await notionDatabase.refetch()
+  }
 
   if (notionIntegration.loading || notionDatabase.loading) {
-    return <span>Loading notion data...</span>;
+    return <span>Loading notion data...</span>
   }
 
   const notionIntegrationData =
-    notionIntegration.data?.getCurrentUserNotionIntegration;
+    notionIntegration.data?.getCurrentUserNotionIntegration
   const notionDatabaseData =
-    notionDatabase.data?.getCurrentUserNotionDatabaseInfo;
+    notionDatabase.data?.getCurrentUserNotionDatabaseInfo
 
   if (notionIntegrationData && notionDatabaseData) {
     return (
@@ -105,11 +97,11 @@ export const NotionAuth = () => {
 
         <Flex flexDir="row" alignItems="flex-end">
           <Image
-            src={notionIntegrationData.workspaceIcon} 
+            src={notionIntegrationData.workspaceIcon}
             alt="notion workspace icon"
             height="40px"
           />
-          <Text ml="10px" >{notionIntegrationData.workspaceName}</Text>
+          <Text ml="10px">{notionIntegrationData.workspaceName}</Text>
         </Flex>
 
         <Heading mt="15px" size="sm">
@@ -117,7 +109,7 @@ export const NotionAuth = () => {
         </Heading>
 
         <Link mt="15px" href={notionDatabaseData.url} isExternal>
-          {notionDatabaseData.icon} {notionDatabaseData.title}{" "}
+          {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
           <ExternalLinkIcon mx="2px" />
         </Link>
 
@@ -125,7 +117,7 @@ export const NotionAuth = () => {
           Change Connected Notion Page
         </Button>
       </>
-    );
+    )
   }
 
   return (
@@ -135,5 +127,5 @@ export const NotionAuth = () => {
         Connect to Notion
       </Button>
     </>
-  );
-};
+  )
+}

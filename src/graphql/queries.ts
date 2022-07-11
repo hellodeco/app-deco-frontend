@@ -1,53 +1,53 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const GET_USER_META = gql`
-   query currentUser {
-      currentUser {
-         fullName
-         userfrontID
-         emailAddress
-         signupEmail
-      }
-   }
-`;
+  query currentUser {
+    currentUser {
+      fullName
+      userfrontID
+      emailAddress
+      signupEmail
+    }
+  }
+`
 
 export const GET_EMAIL_AVAILABILITY = gql`
-   query emailUsernameAvailable($username: String!) {
-      emailUsernameAvailable(username: $username)
-   }
-`;
+  query emailUsernameAvailable($username: String!) {
+    emailUsernameAvailable(username: $username)
+  }
+`
 
 export const GET_CURRENT_USER_NOTION_INTEGRATION = gql`
-   query getCurrentUserNotionIntegration {
-      getCurrentUserNotionIntegration {
-         userfrontUserId
-         tokenType
-         workspaceId
-         workspaceName
-         workspaceIcon
-         botId
-         userId
-         userFullName
-         avatarUrl
-         type
-         email
-      }
-   }
-`;
+  query getCurrentUserNotionIntegration {
+    getCurrentUserNotionIntegration {
+      userfrontUserId
+      tokenType
+      workspaceId
+      workspaceName
+      workspaceIcon
+      botId
+      userId
+      userFullName
+      avatarUrl
+      type
+      email
+    }
+  }
+`
 
 export const GET_CURRENT_USER_NOTION_DATABASE_INFO = gql`
-   query getCurrentUserNotionDatabaseInfo {
-      getCurrentUserNotionDatabaseInfo {
-         title
-         url
-         icon
-         needsFormatting
-      }
-   }
-`;
+  query getCurrentUserNotionDatabaseInfo {
+    getCurrentUserNotionDatabaseInfo {
+      title
+      url
+      icon
+      needsFormatting
+    }
+  }
+`
 
 export const EMAIL_DOMAIN = gql`
-   query emailDomain {
-      emailDomain
-   }
+  query emailDomain {
+    emailDomain
+  }
 `

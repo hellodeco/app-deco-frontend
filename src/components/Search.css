@@ -1,8 +1,7 @@
 .SearchInput {
-    background-color: #FFFBF6;
-
+  background-color: #fffbf6;
 }
 
 .SearchInput:hover {
-    background-color: #ffe4c3;
+  background-color: #ffe4c3;
 }

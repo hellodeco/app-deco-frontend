@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Flex, Heading } from "@chakra-ui/react"
+import { Flex, Heading } from '@chakra-ui/react'
 
 export const NotionAuthSuccess = () => {
   useEffect(() => {
@@ -10,9 +10,7 @@ export const NotionAuthSuccess = () => {
 
   return (
     <Flex>
-      <Heading size="md">
-        Successfully connected to Notion!
-      </Heading>
+      <Heading size="md">Successfully connected to Notion!</Heading>
     </Flex>
   )
 }

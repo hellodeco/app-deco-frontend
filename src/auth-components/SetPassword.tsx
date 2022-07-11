@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 import {
-   Flex,
-   Heading,
-   Divider,
-   Button,
-   Input,
-   FormControl,
-   FormLabel,
-   FormErrorMessage,
-   FormHelperText,
-   Tag,
-   Text,
+  Flex,
+  Heading,
+  Divider,
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Tag,
+  Text,
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
-import type { User } from "../types/types";
+import type { User } from '../types/types'
 
 interface SetPasswordProps {
   userData: User
@@ -51,18 +51,18 @@ export function SetPassword({ userData }: SetPasswordProps) {
     <FormControl>
       <FormLabel htmlFor={PASSWORD_FIELD_ID}>Set Password</FormLabel>
       <Input
-        id={PASSWORD_FIELD_ID} 
+        id={PASSWORD_FIELD_ID}
         onChange={handlePasswordChange}
         value={password}
-        type='password'
+        type="password"
       />
       <Button
-        w='300px'
-        my='20px'
+        w="300px"
+        my="20px"
         onClick={handleSubmit}
         disabled={buttonDisabled}
       >
-         Set Password
+        Set Password
       </Button>
     </FormControl>
   )

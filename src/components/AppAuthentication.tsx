@@ -1,9 +1,9 @@
-import React from "react";
-import { Button, Flex, Heading } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import { Button, Flex, Heading } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 function AppAuthentication() {
-  let navigate = useNavigate();
+  let navigate = useNavigate()
 
   return (
     <Flex flexDirection="column" alignContent="center" justifyContent="center">
@@ -16,19 +16,19 @@ function AppAuthentication() {
         <Heading color="black">Welcome to Hellodeco</Heading>
 
         <Flex mt="12px">
-          <Button variant="link" ml="24px" onClick={() => navigate("/")}>
+          <Button variant="link" ml="24px" onClick={() => navigate('/')}>
             Home
           </Button>
-          <Button variant="link" ml="24px" onClick={() => navigate("/login")}>
+          <Button variant="link" ml="24px" onClick={() => navigate('/login')}>
             Login
           </Button>
-          <Button variant="link" ml="24px" onClick={() => navigate("/signup")}>
+          <Button variant="link" ml="24px" onClick={() => navigate('/signup')}>
             Signup
           </Button>
         </Flex>
       </Flex>
     </Flex>
-  );
+  )
 }
 
-export default AppAuthentication;
+export default AppAuthentication
