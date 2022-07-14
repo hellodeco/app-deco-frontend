@@ -42,6 +42,7 @@ export const GET_CURRENT_USER_NOTION_DATABASE_INFO = gql`
       url
       icon
       needsFormatting
+      needsManualFormatting
     }
   }
 `
@@ -49,5 +50,20 @@ export const GET_CURRENT_USER_NOTION_DATABASE_INFO = gql`
 export const EMAIL_DOMAIN = gql`
   query emailDomain {
     emailDomain
+  }
+`
+
+export const CONNECTED_NOTION_PAGES = gql`
+  query connectedNotionPages {
+    connectedNotionPages {
+      id
+      url
+      title
+      icon {
+			  type
+        emoji
+        url
+      }
+    }
   }
 `
