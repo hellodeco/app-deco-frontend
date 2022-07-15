@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Heading, Button, Tag, Link, Image, Text, Flex, Select } from '@chakra-ui/react'
+import { Heading, Button, Tag, Link, Image, Text, Flex, Select, OrderedList, ListItem } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Userfront from '@userfront/core'
 import { useQuery, useMutation } from '@apollo/client'
@@ -29,8 +29,6 @@ function NotionSharedDBSelector({ refetchNotionDatabaseInfo }: { refetchNotionDa
     SELECT_NOTION_DATABASE,
   )
 
-  // console.log({ selectedPageId, data, loading, error, selectedNotionDatabaseData })
-
   if (loading) {
     return null
   }
@@ -39,10 +37,13 @@ function NotionSharedDBSelector({ refetchNotionDatabaseInfo }: { refetchNotionDa
     <Flex
       flexDir="column"
     >
+      <Heading size="md">Select Your Notion Page</Heading>
+      <Text>
+        Deco currently supports sending email to one Notion page at a time. Choose the shared Notion page you would like to send emails to.
+      </Text>
       <Select
         placeholder='Select shared database'
         onChange={(event) => {
-          console.log({ value: event.target.value })
           setSelectedPageId(event.target.value)
         }}
       >
@@ -128,6 +129,8 @@ export function NotionAuth() {
     notionDatabase,
   })
 
+  // https://lh4.googleusercontent.com/-vWnhsGlh1aw/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckkw7AMUjMyz0hNqLai5Ajs9PdJbQ/photo.jpg
+
   if (!notionIntegrationData) {
     // show notion connect button
     return (
@@ -156,67 +159,67 @@ export function NotionAuth() {
 
     // give a link to database and instructions on what to do
 
-    return (
-      <>
-        <Heading size="md">Your Connected Notion Page</Heading>
+    // return (
+    //   <>
+    //     <Heading size="md">Your Connected Notion Page</Heading>
 
-        <Heading mt="15px" size="sm">
-          Status:
-        </Heading>
-        <Flex flexDir="column">
-          <Tag
-            mt="15px"
-            width="-webkit-fit-content"
-            size="lg"
-            variant="solid"
-            colorScheme="red"
-          >
-            Your Notion page needs to be formatted manually.
-          </Tag>
+    //     <Heading mt="15px" size="sm">
+    //       Status:
+    //     </Heading>
+    //     <Flex flexDir="column">
+    //       <Tag
+    //         mt="15px"
+    //         width="-webkit-fit-content"
+    //         size="lg"
+    //         variant="solid"
+    //         colorScheme="red"
+    //       >
+    //         Your Notion page needs to be formatted manually.
+    //       </Tag>
 
-          <Heading mt="15px" size="sm">
-            Database:
-          </Heading>
+    //       <Heading mt="15px" size="sm">
+    //         Database:
+    //       </Heading>
 
-          <Link mt="15px" href={notionDatabaseData.url} isExternal>
-            {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
-            <ExternalLinkIcon mx="2px" />
-          </Link>
+    //       <Link mt="15px" href={notionDatabaseData.url} isExternal>
+    //         {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
+    //         <ExternalLinkIcon mx="2px" />
+    //       </Link>
 
-          <Text>
-            Instructions how to do this will go here............
-          </Text>
+    //       <Text>
+    //         Instructions how to do this will go here............
+    //       </Text>
 
-          <Button
-            w="300px"
-            my="30px"
-            onClick={async () => {
-              await notionDatabase.refetch()
-            }} 
-          >
-            Check formatting again
-          </Button>
+    //       <Button
+    //         w="300px"
+    //         my="30px"
+    //         onClick={async () => {
+    //           await notionDatabase.refetch()
+    //         }} 
+    //       >
+    //         Check formatting again
+    //       </Button>
 
-          <Button
-            w="300px"
-            my="30px"
-            onClick={async () => {
-              // TODO
-            }} 
-          >
-            Select another shared database
-          </Button>
+    //       <Button
+    //         w="300px"
+    //         my="30px"
+    //         onClick={async () => {
+    //           // TODO
+    //         }} 
+    //       >
+    //         Select another shared database
+    //       </Button>
 
-          <Button
-            w="300px"
-            my="30px"
-            onClick={handleAuthWithNotion}
-          >
-            Connect a new database
-          </Button>
-        </Flex>
-      </>
-    )
+    //       <Button
+    //         w="300px"
+    //         my="30px"
+    //         onClick={handleAuthWithNotion}
+    //       >
+    //         Connect a new database
+    //       </Button>
+    //     </Flex>
+    //   </>
+    // )
   }
 
   if (notionIntegrationData && notionDatabaseData.needsFormatting) {
@@ -226,28 +229,69 @@ export function NotionAuth() {
   // else show the successful / completed connection UI
 
 
-
   // this should be the completely connected state
   if (notionIntegrationData && notionDatabaseData) {
     return (
       <>
-        <Heading size="md">Your Connected Notion Page</Heading>
+        <Heading size="md">Notion Settings</Heading>
 
-        <Heading mt="15px" size="sm">
-          Status:
+        {formatNotionDatabaseData?.loading && <>Formatting your notion db...</>}
+
+        <Heading my="15px" size="sm">
+          Connected Workspace
         </Heading>
 
-        {!notionDatabaseData.needsFormatting ? (
-          <Tag
-            mt="15px"
-            width="-webkit-fit-content"
-            size="lg"
-            variant="solid"
-            colorScheme="green"
-          >
-            Ready to receive email!
-          </Tag>
-        ) : (
+        <Flex flexDir="row" alignItems="flex-end">
+          {notionIntegrationData.workspaceIcon && (
+            <Image
+              src={notionIntegrationData.workspaceIcon}
+              alt="notion workspace icon"
+              height="40px"
+            />
+          )}
+          <Text ml="10px">{notionIntegrationData.workspaceName}</Text>
+        </Flex>
+
+        <Heading mt="15px" size="sm">
+          Connected Database
+        </Heading>
+
+        <Link mt="15px" href={notionDatabaseData.url} isExternal>
+          {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
+          <ExternalLinkIcon mx="2px" mb="6px" />
+        </Link>
+
+        {notionDatabaseData.needsManualFormatting ? (
+          <Flex flexDir="column">
+
+            <Tag
+              mt="15px"
+              width="-webkit-fit-content"
+              size="lg"
+              variant="solid"
+              padding="7px"
+              colorScheme="gray"
+            >
+              ⚠️ It looks like you've shared a Notion page with us that isn't formatted as a database.
+            </Tag>
+            <Text my="13px">
+              Unfortunately due to Notion limitations we can't do this for you 😢 You can{' '}
+              <Link href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" isExternal mt="17px">
+                watch a short video to learn how to format your Notion page
+                <ExternalLinkIcon mx="2px" mb="6px" />
+                {' '} or follow the instructions here:
+              </Link>
+              <OrderedList my="13px">
+                <ListItem>Delete all contents in the Page</ListItem>
+                <ListItem>Select "Database" {'->'} "Table"</ListItem>
+                <ListItem>Click "New database" on the right hand side</ListItem>
+              </OrderedList>
+
+              Once done, return here and refresh the page to continue.
+            </Text>
+          </Flex>
+
+        ) : notionDatabaseData.needsFormatting ? (
           <>
             <Tag
               mt="15px"
@@ -267,31 +311,17 @@ export function NotionAuth() {
               Format Notion DB
             </Button>
           </>
+        ): (
+          <Tag
+            mt="15px"
+            width="-webkit-fit-content"
+            size="lg"
+            variant="solid"
+            colorScheme="green"
+          >
+            Ready to receive email!
+          </Tag>
         )}
-
-        {formatNotionDatabaseData?.loading && <>Formatting your notion db...</>}
-
-        <Heading my="15px" size="sm">
-          Workspace:
-        </Heading>
-
-        <Flex flexDir="row" alignItems="flex-end">
-          <Image
-            src={notionIntegrationData.workspaceIcon}
-            alt="notion workspace icon"
-            height="40px"
-          />
-          <Text ml="10px">{notionIntegrationData.workspaceName}</Text>
-        </Flex>
-
-        <Heading mt="15px" size="sm">
-          Database:
-        </Heading>
-
-        <Link mt="15px" href={notionDatabaseData.url} isExternal>
-          {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
-          <ExternalLinkIcon mx="2px" />
-        </Link>
 
         <Button w="300px" my="30px" onClick={handleAuthWithNotion}>
           Change Connected Notion Page
