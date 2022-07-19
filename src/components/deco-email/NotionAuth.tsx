@@ -191,7 +191,7 @@ export function NotionAuth() {
           Connected Database
         </Heading>
 
-        <Link mt="15px" href={notionDatabaseData.url} isExternal>
+        <Link mt="15px" href={notionDatabaseData.url} isExternal color="#2596be">
           {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
           <ExternalLinkIcon mx="2px" mb="6px" />
         </Link>
@@ -206,12 +206,18 @@ export function NotionAuth() {
               padding="7px"
               colorScheme="gray"
             >
-              ⚠️ It looks like you've shared a Notion page with us that isn't
-              formatted as a database.
+              ⚠️ Your shared Notion page needs manual formatting
             </Tag>
             <Text my="13px">
-              Unfortunately due to Notion limitations we can't do this for you
-              😢 You can{' '}
+              It looks like you've shared a Notion page with us that isn't formatted as a database. Unfortunately due to Notion limitations we can't do this for you
+              😢
+              <br />
+              <br />
+
+
+              <i>Don't worry though! It's easy 👌</i>
+              
+              {/* You can{' '}
               <Link
                 href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                 isExternal
@@ -220,13 +226,22 @@ export function NotionAuth() {
                 watch a short video to learn how to format your Notion page
                 <ExternalLinkIcon mx="2px" mb="6px" /> or follow the
                 instructions here:
-              </Link>
+              </Link>*/}
+
+
               <OrderedList my="13px">
-                <ListItem>Delete all contents in the Page</ListItem>
-                <ListItem>Select "Database" {'->'} "Table"</ListItem>
+                <ListItem>
+                  Delete any existing content in{' '}
+                 <Link mt="15px" href={notionDatabaseData.url} isExternal color="#2596be">
+                   the shared page
+                 </Link>
+                </ListItem>
+                <ListItem>Select <i>Database</i>{' '}{'->'}{' '}<i>Table</i></ListItem>
+                <Image src="notion-database-format-instruction.png" alt="create a new database in Notion" />
                 <ListItem>Click "New database" on the right hand side</ListItem>
+                <Image src="notion-database-data-source-instruction.png" alt="add a data source to a Notion databas" />
+                <ListItem>Once done, return here and refresh the page</ListItem>
               </OrderedList>
-              Once done, return here and refresh the page to continue.
             </Text>
           </Flex>
         ) : notionDatabaseData.needsFormatting ? (
