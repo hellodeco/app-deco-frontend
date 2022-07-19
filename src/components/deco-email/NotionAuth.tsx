@@ -1,5 +1,16 @@
 import React, { useCallback, useState } from 'react'
-import { Heading, Button, Tag, Link, Image, Text, Flex, Select, OrderedList, ListItem } from '@chakra-ui/react'
+import {
+  Heading,
+  Button,
+  Tag,
+  Link,
+  Image,
+  Text,
+  Flex,
+  Select,
+  OrderedList,
+  ListItem,
+} from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Userfront from '@userfront/core'
 import { useQuery, useMutation } from '@apollo/client'
@@ -8,8 +19,10 @@ import {
   GET_CURRENT_USER_NOTION_DATABASE_INFO,
   CONNECTED_NOTION_PAGES,
 } from '../../graphql/queries'
-import { DROP_AND_MIGRATE_USERS_NOTION_DATABASE, SELECT_NOTION_DATABASE } from '../../graphql/mutations'
-
+import {
+  DROP_AND_MIGRATE_USERS_NOTION_DATABASE,
+  SELECT_NOTION_DATABASE,
+} from '../../graphql/mutations'
 
 interface NotionPage {
   id: string
@@ -22,7 +35,11 @@ interface NotionPage {
   }
 }
 
-function NotionSharedDBSelector({ refetchNotionDatabaseInfo }: { refetchNotionDatabaseInfo: () => Promise<void> }) {
+function NotionSharedDBSelector({
+  refetchNotionDatabaseInfo,
+}: {
+  refetchNotionDatabaseInfo: () => Promise<void>
+}) {
   const [selectedPageId, setSelectedPageId] = useState('')
   const { data, loading, error } = useQuery(CONNECTED_NOTION_PAGES)
   const [selectNotionDatabase, selectedNotionDatabaseData] = useMutation(
@@ -34,15 +51,14 @@ function NotionSharedDBSelector({ refetchNotionDatabaseInfo }: { refetchNotionDa
   }
 
   return (
-    <Flex
-      flexDir="column"
-    >
+    <Flex flexDir="column">
       <Heading size="md">Select Your Notion Page</Heading>
       <Text>
-        Deco currently supports sending email to one Notion page at a time. Choose the shared Notion page you would like to send emails to.
+        Deco currently supports sending email to one Notion page at a time.
+        Choose the shared Notion page you would like to send emails to.
       </Text>
       <Select
-        placeholder='Select shared database'
+        placeholder="Select shared database"
         onChange={(event) => {
           setSelectedPageId(event.target.value)
         }}
@@ -59,7 +75,9 @@ function NotionSharedDBSelector({ refetchNotionDatabaseInfo }: { refetchNotionDa
           optionText += title
 
           return (
-            <option key={page.id} value={page.id}>{optionText}</option>
+            <option key={page.id} value={page.id}>
+              {optionText}
+            </option>
           )
         })}
       </Select>
@@ -70,15 +88,14 @@ function NotionSharedDBSelector({ refetchNotionDatabaseInfo }: { refetchNotionDa
           await selectNotionDatabase({
             variables: {
               databaseId: selectedPageId,
-            }
+            },
           })
 
           await refetchNotionDatabaseInfo()
-        }} 
+        }}
         width="200px"
         mt="30px"
       >
-
         Select database
       </Button>
     </Flex>
@@ -188,7 +205,6 @@ export function NotionAuth() {
 
         {notionDatabaseData.needsManualFormatting ? (
           <Flex flexDir="column">
-
             <Tag
               mt="15px"
               width="-webkit-fit-content"
@@ -197,25 +213,29 @@ export function NotionAuth() {
               padding="7px"
               colorScheme="gray"
             >
-              ⚠️ It looks like you've shared a Notion page with us that isn't formatted as a database.
+              ⚠️ It looks like you've shared a Notion page with us that isn't
+              formatted as a database.
             </Tag>
             <Text my="13px">
-              Unfortunately due to Notion limitations we can't do this for you 😢 You can{' '}
-              <Link href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" isExternal mt="17px">
+              Unfortunately due to Notion limitations we can't do this for you
+              😢 You can{' '}
+              <Link
+                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                isExternal
+                mt="17px"
+              >
                 watch a short video to learn how to format your Notion page
-                <ExternalLinkIcon mx="2px" mb="6px" />
-                {' '} or follow the instructions here:
+                <ExternalLinkIcon mx="2px" mb="6px" /> or follow the
+                instructions here:
               </Link>
               <OrderedList my="13px">
                 <ListItem>Delete all contents in the Page</ListItem>
                 <ListItem>Select "Database" {'->'} "Table"</ListItem>
                 <ListItem>Click "New database" on the right hand side</ListItem>
               </OrderedList>
-
               Once done, return here and refresh the page to continue.
             </Text>
           </Flex>
-
         ) : notionDatabaseData.needsFormatting ? (
           <>
             <Tag
@@ -236,7 +256,7 @@ export function NotionAuth() {
               Format Notion DB
             </Button>
           </>
-        ): (
+        ) : (
           <Tag
             mt="15px"
             width="-webkit-fit-content"

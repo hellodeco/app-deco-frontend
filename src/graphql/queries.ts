@@ -60,7 +60,7 @@ export const CONNECTED_NOTION_PAGES = gql`
       url
       title
       icon {
-			  type
+        type
         emoji
         url
       }
