@@ -213,21 +213,7 @@ export function NotionAuth() {
               😢
               <br />
               <br />
-
-
-              <i>Don't worry though! It's easy 👌</i>
-              
-              {/* You can{' '}
-              <Link
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                isExternal
-                mt="17px"
-              >
-                watch a short video to learn how to format your Notion page
-                <ExternalLinkIcon mx="2px" mb="6px" /> or follow the
-                instructions here:
-              </Link>*/}
-
+              <i>Don't worry though! It's easy</i>{' '}👌
 
               <OrderedList my="13px">
                 <ListItem>
