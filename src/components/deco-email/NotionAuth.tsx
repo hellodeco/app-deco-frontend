@@ -10,6 +10,14 @@ import {
   Select,
   OrderedList,
   ListItem,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Userfront from '@userfront/core'
@@ -108,6 +116,8 @@ export function NotionAuth() {
   const [formatNotionDatabase, formatNotionDatabaseData] = useMutation(
     DROP_AND_MIGRATE_USERS_NOTION_DATABASE,
   )
+  const { isOpen: isWarningModalOpen, onOpen: onWarningModalOpen, onClose: onWarningModalClose } = useDisclosure()
+  const [warningText, setWarningText] = useState('')
 
   const handleAuthWithNotion = useCallback(() => {
     const params = new URLSearchParams()
@@ -126,6 +136,14 @@ export function NotionAuth() {
       }
     }, 300)
   }, [notionIntegration, notionDatabase])
+
+  // https://chakra-ui.com/docs/components/modal/usage#styling-the-backdrop
+  const handleConfirmConnectDatabase = useCallback(() => {
+    setWarningText('Are you sure you want to change the connected database? Doing so will stop mail sending to the currently connected database.')
+
+    handleAuthWithNotion()
+  }, [setWarningText, handleAuthWithNotion])
+
 
   const handleFormatNotionDatabase = async () => {
     await formatNotionDatabase()
@@ -265,9 +283,54 @@ export function NotionAuth() {
         <Button w="300px" my="30px" onClick={handleAuthWithNotion}>
           Change Connected Notion Page
         </Button>
+
+        <Modal isOpen={isWarningModalOpen} onClose={onWarningModalClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Are you sure??????????????</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='blue' mr={3} onClick={onWarningModalClose}>
+                Confirm
+              </Button>
+              <Button variant='ghost'>Cancel</Button>
+            </ModalFooter>
+        </ModalContent>
+        </Modal>    
       </>
     )
   }
 
   return null
+}
+
+function WarningModal({ children }: { children: React.ReactNode }) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  return (
+    <>
+      <Button onClick={onOpen}>Open Modal</Button>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {children}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant='ghost'>Secondary Action</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
 }
