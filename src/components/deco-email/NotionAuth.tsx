@@ -41,8 +41,8 @@ function NotionSharedDBSelector({
   refetchNotionDatabaseInfo: () => Promise<void>
 }) {
   const [selectedPageId, setSelectedPageId] = useState('')
-  const { data, loading, error } = useQuery(CONNECTED_NOTION_PAGES)
-  const [selectNotionDatabase, selectedNotionDatabaseData] = useMutation(
+  const { data, loading } = useQuery(CONNECTED_NOTION_PAGES)
+  const [selectNotionDatabase] = useMutation(
     SELECT_NOTION_DATABASE,
   )
 
@@ -140,13 +140,6 @@ export function NotionAuth() {
     notionIntegration.data?.getCurrentUserNotionIntegration
   const notionDatabaseData =
     notionDatabase.data?.getCurrentUserNotionDatabaseInfo
-
-  console.log({
-    notionIntegration,
-    notionDatabase,
-  })
-
-  // https://lh4.googleusercontent.com/-vWnhsGlh1aw/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckkw7AMUjMyz0hNqLai5Ajs9PdJbQ/photo.jpg
 
   if (!notionIntegrationData) {
     // show notion connect button
