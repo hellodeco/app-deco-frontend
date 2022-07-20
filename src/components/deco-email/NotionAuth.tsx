@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import {
   Heading,
   Button,
@@ -50,9 +50,7 @@ function NotionSharedDBSelector({
 }) {
   const [selectedPageId, setSelectedPageId] = useState('')
   const { data, loading } = useQuery(CONNECTED_NOTION_PAGES)
-  const [selectNotionDatabase] = useMutation(
-    SELECT_NOTION_DATABASE,
-  )
+  const [selectNotionDatabase] = useMutation(SELECT_NOTION_DATABASE)
 
   if (loading) {
     return null
@@ -66,7 +64,7 @@ function NotionSharedDBSelector({
         Choose the shared Notion page you would like to send emails to.
       </Text>
       <Select
-        placeholder="Select shared database"
+        placeholder="Select shared database..."
         onChange={(event) => {
           setSelectedPageId(event.target.value)
         }}
@@ -110,14 +108,43 @@ function NotionSharedDBSelector({
   )
 }
 
+function LoadingText({ text }: { text: string }) {
+  const [dots, setDots] = useState('.')
+  useEffect(() => {
+    const map = {
+      '.': '..',
+      '..': '...',
+      '...': '.',
+    }
+    setInterval(() => {
+      // @ts-ignore
+      setDots(map[dots])
+    }, 400)
+  })
+  return (
+    <>
+      {text}
+      {dots}
+    </>
+  )
+}
+
 export function NotionAuth() {
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
   const [formatNotionDatabase, formatNotionDatabaseData] = useMutation(
     DROP_AND_MIGRATE_USERS_NOTION_DATABASE,
   )
-  const { isOpen: isWarningModalOpen, onOpen: onWarningModalOpen, onClose: onWarningModalClose } = useDisclosure()
-  const [warningText, setWarningText] = useState('')
+  const {
+    isOpen: isChangeWarningModalOpen,
+    onOpen: onChangeWarningModalOpen,
+    onClose: onChangeWarningModalClose,
+  } = useDisclosure()
+  const {
+    isOpen: isFormatWarningModalOpen,
+    onOpen: onFormatWarningModalOpen,
+    onClose: onFormatWarningModalClose,
+  } = useDisclosure()
 
   const handleAuthWithNotion = useCallback(() => {
     const params = new URLSearchParams()
@@ -137,14 +164,6 @@ export function NotionAuth() {
     }, 300)
   }, [notionIntegration, notionDatabase])
 
-  // https://chakra-ui.com/docs/components/modal/usage#styling-the-backdrop
-  const handleConfirmConnectDatabase = useCallback(() => {
-    setWarningText('Are you sure you want to change the connected database? Doing so will stop mail sending to the currently connected database.')
-
-    handleAuthWithNotion()
-  }, [setWarningText, handleAuthWithNotion])
-
-
   const handleFormatNotionDatabase = async () => {
     await formatNotionDatabase()
     await notionDatabase.refetch()
@@ -158,6 +177,9 @@ export function NotionAuth() {
     notionIntegration.data?.getCurrentUserNotionIntegration
   const notionDatabaseData =
     notionDatabase.data?.getCurrentUserNotionDatabaseInfo
+
+  const notionDatabaseIsBeingFormatted =
+    formatNotionDatabaseData?.loading === true
 
   if (!notionIntegrationData) {
     // show notion connect button
@@ -209,7 +231,12 @@ export function NotionAuth() {
           Connected Database
         </Heading>
 
-        <Link mt="15px" href={notionDatabaseData.url} isExternal color="#2596be">
+        <Link
+          mt="15px"
+          href={notionDatabaseData.url}
+          isExternal
+          color="#2596be"
+        >
           {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
           <ExternalLinkIcon mx="2px" mb="6px" />
         </Link>
@@ -227,43 +254,61 @@ export function NotionAuth() {
               ⚠️ Your shared Notion page needs manual formatting
             </Tag>
             <Text my="13px">
-              It looks like you've shared a Notion page with us that isn't formatted as a database. Unfortunately due to Notion limitations we can't do this for you
-              😢
+              It looks like you've shared a Notion page with us that isn't
+              formatted as a database. Unfortunately due to Notion limitations
+              we can't do this for you 😢
               <br />
               <br />
-              <i>Don't worry though! It's easy</i>{' '}👌
-
+              <i>Don't worry though! It's easy</i> 👌
               <OrderedList my="13px">
                 <ListItem>
                   Delete any existing content in{' '}
-                 <Link mt="15px" href={notionDatabaseData.url} isExternal color="#2596be">
-                   the shared page
-                 </Link>
+                  <Link
+                    mt="15px"
+                    href={notionDatabaseData.url}
+                    isExternal
+                    color="#2596be"
+                  >
+                    the shared page
+                  </Link>
                 </ListItem>
-                <ListItem>Select <i>Database</i>{' '}{'->'}{' '}<i>Table</i></ListItem>
-                <Image src="notion-database-format-instruction.png" alt="create a new database in Notion" />
+                <ListItem>
+                  Select <i>Database</i> {'->'} <i>Table</i>
+                </ListItem>
+                <Image
+                  src="notion-database-format-instruction.png"
+                  alt="create a new database in Notion"
+                />
                 <ListItem>Click "New database" on the right hand side</ListItem>
-                <Image src="notion-database-data-source-instruction.png" alt="add a data source to a Notion databas" />
+                <Image
+                  src="notion-database-data-source-instruction.png"
+                  alt="add a data source to a Notion databas"
+                />
                 <ListItem>Once done, return here and refresh the page</ListItem>
               </OrderedList>
             </Text>
           </Flex>
         ) : notionDatabaseData.needsFormatting ? (
           <>
-            <Tag
-              mt="15px"
-              width="-webkit-fit-content"
-              size="lg"
-              variant="solid"
-              colorScheme="red"
-            >
-              Not ready to receive email! Please format your database using the
-              button below.
-            </Tag>
+            {notionDatabaseIsBeingFormatted ? (
+              <Text>Formatting notion page...</Text>
+            ) : (
+              <Tag
+                mt="15px"
+                width="-webkit-fit-content"
+                size="lg"
+                variant="solid"
+                colorScheme="red"
+              >
+                Not ready to receive email! Please format your database using
+                the button below.
+              </Tag>
+            )}
             <Button
               w="300px"
               my="30px"
-              onClick={() => handleFormatNotionDatabase()}
+              onClick={onFormatWarningModalOpen}
+              isActive={notionDatabaseIsBeingFormatted}
             >
               Format Notion DB
             </Button>
@@ -280,57 +325,96 @@ export function NotionAuth() {
           </Tag>
         )}
 
-        <Button w="300px" my="30px" onClick={handleAuthWithNotion}>
+        <Button
+          w="300px"
+          my="30px"
+          onClick={onChangeWarningModalOpen}
+          isActive={notionDatabaseIsBeingFormatted}
+        >
           Change Connected Notion Page
         </Button>
 
-        <Modal isOpen={isWarningModalOpen} onClose={onWarningModalClose}>
+        {/* Chakra's modal API is dumb as fuck and its just easier to define two entirely separate component trees for each modal rather than getting fancy with some abstraction */}
+
+        {/* Change Notion page warning modal */}
+        <Modal
+          isOpen={isFormatWarningModalOpen}
+          onClose={onFormatWarningModalClose}
+          isCentered
+        >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Are you sure??????????????</ModalHeader>
+            <ModalHeader>Are you sure you want to proceed?</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
+              <Text>
+                Continuing with the page format will delete all existing content
+                in the shared page. Make sure you've saved anything important
+                before proceeding!
+              </Text>
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={onWarningModalClose}>
+              <Button
+                variant="ghost"
+                mr={3}
+                onClick={onFormatWarningModalClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                colorScheme="blue"
+                onClick={() => {
+                  handleFormatNotionDatabase()
+                  onFormatWarningModalClose()
+                }}
+              >
                 Confirm
               </Button>
-              <Button variant='ghost'>Cancel</Button>
             </ModalFooter>
-        </ModalContent>
-        </Modal>    
+          </ModalContent>
+        </Modal>
+
+        {/* Change Notion page warning modal */}
+        <Modal
+          isOpen={isChangeWarningModalOpen}
+          onClose={onChangeWarningModalClose}
+          isCentered
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Are you sure you want to proceed?</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Text>
+                Changing the connected Notion page will temporarily interrupt
+                email delivery until you have finished setting up the new page.
+              </Text>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                variant="ghost"
+                mr={3}
+                onClick={onChangeWarningModalClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                colorScheme="blue"
+                onClick={() => {
+                  handleAuthWithNotion()
+                  onChangeWarningModalClose()
+                }}
+              >
+                Confirm
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </>
     )
   }
 
   return null
-}
-
-function WarningModal({ children }: { children: React.ReactNode }) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
-  return (
-    <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {children}
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant='ghost'>Secondary Action</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
-  )
 }
