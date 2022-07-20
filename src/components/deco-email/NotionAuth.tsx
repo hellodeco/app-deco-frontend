@@ -49,7 +49,9 @@ function NotionSharedDBSelector({
   refetchNotionDatabaseInfo: () => Promise<void>
 }) {
   const [selectedPageId, setSelectedPageId] = useState('')
-  const { data, loading } = useQuery(CONNECTED_NOTION_PAGES)
+  const { data, loading } = useQuery(CONNECTED_NOTION_PAGES, {
+    fetchPolicy: 'cache-and-network',
+  })
   const [selectNotionDatabase] = useMutation(SELECT_NOTION_DATABASE)
 
   if (loading) {
