@@ -108,27 +108,6 @@ function NotionSharedDBSelector({
   )
 }
 
-function LoadingText({ text }: { text: string }) {
-  const [dots, setDots] = useState('.')
-  useEffect(() => {
-    const map = {
-      '.': '..',
-      '..': '...',
-      '...': '.',
-    }
-    setInterval(() => {
-      // @ts-ignore
-      setDots(map[dots])
-    }, 400)
-  })
-  return (
-    <>
-      {text}
-      {dots}
-    </>
-  )
-}
-
 export function NotionAuth() {
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
