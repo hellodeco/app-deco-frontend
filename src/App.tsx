@@ -25,6 +25,7 @@ import HomePage from './components/HomePage'
 import ResetPasswordPage from './auth-components/ResetPasswordPage'
 import { GET_USER_META } from './graphql/queries'
 import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
+import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
 import { usePasswordlessLogin } from './hooks/usePasswordlessLogin'
 
@@ -122,6 +123,13 @@ function App() {
       <Box maxW="920px" maxH="700px" mx="auto" mt="60px">
         <NavBar />
         <Routes>
+          <Route
+            path="/files/attachments/:attachmentId/:filename" 
+            element={
+              <Attachments />
+            }
+          />
+
           {/* redirect to this URL on successful login is set within Userfront dashboard */}
           <Route
             path="/account"
