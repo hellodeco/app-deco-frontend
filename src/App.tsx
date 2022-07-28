@@ -124,10 +124,8 @@ function App() {
         <NavBar />
         <Routes>
           <Route
-            path="/files/attachments/:attachmentId/:filename" 
-            element={
-              <Attachments />
-            }
+            path="/files/attachments/:attachmentId/:filename"
+            element={<Attachments />}
           />
 
           {/* redirect to this URL on successful login is set within Userfront dashboard */}
