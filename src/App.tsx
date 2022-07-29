@@ -28,6 +28,7 @@ import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
 import { usePasswordlessLogin } from './hooks/usePasswordlessLogin'
+import NavBarLayout from './components/NavBarLayout'
 
 const MAIN_YELLOW = '#F7CD45'
 
@@ -120,52 +121,103 @@ function App() {
           content="Home screen of the apps that I use at work"
         />
       </Helmet>
-      <Box maxW="920px" maxH="700px" mx="auto" mt="60px">
-        <NavBar />
-        <Routes>
-          <Route
-            path="/files/attachments/:attachmentId/:filename"
-            element={<Attachments />}
-          />
+      <Routes>
+        <Route
+          path="/files/attachments/:attachmentId/:filename"
+          element={<Attachments />}
+        />
 
-          {/* redirect to this URL on successful login is set within Userfront dashboard */}
-          <Route
-            path="/account"
-            element={
+        {/* redirect to this URL on successful login is set within Userfront dashboard */}
+        <Route
+          path="/account"
+          element={
+            <NavBarLayout>
               <AuthedRoute
                 {...defaultAuthedRouteProps}
                 outlet={<AppAccount userData={userData} />}
               />
-            }
-          />
+            </NavBarLayout>
+          }
+        />
 
-          <Route
-            path="/email"
-            element={
+        <Route
+          path="/email"
+          element={
+            <NavBarLayout>
               <AuthedRoute
                 {...defaultAuthedRouteProps}
                 outlet={<DecoEmail userData={userData} />}
               />
-            }
-          />
+            </NavBarLayout>
+          }
+        />
 
-          <Route path="/reset-password" element={<PasswordResetPage />} />
+        <Route
+          path="/reset-password"
+          element={
+            <NavBarLayout>
+              <PasswordResetPage />
+            </NavBarLayout>
+          }
+        />
 
-          <Route path="/login" element={<LoginPage />} />
-
-          <Route path="/signup" element={<SignupPage />} />
-
-          <Route path="/forgot-password" element={<ResetPasswordPage />} />
-
-          <Route path="/post-checkout" element={<PostCheckout />} />
-
-          <Route path="/oauth/notion/fail" element={<NotionAuthFail />} />
-
-          <Route path="/oauth/notion/success" element={<NotionAuthSuccess />} />
-
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </Box>
+        <Route
+          path="/login"
+          element={
+            <NavBarLayout>
+              <LoginPage />
+            </NavBarLayout>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <NavBarLayout>
+              <SignupPage />
+            </NavBarLayout>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <NavBarLayout>
+              <ResetPasswordPage />
+            </NavBarLayout>
+          }
+        />
+        <Route
+          path="/post-checkout"
+          element={
+            <NavBarLayout>
+              <PostCheckout />
+            </NavBarLayout>
+          }
+        />
+        <Route
+          path="/oauth/notion/fail"
+          element={
+            <NavBarLayout>
+              <NotionAuthFail />
+            </NavBarLayout>
+          }
+        />
+        <Route
+          path="/oauth/notion/success"
+          element={
+            <NavBarLayout>
+              <NotionAuthSuccess />
+            </NavBarLayout>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <NavBarLayout>
+              <HomePage />
+            </NavBarLayout>
+          }
+        />
+      </Routes>
     </ChakraProvider>
   )
 }
