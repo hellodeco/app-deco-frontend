@@ -150,6 +150,47 @@ export function NotionAuth() {
     await notionDatabase.refetch()
   }
 
+  const renderChangeConnectedPageWarningModal = () => {
+    return (
+      <Modal
+        isOpen={isChangeWarningModalOpen}
+        onClose={onChangeWarningModalClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Are you sure you want to proceed?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>
+              Changing the connected Notion page will temporarily interrupt
+              email delivery until you have finished setting up the new page.
+            </Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              variant="ghost"
+              mr={3}
+              onClick={onChangeWarningModalClose}
+            >
+              Cancel
+            </Button>
+            <Button
+              colorScheme="blue"
+              onClick={() => {
+                handleAuthWithNotion()
+                onChangeWarningModalClose()
+              }}
+            >
+              Confirm
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    )
+  }
+
   if (notionIntegration.loading || notionDatabase.loading) {
     return <span>Loading notion data...</span>
   }
@@ -177,11 +218,23 @@ export function NotionAuth() {
   if (notionIntegration && !notionDatabaseData) {
     // show shared database selector
     return (
-      <NotionSharedDBSelector
-        refetchNotionDatabaseInfo={async () => {
-          await notionDatabase.refetch()
-        }}
-      />
+      <>
+        <NotionSharedDBSelector
+          refetchNotionDatabaseInfo={async () => {
+            await notionDatabase.refetch()
+          }}
+        />
+
+        <Button
+          w="300px"
+          my="30px"
+          onClick={onChangeWarningModalOpen}
+          isActive={notionDatabaseIsBeingFormatted}
+        >
+          Change Connected Notion Page
+        </Button>
+        {renderChangeConnectedPageWarningModal()}
+      </>
     )
   }
 
@@ -357,42 +410,7 @@ export function NotionAuth() {
         </Modal>
 
         {/* Change Notion page warning modal */}
-        <Modal
-          isOpen={isChangeWarningModalOpen}
-          onClose={onChangeWarningModalClose}
-          isCentered
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Are you sure you want to proceed?</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Text>
-                Changing the connected Notion page will temporarily interrupt
-                email delivery until you have finished setting up the new page.
-              </Text>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button
-                variant="ghost"
-                mr={3}
-                onClick={onChangeWarningModalClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                colorScheme="blue"
-                onClick={() => {
-                  handleAuthWithNotion()
-                  onChangeWarningModalClose()
-                }}
-              >
-                Confirm
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        {renderChangeConnectedPageWarningModal()}
       </>
     )
   }
