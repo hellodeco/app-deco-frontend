@@ -122,11 +122,6 @@ function App() {
         />
       </Helmet>
       <Routes>
-        <Route
-          path="/files/attachments/:attachmentId/:filename"
-          element={<Attachments />}
-        />
-
         {/* redirect to this URL on successful login is set within Userfront dashboard */}
         <Route
           path="/account"
@@ -209,6 +204,12 @@ function App() {
             </NavBarLayout>
           }
         />
+
+        <Route
+          path="/files/attachments/:attachmentId/:filename/preview"
+          element={<Attachments />}
+        />
+
         <Route
           path="/"
           element={
