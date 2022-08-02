@@ -9,6 +9,15 @@ export const SET_USERS_DECO_EMAIL = gql`
   }
 `
 
+export const CREATE_NEW_USER = gql`
+  mutation createUserfrontAndDecoUser($email: String, $password: String) {
+    createUserfrontAndDecoUser(email: $email, password: $password) {
+      success
+      errorMessage
+    }
+  }
+`
+
 export const DROP_AND_MIGRATE_USERS_NOTION_DATABASE = gql`
   mutation dropAndMigrateUsersNotionDatabase {
     wipeNotionDatabase
