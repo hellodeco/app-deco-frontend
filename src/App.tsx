@@ -112,14 +112,9 @@ function App() {
         />
         <meta property="og:image" content="./hellodeco.png?v=1" />
         <meta property="og:site_name" content="Hellodeco" />
-        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@hellodecoapp" />
         <link rel="icon" href="./favicon.ico" />
         <meta name="theme-color" content={MAIN_YELLOW} />
-        <meta
-          name="twitter:image:alt"
-          content="Home screen of the apps that I use at work"
-        />
       </Helmet>
       <Routes>
         {/* redirect to this URL on successful login is set within Userfront dashboard */}
