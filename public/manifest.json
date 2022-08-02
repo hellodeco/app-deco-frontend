@@ -1,6 +1,6 @@
 {
-  "short_name": "Awesome Apps",
-  "name": "Awesome Apps by Hellodeco",
+  "short_name": "Hellodeco",
+  "name": "Hellodeco",
   "icons": [
     {
      "src": "\/android-icon-36x36.png",
@@ -41,6 +41,6 @@
    ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#FFC400",
-  "background_color": "#ffffff"
+  "theme_color": "#f7f4ea",
+  "background_color": "#f7f4ea"
 }
