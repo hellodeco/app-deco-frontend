@@ -2,7 +2,6 @@ import React from 'react'
 import {
   Heading,
   Button,
-  Text,
   Flex,
   Stack,
   InputGroup,
@@ -20,12 +19,30 @@ const SignupPage = () => {
   const [password, setPassword] = React.useState('')
   const [passwordVerify, setPasswordVerify] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
-  const [successMessage, setSuccessMessage] = React.useState('')
 
-  const [handleCreateUser, { data: createUserData, loading, error }] =
-    useMutation(CREATE_NEW_USER)
+  const [handleCreateUser, { data, loading, error }] = useMutation(
+    CREATE_NEW_USER,
+    {
+      onCompleted: (data) => {
+        const { success, errorMessage } = data.createUserfrontAndDecoUser
 
-  console.log(createUserData)
+        if (success) {
+          Userfront.login({
+            method: 'password',
+            email: email,
+            password: password,
+          }).catch((error: any) => {
+            setErrorMessage(error.message)
+          })
+        }
+
+        if (errorMessage) {
+          setErrorMessage(data.createUserfrontAndDecoUser.errorMessage)
+        }
+      },
+    },
+  )
+
   const handleSignup = async (event: React.FormEvent) => {
     event.preventDefault()
 
@@ -39,26 +56,14 @@ const SignupPage = () => {
       await handleCreateUser({
         variables: { email: email, password: password },
       })
-
-      if (createUserData.createUserfrontAndDecoUser?.success) {
-        Userfront.login({
-          method: 'password',
-          email: email,
-          password: password,
-        }).catch((error: any) => {
-          setErrorMessage(error.message)
-        })
-      }
-    }
-
-    if (createUserData?.createUserfrontAndDecoUser?.errorMessage) {
-      setErrorMessage(createUserData.createUserfrontAndDecoUser.errorMessage)
     }
   }
 
   return (
     <Flex maxWidth="md" flexDirection={'column'}>
-      <Heading size={'md'}>Signup for Hellodeco</Heading>
+      <Heading size={'md'} mb="20px">
+        Signup
+      </Heading>
       <Stack spacing={4} pb="6">
         <>
           <InputGroup>
@@ -90,15 +95,11 @@ const SignupPage = () => {
             <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
           </Alert>
         )}
-        {successMessage.length && (
-          <Alert status="success">
-            <AlertTitle mr={2}>{successMessage}!</AlertTitle>
-          </Alert>
-        )}
         <Button
           mt="30px"
           colorScheme={'blue'}
           onClick={(event) => handleSignup(event)}
+          disabled={loading}
         >
           Signup
         </Button>
