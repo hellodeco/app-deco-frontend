@@ -37,17 +37,21 @@ function AppAccount({ userData }: AppAccountProps) {
     <Flex flexDirection="column">
       <Heading size="xl">Account Details</Heading>
       <Divider my="30px" />
-      <Heading size="md">Signup Information</Heading>
-      {userData?.fullName}
-      <br />
-      {userData?.signupEmail}
+      <Heading size="md" mb="20px">
+        Signup Information
+      </Heading>
+      Your signup email: {userData?.signupEmail}
       <Divider my="30px" />
-      <Heading size="md">Manage Billing</Heading>
+      <Heading size="md" mb="20px">
+        Manage Billing
+      </Heading>
       <Button onClick={handleStripeBillingPortal}>Open Billing Portal</Button>
       <Divider my="30px" />
-      <Heading size="md">Manage Password</Heading>
+      <Heading size="md" mb="20px">
+        Manage Password
+      </Heading>
       The reset password option will email you a link to reset your password.
-      <Button mb="30px" onClick={handlePasswordReset}>
+      <Button my="20px" onClick={handlePasswordReset}>
         Reset Password
       </Button>
     </Flex>
