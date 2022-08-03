@@ -6,6 +6,7 @@ export type User =
       fullName?: string | undefined
       signupEmail?: string | undefined
       emailAddress?: string | undefined
+      subscriptionStatus?: string | undefined
     }
   | undefined
 

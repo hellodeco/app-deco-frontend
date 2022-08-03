@@ -34,7 +34,7 @@ function AppAccount({ userData }: AppAccountProps) {
   }
 
   return (
-    <Flex flexDirection="column">
+    <Flex flexDirection="column" mx="70px">
       <Heading size="xl">Account Details</Heading>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
@@ -45,13 +45,15 @@ function AppAccount({ userData }: AppAccountProps) {
       <Heading size="md" mb="20px">
         Manage Billing
       </Heading>
-      <Button onClick={handleStripeBillingPortal}>Open Billing Portal</Button>
+      <Button width="300px" onClick={handleStripeBillingPortal}>
+        Open Billing Portal
+      </Button>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
         Manage Password
       </Heading>
       The reset password option will email you a link to reset your password.
-      <Button my="20px" onClick={handlePasswordReset}>
+      <Button width="300px" my="20px" onClick={handlePasswordReset}>
         Reset Password
       </Button>
     </Flex>

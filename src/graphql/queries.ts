@@ -7,6 +7,7 @@ export const GET_USER_META = gql`
       userfrontID
       emailAddress
       signupEmail
+      subscriptionStatus
     }
   }
 `
