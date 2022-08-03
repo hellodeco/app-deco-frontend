@@ -11,19 +11,32 @@ function AppAccount({ userData }: AppAccountProps) {
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
     event.preventDefault()
 
+    let stripeURL
+    const payload = {
+      method: 'POST',
+      headers: {},
+      body: '',
+    }
+
+    if (paywallEnabled) {
+      stripeURL = '/stripe/checkout-session'
+    } else {
+      stripeURL = '/stripe/billing-portal'
+
+      payload.headers = { 'Content-Type': 'application/json' }
+      payload.body = JSON.stringify({ userfrontUserId: userData?.userfrontID })
+    }
+
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/stripe/billing-portal`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userfrontUserId: userData?.userfrontID }),
-      },
+      `${process.env.REACT_APP_API_URL}${stripeURL}`,
+      payload,
     )
 
     if (response.status !== 200) {
       console.log('Error opening Stripe billing portal')
       return
     }
+
     const resBody = await response.json()
     window.location = resBody.sessionUrl
   }
@@ -32,6 +45,9 @@ function AppAccount({ userData }: AppAccountProps) {
     event.preventDefault()
     await Userfront.sendResetLink(userData?.signupEmail)
   }
+
+  const paywallEnabled = userData?.subscriptionStatus !== 'active'
+  console.log(paywallEnabled)
 
   return (
     <Flex flexDirection="column" mx="70px">
@@ -46,7 +62,7 @@ function AppAccount({ userData }: AppAccountProps) {
         Manage Billing
       </Heading>
       <Button width="300px" onClick={handleStripeBillingPortal}>
-        Open Billing Portal
+        {paywallEnabled ? 'Purchase Subscription' : 'Open Billing Portal'}
       </Button>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
