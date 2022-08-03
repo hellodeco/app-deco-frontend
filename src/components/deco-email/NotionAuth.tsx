@@ -31,6 +31,7 @@ import {
   DROP_AND_MIGRATE_USERS_NOTION_DATABASE,
   SELECT_NOTION_DATABASE,
 } from '../../graphql/mutations'
+import { User } from '../../types/types'
 
 interface NotionPage {
   id: string
@@ -41,6 +42,10 @@ interface NotionPage {
     emoji: string
     url: string
   }
+}
+
+interface NotionAuthProps {
+  userData: User
 }
 
 function NotionSharedDBSelector({
@@ -110,7 +115,10 @@ function NotionSharedDBSelector({
   )
 }
 
-export function NotionAuth() {
+export function NotionAuth(props: NotionAuthProps) {
+  const { userData } = props
+  const paywallEnabled = userData?.subscriptionStatus !== 'active'
+
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
   const [formatNotionDatabase, formatNotionDatabaseData] = useMutation(
@@ -167,7 +175,12 @@ export function NotionAuth() {
     return (
       <>
         <Heading size="md">Connect your Notion Account</Heading>
-        <Button w="300px" my="30px" onClick={handleAuthWithNotion}>
+        <Button
+          w="300px"
+          my="30px"
+          onClick={handleAuthWithNotion}
+          disabled={paywallEnabled}
+        >
           Connect to Notion
         </Button>
       </>

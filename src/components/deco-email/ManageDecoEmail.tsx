@@ -11,6 +11,10 @@ import {
   FormHelperText,
   Tag,
   Text,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from '@chakra-ui/react'
 import type { User } from '../../types/types'
 import { useQuery, useMutation } from '@apollo/client'
@@ -43,7 +47,8 @@ function getSetEmailErrorText(errorReason: string) {
   }
 }
 
-function AddNewEmailForm() {
+function AddNewEmailForm(props: IProps) {
+  const { userData } = props
   const [newDecoEmailUsername, setNewDecoEmail] = useState('')
   const [emailValid, setEmailValid] = useState(true)
   const [emailAvailable, setEmailAvailable] = useState(true)
@@ -95,11 +100,23 @@ function AddNewEmailForm() {
     console.log(errorReason)
   }
 
+  const paywallEnabled = userData?.subscriptionStatus !== 'active'
+
   return (
     <>
-      <Heading size="md" mt="20px">
-        Let's get your Deco email address set up
-      </Heading>
+      {paywallEnabled ? (
+        <Alert status="error" mt="30px">
+          <AlertTitle>No subscription found!</AlertTitle>
+          <AlertDescription>
+            Head over to the Account page to get started.
+          </AlertDescription>
+        </Alert>
+      ) : (
+        <Heading size="md" mt="20px">
+          "Let's get your Deco email address set up"
+        </Heading>
+      )}
+
       <>
         {emailDomain && (
           <FormControl mt="30px" isInvalid={!emailValid || !emailAvailable}>
@@ -116,6 +133,7 @@ function AddNewEmailForm() {
                 value={newDecoEmailUsername}
                 onChange={handleChange}
                 placeholder="name"
+                disabled={paywallEnabled}
               />
               <Text color="gray.dark" pl="13px">
                 @{emailDomain}
@@ -149,7 +167,7 @@ function AddNewEmailForm() {
                   variables: { username: newDecoEmailUsername },
                 })
               }
-              disabled={!emailValid}
+              disabled={!emailValid || paywallEnabled}
             >
               Create Deco Email
             </Button>
@@ -159,7 +177,7 @@ function AddNewEmailForm() {
             w="300px"
             my="20px"
             onClick={checkEmailAvailability}
-            disabled={!emailValid}
+            disabled={!emailValid || paywallEnabled}
           >
             Check Availability
           </Button>
@@ -177,7 +195,7 @@ export function ManageDecoEmail(props: IProps) {
       <Heading size="xl">Your Deco Email Address</Heading>
 
       {!userData?.emailAddress ? (
-        <AddNewEmailForm />
+        <AddNewEmailForm userData={userData} />
       ) : (
         <>
           <Heading size="md" mt="20px">
