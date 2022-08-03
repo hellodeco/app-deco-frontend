@@ -14,8 +14,16 @@ import { useMutation } from '@apollo/client'
 import { CREATE_NEW_USER } from '../graphql/mutations'
 import Userfront from '@userfront/core'
 
+
+function getEmailParam() {
+  let params = new URLSearchParams(window.location.search)
+  return params.get('email') || ''
+}
+
 const SignupPage = () => {
-  const [email, setEmail] = React.useState('')
+  const [email, setEmail] = React.useState(
+    getEmailParam(),
+  )
   const [password, setPassword] = React.useState('')
   const [passwordVerify, setPasswordVerify] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
@@ -69,6 +77,7 @@ const SignupPage = () => {
           <InputGroup>
             <Input
               placeholder="Email"
+              value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
           </InputGroup>
