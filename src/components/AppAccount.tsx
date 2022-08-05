@@ -47,7 +47,6 @@ function AppAccount({ userData }: AppAccountProps) {
   }
 
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
-  console.log(paywallEnabled)
 
   return (
     <Flex flexDirection="column" mx="70px">
