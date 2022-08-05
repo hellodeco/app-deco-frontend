@@ -14,17 +14,17 @@ function AppAccount({ userData }: AppAccountProps) {
     let stripeURL
     const payload = {
       method: 'POST',
-      headers: {},
-      body: '',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userfrontUserId: userData?.userfrontID,
+        email: userData?.signupEmail,
+      }),
     }
 
     if (paywallEnabled) {
       stripeURL = '/stripe/checkout-session'
     } else {
       stripeURL = '/stripe/billing-portal'
-
-      payload.headers = { 'Content-Type': 'application/json' }
-      payload.body = JSON.stringify({ userfrontUserId: userData?.userfrontID })
     }
 
     const response = await fetch(
