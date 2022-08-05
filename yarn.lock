@@ -2889,29 +2889,21 @@
     "@typescript-eslint/types" "5.19.0"
     eslint-visitor-keys "^3.0.0"
 
-"@userfront/core@^0.2.23":
-  version "0.2.24"
-  resolved "https://registry.yarnpkg.com/@userfront/core/-/core-0.2.24.tgz#1d13d3e9d5154a1cfd7c9c0cb72de65f5d2f9d00"
-  integrity sha512-stet1EM7V+O7T10QPs+mg33RAEZkPXGv9uH56dJOX75fvEeiZRXhjhRn1OPZOL8akxZZ5FDQeXOApfuJGdvVVw==
+"@userfront/core@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@userfront/core/-/core-0.4.4.tgz#cd039ddeb770058460489d31dcc354af84fee2cd"
+  integrity sha512-IkYG5JNxYXtmYb6IoXn8aY4cyMaYYpkGwlsbS9B3s6YXEV+lU9tYWVJu+Kjzk70xG0RpKz8T7EwzjY5wFIXsZA==
   dependencies:
     axios "^0.21.1"
     js-cookie "^2.2.1"
 
-"@userfront/core@^0.2.24":
-  version "0.2.42"
-  resolved "https://registry.yarnpkg.com/@userfront/core/-/core-0.2.42.tgz#9dbf7ef3b29719b19265fcfaae940b453cc8039e"
-  integrity sha512-YHS7J4B1Dwppq4yrWI44fKxljc+GYKuCl4YzsHDVyNCPXeHVUJXeP25mgDyC3zCxeAdOeob61gqESuYEVh87ZQ==
-  dependencies:
-    axios "^0.21.1"
-    js-cookie "^2.2.1"
-
-"@userfront/react@^0.2.19":
-  version "0.2.19"
-  resolved "https://registry.yarnpkg.com/@userfront/react/-/react-0.2.19.tgz#388a865df071a96e80048cbb215629159879ebbb"
-  integrity sha512-XPnuSI1bchD0VaHYeumameL2Iay5jSpaF5YtQIKOLrtY4CyytTWv03E2BbE4aGb2dA4KncamoP2RdZBEBxYlZg==
+"@userfront/react@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@userfront/react/-/react-0.3.1.tgz#b1e2c9a77add6afdf39d876e3c3b158651bf69f7"
+  integrity sha512-DyYBhUJD/Ws1zv3PcxqNMHMZk68CyMWgjL7lghzwBxq1Uvq4yssJGIVL+X4mbGCR5f1Bcw9KktzGetwvD1SYgw==
   dependencies:
     "@anymod/core" "^0.1.51"
-    "@userfront/core" "^0.2.23"
+    "@userfront/core" "^0.4.4"
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
@@ -5227,10 +5219,15 @@ focus-lock@^0.9.1:
   dependencies:
     tslib "^2.0.3"
 
-follow-redirects@^1.0.0, follow-redirects@^1.14.0:
+follow-redirects@^1.0.0:
   version "1.14.9"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
   integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
+
+follow-redirects@^1.14.0:
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
+  integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
 
 fork-ts-checker-webpack-plugin@^6.5.0:
   version "6.5.1"
