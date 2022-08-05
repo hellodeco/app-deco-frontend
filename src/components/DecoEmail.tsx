@@ -3,7 +3,6 @@ import { Flex } from '@chakra-ui/react'
 import type { User } from '../types/types'
 import { ManageDecoEmail } from './deco-email/ManageDecoEmail'
 import { NotionAuth } from './deco-email/NotionAuth'
-import { FormatNotionPage } from './deco-email/FormatNotionPage'
 interface DecoEmailProps {
   userData: User
 }
@@ -13,7 +12,6 @@ function DecoEmail({ userData }: DecoEmailProps) {
     <Flex flexDirection="column" w="100%">
       <ManageDecoEmail userData={userData} />
       <NotionAuth userData={userData} />
-      <FormatNotionPage />
     </Flex>
   )
 }
