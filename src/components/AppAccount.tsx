@@ -1,5 +1,21 @@
-import { Flex, Heading, Divider, Button } from '@chakra-ui/react'
-import React from 'react'
+import {
+  Flex,
+  Heading,
+  Divider,
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Tag,
+  Text,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from '@chakra-ui/react'
+import React, { useState } from 'react'
 import type { User } from '../types/types'
 import Userfront from '@userfront/core'
 
@@ -8,6 +24,10 @@ interface AppAccountProps {
 }
 
 function AppAccount({ userData }: AppAccountProps) {
+  const [oldPassword, setOldPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [validateNewPassword, setValidateNewPassword] = useState('')
+
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
     event.preventDefault()
 
@@ -43,13 +63,34 @@ function AppAccount({ userData }: AppAccountProps) {
 
   const handlePasswordReset = async (event: React.SyntheticEvent) => {
     event.preventDefault()
-    await Userfront.sendResetLink(userData?.signupEmail)
+
+    if (newPassword !== validateNewPassword) {
+      // show error banner
+      console.log('passwords dont match!')
+      return
+    }
+
+    try {
+      await Userfront.user.updatePassword({
+        password: newPassword,
+        existingPassword: oldPassword,
+        method: 'jwt',
+      })
+
+      setOldPassword('')
+      setNewPassword('')
+      setValidateNewPassword('')
+      // show success
+    } catch (err) {
+      // handle err
+      console.log(err)
+    }
   }
 
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   return (
-    <Flex flexDirection="column" mx="70px">
+    <Flex flexDirection="column" mx="20px" mb="40px">
       <Heading size="xl">Account Details</Heading>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
@@ -65,9 +106,51 @@ function AppAccount({ userData }: AppAccountProps) {
       </Button>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
-        Manage Password
+        Reset Password
       </Heading>
-      The reset password option will email you a link to reset your password.
+      <FormControl>
+        <FormLabel htmlFor="password">Old password</FormLabel>
+        <Flex flexDir="row" alignItems="center">
+          <Input
+            w="300px"
+            size="lg"
+            id="oldPassword"
+            type="password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+            placeholder="Old password"
+            mb="20px"
+          />
+        </Flex>
+
+        <FormLabel htmlFor="password">New password</FormLabel>
+        <Flex flexDir="row" alignItems="center">
+          <Input
+            w="300px"
+            size="lg"
+            id="newPassword"
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="New password"
+            mb="20px"
+          />
+        </Flex>
+
+        <FormLabel htmlFor="password">Verify new password</FormLabel>
+        <Flex flexDir="row" alignItems="center">
+          <Input
+            w="300px"
+            size="lg"
+            id="validateNewPassword"
+            type="password"
+            value={validateNewPassword}
+            onChange={(e) => setValidateNewPassword(e.target.value)}
+            placeholder="Verify new password"
+            mb="20px"
+          />
+        </Flex>
+      </FormControl>
       <Button width="300px" my="20px" onClick={handlePasswordReset}>
         Reset Password
       </Button>
