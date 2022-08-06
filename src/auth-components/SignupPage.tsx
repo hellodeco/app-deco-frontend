@@ -13,6 +13,7 @@ import {
 import { useMutation } from '@apollo/client'
 import { CREATE_NEW_USER } from '../graphql/mutations'
 import Userfront from '@userfront/core'
+import { Navigate } from 'react-router-dom'
 
 function getEmailParam() {
   let params = new URLSearchParams(window.location.search)
@@ -62,6 +63,10 @@ const SignupPage = () => {
         variables: { email: email, password: password },
       })
     }
+  }
+
+  if (Userfront.accessToken()) {
+    return <Navigate to={'/account'} />
   }
 
   return (

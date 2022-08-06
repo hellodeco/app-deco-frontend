@@ -11,7 +11,7 @@ import {
   Flex,
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 function getRedirectParam() {
   let params = new URLSearchParams(window.location.search)
@@ -45,6 +45,10 @@ const LoginPage = () => {
     }).catch((error: any) => {
       setErrorMessage(error.message)
     })
+  }
+
+  if (Userfront.accessToken()) {
+    return <Navigate to={'/account'} />
   }
 
   return (
