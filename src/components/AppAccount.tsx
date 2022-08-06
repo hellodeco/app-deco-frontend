@@ -14,6 +14,7 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  Stack,
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import type { User } from '../types/types'
@@ -27,6 +28,8 @@ function AppAccount({ userData }: AppAccountProps) {
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [validateNewPassword, setValidateNewPassword] = useState('')
+  const [errorMessage, setErrorMessage] = React.useState('')
+  const [successMessage, setSuccessMessage] = React.useState('')
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
     event.preventDefault()
@@ -63,10 +66,10 @@ function AppAccount({ userData }: AppAccountProps) {
 
   const handlePasswordReset = async (event: React.SyntheticEvent) => {
     event.preventDefault()
-
+    setErrorMessage('')
+    setSuccessMessage('')
     if (newPassword !== validateNewPassword) {
-      // show error banner
-      console.log('passwords dont match!')
+      setErrorMessage("Passwords don't match")
       return
     }
 
@@ -80,10 +83,11 @@ function AppAccount({ userData }: AppAccountProps) {
       setOldPassword('')
       setNewPassword('')
       setValidateNewPassword('')
-      // show success
+      setSuccessMessage('Password has been reset')
     } catch (err) {
       // handle err
-      console.log(err)
+      console.log(typeof err, err)
+      setErrorMessage('Please ensure your old password is correct')
     }
   }
 
@@ -108,6 +112,19 @@ function AppAccount({ userData }: AppAccountProps) {
       <Heading size="md" mb="20px">
         Reset Password
       </Heading>
+      <Stack spacing={4} pb="6">
+        {errorMessage.length && (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
+          </Alert>
+        )}
+        {successMessage.length && (
+          <Alert status="success">
+            <AlertTitle mr={2}>{successMessage}!</AlertTitle>
+          </Alert>
+        )}
+      </Stack>
       <FormControl>
         <FormLabel htmlFor="password">Old password</FormLabel>
         <Flex flexDir="row" alignItems="center">
