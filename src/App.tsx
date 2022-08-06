@@ -20,13 +20,13 @@ import LoginPage from './auth-components/LoginPage'
 import SignupPage from './auth-components/SignupPage'
 import PostCheckout from './components/PostCheckout'
 import DecoEmail from './components/DecoEmail'
-import HomePage from './components/HomePage'
 import ResetPasswordPage from './auth-components/ResetPasswordPage'
 import { GET_USER_META } from './graphql/queries'
 import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
 import NavBarLayout from './components/NavBarLayout'
+import { Navigate } from 'react-router-dom'
 
 const MAIN_YELLOW = '#F7CD45'
 
@@ -203,14 +203,7 @@ function App() {
           element={<Attachments />}
         />
 
-        <Route
-          path="/"
-          element={
-            <NavBarLayout>
-              <HomePage />
-            </NavBarLayout>
-          }
-        />
+        <Route path="*" element={<Navigate to={'/login'} />} />
       </Routes>
     </ChakraProvider>
   )
