@@ -5,6 +5,7 @@ import {
   Stack,
   InputGroup,
   Input,
+  Image,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -12,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
 import { Navigate, useNavigate } from 'react-router-dom'
+import mailmanIllustration from '../media/hellodeco-logo.png'
 
 function getRedirectParam() {
   let params = new URLSearchParams(window.location.search)
@@ -52,28 +54,26 @@ const LoginPage = () => {
   }
 
   return (
-    <Flex maxWidth="md" flexDirection={'column'}>
-      <Heading size={'md'} pb="6">
-        Login to Hellodeco
-      </Heading>
-      <>
+    <Flex>
+      <Flex width={'400px'} mt="80px" flexDirection={'column'}>
+        <Heading size={'md'} pb="6">
+          Login to Hellodeco
+        </Heading>
         <Stack spacing={4} pb="6">
-          <>
-            <InputGroup>
-              <Input
-                placeholder="Email"
-                onChange={(event) => setEmail(event.target.value)}
-              />
-            </InputGroup>
+          <InputGroup>
+            <Input
+              placeholder="Email"
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </InputGroup>
 
-            <InputGroup>
-              <Input
-                type="password"
-                placeholder="Enter password"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </InputGroup>
-          </>
+          <InputGroup>
+            <Input
+              type="password"
+              placeholder="Enter password"
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </InputGroup>
           {errorMessage.length && (
             <Alert status="error">
               <AlertIcon />
@@ -96,7 +96,13 @@ const LoginPage = () => {
             Forgot Password?
           </Button>
         </Flex>
-      </>
+      </Flex>
+      <Image
+        ml="80px"
+        maxWidth={'350px'}
+        src={mailmanIllustration}
+        alt="A stylized illustration of a mailman delivers a letter to a mailbox"
+      />
     </Flex>
   )
 }
