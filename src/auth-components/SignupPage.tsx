@@ -90,7 +90,7 @@ const SignupPage = () => {
           <InputGroup>
             <Input
               type="password"
-              placeholder="Verify your password"
+              placeholder="Verify password"
               onChange={(event) => setPasswordVerify(event.target.value)}
             />
           </InputGroup>
