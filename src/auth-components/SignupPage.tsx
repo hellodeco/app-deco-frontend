@@ -11,7 +11,6 @@ import {
   Alert,
   AlertTitle,
   AlertIcon,
-  background,
 } from '@chakra-ui/react'
 import { useMutation } from '@apollo/client'
 import { CREATE_NEW_USER } from '../graphql/mutations'
@@ -117,7 +116,7 @@ const SignupPage = () => {
             color={'white'}
             backgroundColor={'#e16259'}
             border={'1px solid #be5643'}
-            _hover={{ 'background-color': '#cf534a' }}
+            _hover={{ backgroundColor: '#cf534a' }}
             onClick={(event) => handleSignup(event)}
             disabled={loading}
           >

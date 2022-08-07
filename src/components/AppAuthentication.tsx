@@ -19,9 +19,6 @@ function AppAuthentication() {
         </Link>
 
         <Flex mt="12px">
-          <Button variant="link" ml="24px">
-            <Link href="https://hellodeco.so">Home</Link>
-          </Button>
           <Button variant="link" ml="24px" onClick={() => navigate('/login')}>
             Login
           </Button>
