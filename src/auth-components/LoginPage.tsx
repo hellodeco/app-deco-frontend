@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Divider,
   Heading,
   Button,
   Stack,
@@ -27,11 +28,9 @@ function getRedirectParam() {
 }
 
 const LoginPage = () => {
-  // Login with password state
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
-  const [successMessage, setSuccessMessage] = React.useState('')
 
   let navigate = useNavigate()
 
@@ -74,32 +73,34 @@ const LoginPage = () => {
               onChange={(event) => setPassword(event.target.value)}
             />
           </InputGroup>
+          <Flex width="100%" justifyContent="flex-start">
+            <Button variant="link" onClick={() => navigate('/forgot-password')}>
+              Forgot Password?
+            </Button>
+          </Flex>
+          <Divider my="5px" />
           {errorMessage.length && (
             <Alert status="error">
               <AlertIcon />
               <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
             </Alert>
           )}
-          {successMessage.length && (
-            <Alert status="success">
-              <AlertTitle mr={2}>{successMessage}!</AlertTitle>
-            </Alert>
-          )}
-        </Stack>
-        <Flex width="100%" justifyContent="flex-end">
-          <Button onClick={(event) => handleLogin(event)}>Login</Button>
           <Button
-            variant="link"
-            ml="24px"
-            onClick={() => navigate('/forgot-password')}
+            color={'white'}
+            backgroundColor={'#e16259'}
+            border={'1px solid #be5643'}
+            _hover={{ 'background-color': '#cf534a' }}
+            onClick={(event) => handleLogin(event)}
           >
-            Forgot Password?
+            Login
           </Button>
-        </Flex>
+        </Stack>
+        <Flex width="100%" justifyContent="flex-end"></Flex>
       </Flex>
       <Image
         ml="80px"
         maxWidth={'350px'}
+        maxHeight={'350px'}
         src={mailmanIllustration}
         alt="A stylized illustration of a mailman delivers a letter to a mailbox"
       />
