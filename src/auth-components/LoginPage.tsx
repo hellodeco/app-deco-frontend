@@ -89,7 +89,7 @@ const LoginPage = () => {
             color={'white'}
             backgroundColor={'#e16259'}
             border={'1px solid #be5643'}
-            _hover={{ backgrounColor: '#cf534a' }}
+            _hover={{ backgroundColor: '#cf534a' }}
             onClick={(event) => handleLogin(event)}
           >
             Login
