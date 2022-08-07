@@ -24,7 +24,7 @@ const ResetPasswordPage = () => {
     event.preventDefault()
 
     Userfront.sendResetLink(email)
-      .then(({ result }: { result: { url: string }}) => {
+      .then(({ result }: { result: { url: string } }) => {
         // this will exist when in test mode (e.g. local development)
         if (result?.url) {
           console.log(result.url)

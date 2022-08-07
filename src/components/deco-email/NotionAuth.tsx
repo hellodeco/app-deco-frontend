@@ -177,11 +177,7 @@ export function NotionAuth(props: NotionAuthProps) {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              variant="ghost"
-              mr={3}
-              onClick={onChangeWarningModalClose}
-            >
+            <Button variant="ghost" mr={3} onClick={onChangeWarningModalClose}>
               Cancel
             </Button>
             <Button

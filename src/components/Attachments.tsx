@@ -8,7 +8,13 @@ import { HAS_FILE_ACCESS } from '../graphql/queries'
 
 function FullScreenContainer({ children }: { children: React.ReactNode }) {
   return (
-    <Flex width="100vw" height="100vh" alignItems="center" justifyContent="center" flexDir="column">
+    <Flex
+      width="100vw"
+      height="100vh"
+      alignItems="center"
+      justifyContent="center"
+      flexDir="column"
+    >
       {children}
     </Flex>
   )
@@ -23,7 +29,6 @@ export function Attachments() {
       attachmentId: attachmentId,
     },
   })
-
 
   console.log({ data, loading, error, location })
 
@@ -47,7 +52,11 @@ export function Attachments() {
       <FullScreenContainer>
         <Text fontSize="1.5rem">You are not logged in!</Text>
         <Text>
-          Please{' '}<Link href={href} color="#F7CD45">Login</Link>{' '}to view file.
+          Please{' '}
+          <Link href={href} color="#F7CD45">
+            Login
+          </Link>{' '}
+          to view file.
         </Text>
       </FullScreenContainer>
     )
@@ -66,7 +75,13 @@ export function Attachments() {
 
   return (
     <FullScreenContainer>
-      <iframe id="attachment-iframe" width="100%" height="100%" title="file preview" src={fileUrl} />
+      <iframe
+        id="attachment-iframe"
+        width="100%"
+        height="100%"
+        title="file preview"
+        src={fileUrl}
+      />
     </FullScreenContainer>
   )
 }
