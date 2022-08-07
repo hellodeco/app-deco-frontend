@@ -23,9 +23,16 @@ const ResetPasswordPage = () => {
   const handleResetPassword = (event: React.FormEvent) => {
     event.preventDefault()
 
-    Userfront.sendResetLink(email).catch((error: any) => {
-      setErrorMessage(error.message)
-    })
+    Userfront.sendResetLink(email)
+      .then(({ result }: { result: { url: string }}) => {
+        // this will exist when in test mode (e.g. local development)
+        if (result?.url) {
+          console.log(result.url)
+        }
+      })
+      .catch((error: any) => {
+        setErrorMessage(error.message)
+      })
 
     setSuccessMessage('Check your email for a link to reset your password')
   }

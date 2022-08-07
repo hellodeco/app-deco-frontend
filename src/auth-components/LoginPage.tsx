@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from '../hooks/useQuery'
 
 function getRedirectParam() {
   let params = new URLSearchParams(window.location.search)
@@ -31,7 +30,6 @@ const LoginPage = () => {
   const [password, setPassword] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
   const [successMessage, setSuccessMessage] = React.useState('')
-  const params = useQuery()
 
   let navigate = useNavigate()
 
@@ -39,21 +37,14 @@ const LoginPage = () => {
     event.preventDefault()
     setErrorMessage('')
 
-    try {
-      const res = Userfront.login({
-        method: 'password',
-        email: email,
-        password: password,
-        redirect: getRedirectParam(),
-      })
-
-      console.log({ res })
-    // .catch((error: any) => {
-    //   setErrorMessage(error.message)
-    // })
-    } catch(err) {
-      setErrorMessage(err.message)
-    }
+    Userfront.login({
+      method: 'password',
+      email: email,
+      password: password,
+      redirect: getRedirectParam(),
+    }).catch((error: any) => {
+      setErrorMessage(error.message)
+    })
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Userfront from '@userfront/core'
-import { Text, Button, Link } from '@chakra-ui/react'
+import { Text, Link } from '@chakra-ui/react'
 import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { Flex } from '@chakra-ui/react'
@@ -16,6 +16,7 @@ function FullScreenContainer({ children }: { children: React.ReactNode }) {
 
 export function Attachments() {
   const { attachmentId, filename } = useParams()
+  const location = useLocation()
   const [fileUrl, setFileUrl] = React.useState<string>()
   const { data, loading, error } = useQuery(HAS_FILE_ACCESS, {
     variables: {
@@ -23,18 +24,8 @@ export function Attachments() {
     },
   })
 
-  const location = useLocation()
 
   console.log({ data, loading, error, location })
-
-  // useEffect(() => {
-  //   let iFrame = document.getElementById('attachment-iframe')
-  //   iFrame?.addEventListener('load', () => {
-  //     console.log('iframe loaded')
-  //   })
-  //   console.log({ iFrame })
-  // })
-
 
   useEffect(() => {
     let fileUrl = `${process.env.REACT_APP_API_URL}/files/attachments/${attachmentId}/${filename}?authToken=${Userfront.tokens?.accessToken}`
@@ -51,7 +42,7 @@ export function Attachments() {
 
   // user not logged in
   if (!Userfront?.tokens?.accessToken) {
-    let href = '/login?redirect_to=' + encodeURIComponent(location.pathname)
+    let href = `/login?redirect_to=${encodeURIComponent(location.pathname)}`
     return (
       <FullScreenContainer>
         <Text fontSize="1.5rem">You are not logged in!</Text>
@@ -63,7 +54,7 @@ export function Attachments() {
   }
 
   // user logged in and doesn't have access to file
-  if (!data?.hasFileAccess) {
+  if (!data?.currentUserHasFileAccess) {
     return (
       <FullScreenContainer>
         <Text fontSize="1.5rem">

@@ -71,6 +71,6 @@ export const CONNECTED_NOTION_PAGES = gql`
 
 export const HAS_FILE_ACCESS = gql`
   query hasFileAccess($attachmentId: String!) {
-    hasFileAccess(attachmentId: $attachmentId)
+    currentUserHasFileAccess(attachmentId: $attachmentId)
   }
 `
