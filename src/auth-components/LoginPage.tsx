@@ -33,7 +33,7 @@ const LoginPage = () => {
 
   let navigate = useNavigate()
 
-  const handleLogin = async (event: React.SyntheticEvent) => {
+  const handleLogin = (event: React.SyntheticEvent) => {
     event.preventDefault()
     setErrorMessage('')
 

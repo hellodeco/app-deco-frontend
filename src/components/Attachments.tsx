@@ -30,8 +30,6 @@ export function Attachments() {
     },
   })
 
-  console.log({ data, loading, error, location })
-
   useEffect(() => {
     let fileUrl = `${process.env.REACT_APP_API_URL}/files/attachments/${attachmentId}/${filename}?authToken=${Userfront.tokens?.accessToken}`
     setFileUrl(fileUrl)
