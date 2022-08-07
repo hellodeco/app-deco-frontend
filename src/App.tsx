@@ -3,7 +3,6 @@ import Userfront from '@userfront/core'
 import { Helmet } from 'react-helmet'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useMediaQuery } from 'react-responsive'
 import PasswordResetPage from './auth-components/PasswordResetPage'
 import AuthedRoute, { AuthedRouteProps } from './auth-components/AuthedRoute'
 import AppAccount from './components/AppAccount'
@@ -75,18 +74,8 @@ const client = new ApolloClient({
 
 function App() {
   const { loading, data } = useQuery(GET_USER_META)
-  // const { authError } = usePasswordlessLogin()
-
-  // if (authError) {
-  //   console.error(authError)
-  // }
 
   const userData = data?.currentUser
-
-  // retaining for future mobile options
-  const isMobileDevice = useMediaQuery({
-    query: '(max-device-width: 450px)',
-  })
 
   const defaultAuthedRouteProps: Omit<AuthedRouteProps, 'outlet'> = {
     isAuthenticated: Userfront.accessToken(),
