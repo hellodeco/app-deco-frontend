@@ -6,6 +6,7 @@ import {
   Stack,
   InputGroup,
   Input,
+  Image,
   Alert,
   AlertTitle,
   AlertIcon,
@@ -14,6 +15,7 @@ import { useMutation } from '@apollo/client'
 import { CREATE_NEW_USER } from '../graphql/mutations'
 import Userfront from '@userfront/core'
 import { Navigate } from 'react-router-dom'
+import mailmanIllustration from '../media/hellodeco-logo.png'
 
 function getEmailParam() {
   let params = new URLSearchParams(window.location.search)
@@ -70,51 +72,59 @@ const SignupPage = () => {
   }
 
   return (
-    <Flex maxWidth="md" flexDirection={'column'}>
-      <Heading size={'md'} mb="20px">
-        Signup
-      </Heading>
-      <Stack spacing={4} pb="6">
-        <>
-          <InputGroup>
-            <Input
-              placeholder="Email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </InputGroup>
-
-          <InputGroup>
-            <Input
-              type="password"
-              placeholder="Enter password"
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </InputGroup>
-
-          <InputGroup>
-            <Input
-              type="password"
-              placeholder="Verify password"
-              onChange={(event) => setPasswordVerify(event.target.value)}
-            />
-          </InputGroup>
-        </>
-        {errorMessage.length && (
-          <Alert status="error">
-            <AlertIcon />
-            <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
-          </Alert>
-        )}
-        <Button
-          mt="30px"
-          colorScheme={'blue'}
-          onClick={(event) => handleSignup(event)}
-          disabled={loading}
-        >
+    <Flex>
+      <Flex width={'400px'} mt="80px" flexDirection={'column'}>
+        <Heading size={'md'} mb="20px">
           Signup
-        </Button>
-      </Stack>
+        </Heading>
+        <Stack spacing={4} pb="6">
+          <>
+            <InputGroup>
+              <Input
+                placeholder="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </InputGroup>
+
+            <InputGroup>
+              <Input
+                type="password"
+                placeholder="Enter password"
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </InputGroup>
+
+            <InputGroup>
+              <Input
+                type="password"
+                placeholder="Verify password"
+                onChange={(event) => setPasswordVerify(event.target.value)}
+              />
+            </InputGroup>
+          </>
+          {errorMessage.length && (
+            <Alert status="error">
+              <AlertIcon />
+              <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
+            </Alert>
+          )}
+          <Button
+            mt="30px"
+            colorScheme={'blue'}
+            onClick={(event) => handleSignup(event)}
+            disabled={loading}
+          >
+            Signup
+          </Button>
+        </Stack>
+      </Flex>
+      <Image
+        ml="80px"
+        maxWidth={'350px'}
+        src={mailmanIllustration}
+        alt="A stylized illustration of a mailman delivers a letter to a mailbox"
+      />
     </Flex>
   )
 }
