@@ -1,7 +1,7 @@
 import React from 'react'
 import Userfront from '@userfront/core'
 import { Helmet } from 'react-helmet'
-import { ChakraProvider, extendTheme, Box } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import PasswordResetPage from './auth-components/PasswordResetPage'
@@ -20,7 +20,7 @@ import LoginPage from './auth-components/LoginPage'
 import SignupPage from './auth-components/SignupPage'
 import PostCheckout from './components/PostCheckout'
 import DecoEmail from './components/DecoEmail'
-import ResetPasswordPage from './auth-components/ResetPasswordPage'
+import ForgotPasswordPage from './auth-components/ForgotPasswordPage'
 import { GET_USER_META } from './graphql/queries'
 import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { Attachments } from './components/Attachments'
@@ -169,7 +169,7 @@ function App() {
           path="/forgot-password"
           element={
             <NavBarLayout>
-              <ResetPasswordPage />
+              <ForgotPasswordPage />
             </NavBarLayout>
           }
         />
