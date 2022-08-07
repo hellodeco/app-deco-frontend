@@ -41,7 +41,7 @@ const ForgotPasswordPage = () => {
         setErrorMessage(error.message)
       })
 
-    setSuccessMessage('Check your email for a link to reset your password')
+    setSuccessMessage('Check your email')
   }
 
   return (
@@ -63,20 +63,16 @@ const ForgotPasswordPage = () => {
             />
           </InputGroup>
           <Divider my="5px" />
-          {errorMessage.length ? (
+          {errorMessage.length && (
             <Alert status="error">
               <AlertIcon />
               <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
             </Alert>
-          ) : (
-            <></>
           )}
-          {successMessage.length ? (
+          {successMessage.length && (
             <Alert status="success">
               <AlertTitle mr={2}>{successMessage}!</AlertTitle>
             </Alert>
-          ) : (
-            <></>
           )}
         </Stack>
 
@@ -84,10 +80,10 @@ const ForgotPasswordPage = () => {
           color={'white'}
           backgroundColor={'#e16259'}
           border={'1px solid #be5643'}
-          _hover={{ 'background-color': '#cf534a' }}
+          _hover={{ backgroundColor: '#cf534a' }}
           onClick={(event) => handleResetPassword(event)}
         >
-          Reset Password
+          Email Reset Link
         </Button>
       </Flex>
       <Image

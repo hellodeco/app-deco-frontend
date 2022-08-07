@@ -56,7 +56,7 @@ const LoginPage = () => {
     <Flex>
       <Flex width={'400px'} mt="80px" flexDirection={'column'}>
         <Heading size={'md'} pb="6">
-          Login to Hellodeco
+          Login
         </Heading>
         <Stack spacing={4} pb="6">
           <InputGroup>
@@ -89,13 +89,12 @@ const LoginPage = () => {
             color={'white'}
             backgroundColor={'#e16259'}
             border={'1px solid #be5643'}
-            _hover={{ 'background-color': '#cf534a' }}
+            _hover={{ backgrounColor: '#cf534a' }}
             onClick={(event) => handleLogin(event)}
           >
             Login
           </Button>
         </Stack>
-        <Flex width="100%" justifyContent="flex-end"></Flex>
       </Flex>
       <Image
         ml="80px"
