@@ -16,7 +16,6 @@ import {
   createHttpLink,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import NavBar from './components/NavBar'
 import LoginPage from './auth-components/LoginPage'
 import SignupPage from './auth-components/SignupPage'
 import PostCheckout from './components/PostCheckout'
@@ -27,7 +26,6 @@ import { GET_USER_META } from './graphql/queries'
 import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
-import { usePasswordlessLogin } from './hooks/usePasswordlessLogin'
 import NavBarLayout from './components/NavBarLayout'
 
 const MAIN_YELLOW = '#F7CD45'
@@ -77,11 +75,11 @@ const client = new ApolloClient({
 
 function App() {
   const { loading, data } = useQuery(GET_USER_META)
-  const { authError } = usePasswordlessLogin()
+  // const { authError } = usePasswordlessLogin()
 
-  if (authError) {
-    console.error(authError)
-  }
+  // if (authError) {
+  //   console.error(authError)
+  // }
 
   const userData = data?.currentUser
 
