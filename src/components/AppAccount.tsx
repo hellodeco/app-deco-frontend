@@ -94,7 +94,7 @@ function AppAccount({ userData }: AppAccountProps) {
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   return (
-    <Flex flexDirection="column" mx="20px" mb="40px">
+    <Flex flexDirection="column" w="100%" mx="20px" mb="40px">
       <Heading size="xl">Account Details</Heading>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
@@ -105,7 +105,14 @@ function AppAccount({ userData }: AppAccountProps) {
       <Heading size="md" mb="20px">
         Manage Billing
       </Heading>
-      <Button width="300px" onClick={handleStripeBillingPortal}>
+      <Button
+        color={'white'}
+        backgroundColor={'#e16259'}
+        border={'1px solid #be5643'}
+        _hover={{ backgroundColor: '#cf534a' }}
+        width="300px"
+        onClick={handleStripeBillingPortal}
+      >
         {paywallEnabled ? 'Purchase Subscription' : 'Open Billing Portal'}
       </Button>
       <Divider my="30px" />
@@ -168,7 +175,15 @@ function AppAccount({ userData }: AppAccountProps) {
           />
         </Flex>
       </FormControl>
-      <Button width="300px" my="20px" onClick={handlePasswordReset}>
+      <Button
+        color={'white'}
+        backgroundColor={'#e16259'}
+        border={'1px solid #be5643'}
+        _hover={{ backgroundColor: '#cf534a' }}
+        width="300px"
+        my="20px"
+        onClick={handlePasswordReset}
+      >
         Reset Password
       </Button>
     </Flex>
