@@ -104,18 +104,9 @@ function AddNewEmailForm(props: IProps) {
 
   return (
     <>
-      {paywallEnabled ? (
-        <Alert status="error" mt="30px">
-          <AlertTitle>No subscription found!</AlertTitle>
-          <AlertDescription>
-            Head over to the Account page to get started.
-          </AlertDescription>
-        </Alert>
-      ) : (
-        <Heading size="md" mt="20px">
-          "Let's get your Deco email address set up"
-        </Heading>
-      )}
+      <Heading size="md" mt="20px">
+        Let's get your Deco email address set up
+      </Heading>
 
       <>
         {emailDomain && (
@@ -192,8 +183,6 @@ export function ManageDecoEmail(props: IProps) {
 
   return (
     <>
-      <Heading size="xl">Your Deco Email Address</Heading>
-
       {!userData?.emailAddress ? (
         <AddNewEmailForm userData={userData} />
       ) : (
