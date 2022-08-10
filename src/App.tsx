@@ -31,16 +31,18 @@ const MAIN_YELLOW = '#F7CD45'
 
 const theme = extendTheme({
   colors: {
-    purple: {
-      light: '#C8B1FA',
-      dark: '#5A78FF',
+    yellow: {
+      primary: '#F7CD45',
     },
-    gray: {
-      light: '#FAFAFA',
-      dark: '#404040',
+    black: {
+      primary: '#202020',
     },
-    gradient: {
-      pink: 'linear-gradient(180deg, rgba(255, 67, 206, 0.2) 0%, rgba(207, 161, 195, 0.165434) 51.04%, rgba(255, 210, 251, 0.0104167) 99.96%, rgba(201, 0, 181, 0) 99.97%)',
+    white: {
+      brand: '#F7F4EA',
+    },
+    blue: {
+      light: '#20A4F3',
+      dark: '#007EA7',
     },
   },
   fonts: {
