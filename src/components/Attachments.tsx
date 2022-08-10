@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 import Userfront from '@userfront/core'
-import { Text, Link } from '@chakra-ui/react'
+import { Text, Link, Image } from '@chakra-ui/react'
 import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { Flex } from '@chakra-ui/react'
 import { HAS_FILE_ACCESS } from '../graphql/queries'
+
+const PUBLIC_URL = process.env.PUBLIC_URL
 
 function FullScreenContainer({ children }: { children: React.ReactNode }) {
   return (
@@ -64,8 +66,25 @@ export function Attachments() {
   if (!data?.currentUserHasFileAccess) {
     return (
       <FullScreenContainer>
+        <Image
+          src={`${PUBLIC_URL}/lost-the-way.png`}
+          width="300px"
+          height="300px"
+          alt="Lost person looking at direction signs"
+        />
         <Text fontSize="1.5rem">
           Uh-oh, looks like you don't have access to this file!
+        </Text>
+        <Text>
+          If you think this is a mistake, try{' '}
+          <Link href={'/login'} color="#F7CD45">
+            logging in
+          </Link>{' '}
+          or{' '}
+          <Link href="/signup" color="#F7CD45">
+            create an account
+          </Link>{' '}
+          to get started using Deco.
         </Text>
       </FullScreenContainer>
     )
