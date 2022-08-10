@@ -60,7 +60,7 @@ export function Attachments() {
         <Text>
           Please{' '}
           <Link href={href} color="blue.light">
-            Login
+            login
           </Link>{' '}
           to view file.
         </Text>
