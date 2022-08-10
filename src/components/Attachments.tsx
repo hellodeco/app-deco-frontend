@@ -50,6 +50,12 @@ export function Attachments() {
     let href = `/login?redirect_to=${encodeURIComponent(location.pathname)}`
     return (
       <FullScreenContainer>
+        <Image
+          src={`${PUBLIC_URL}/schoolgirl.png`}
+          width="300px"
+          height="300px"
+          alt="Know-it-all holding book and pointing into the air while looking self satisfied"
+        />
         <Text fontSize="1.5rem">You are not logged in!</Text>
         <Text>
           Please{' '}
