@@ -9,6 +9,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Link,
   Tag,
   Text,
   Alert,
@@ -23,6 +24,7 @@ import {
 } from '../../graphql/queries'
 import { SET_USERS_DECO_EMAIL } from '../../graphql/mutations'
 import positiveNews from '../../media/positive-news.png'
+import bigLetterInbox from '../../media/big-letter-inbox.png'
 
 interface IProps {
   userData: User
@@ -172,19 +174,32 @@ export function ManageDecoEmail(props: IProps) {
         <AddNewEmailForm userData={userData} />
       ) : (
         <>
-          <Heading size="md" mt="20px">
-            Your Deco email address is:
-          </Heading>
-
-          <Tag
-            mt="15px"
-            width="-webkit-fit-content"
-            size="lg"
-            variant="solid"
-            colorScheme="gray"
-          >
-            {userData.emailAddress}
-          </Tag>
+          <Flex my="20px">
+            <Image
+              maxWidth={'200px'}
+              src={bigLetterInbox}
+              alt="A man holding a very large envelope"
+            />
+            <Flex direction={'column'} justifyContent="center">
+              <Tag
+                py="5px"
+                color="white"
+                backgroundColor={'blue.light'}
+                justifyContent="center"
+              >
+                <Link
+                  textAlign="center"
+                  fontSize={'md'}
+                  href={`mailto:${userData.emailAddress}`}
+                >
+                  {userData.emailAddress}
+                </Link>
+              </Tag>
+              <Text mt="10px" fontSize={'md'}>
+                (Pssst...that's your email ^)
+              </Text>
+            </Flex>
+          </Flex>
         </>
       )}
 
