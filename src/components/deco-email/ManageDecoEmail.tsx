@@ -5,16 +5,14 @@ import {
   Divider,
   Button,
   Input,
+  Image,
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormHelperText,
   Tag,
   Text,
   Alert,
   AlertIcon,
-  AlertTitle,
-  AlertDescription,
 } from '@chakra-ui/react'
 import type { User } from '../../types/types'
 import { useQuery, useMutation } from '@apollo/client'
@@ -24,6 +22,7 @@ import {
   GET_USER_META,
 } from '../../graphql/queries'
 import { SET_USERS_DECO_EMAIL } from '../../graphql/mutations'
+import positiveNews from '../../media/positive-news.png'
 
 interface IProps {
   userData: User
@@ -50,9 +49,7 @@ function getSetEmailErrorText(errorReason: string) {
 function AddNewEmailForm(props: IProps) {
   const { userData } = props
   const [newDecoEmailUsername, setNewDecoEmail] = useState('')
-  const [emailValid, setEmailValid] = useState(true)
   const [emailAvailable, setEmailAvailable] = useState(true)
-  const [showCreateButton, setShowCreateButton] = useState(false)
   // TODO add error handling for failed query or mutation
   const [showError, setShowError] = useState(false)
 
@@ -64,10 +61,18 @@ function AddNewEmailForm(props: IProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     const decoEmailUsername = e.target.value
-    setNewDecoEmail(decoEmailUsername)
-    setShowCreateButton(false)
 
-    setEmailValid(isValidEmailUsername(decoEmailUsername))
+    setNewDecoEmail(decoEmailUsername)
+
+    if (
+      data?.emailUsernameAvailable &&
+      decoEmailUsername.length > 3 &&
+      isValidEmailUsername(decoEmailUsername)
+    ) {
+      setEmailAvailable(true)
+    } else {
+      setEmailAvailable(false)
+    }
   }
 
   const { data: emailDomainData } = useQuery(EMAIL_DOMAIN)
@@ -76,16 +81,6 @@ function AddNewEmailForm(props: IProps) {
   const { data } = useQuery(GET_EMAIL_AVAILABILITY, {
     variables: { username: newDecoEmailUsername },
   })
-
-  const checkEmailAvailability = async () => {
-    if (data?.emailUsernameAvailable) {
-      setEmailAvailable(true)
-      setShowCreateButton(true)
-    } else {
-      setEmailAvailable(false)
-      setShowCreateButton(false)
-    }
-  }
 
   const [handleSetEmail, { data: setEmailData }] = useMutation(
     SET_USERS_DECO_EMAIL,
@@ -104,76 +99,66 @@ function AddNewEmailForm(props: IProps) {
 
   return (
     <>
-      <Heading size="md" mt="20px">
-        Let's get your Deco email address set up
+      <Heading size="lg" mt="20px">
+        Step One - pick your email address
       </Heading>
-
-      <>
-        {emailDomain && (
-          <FormControl mt="30px" isInvalid={!emailValid || !emailAvailable}>
-            <FormLabel htmlFor="email">
-              Claim an email address. Once you choose, you can't change it, so
-              choose wisely!
-            </FormLabel>
-            <Flex flexDir="row" alignItems="center">
-              <Input
-                w="450px"
-                size="lg"
-                id="email"
-                type="email"
-                value={newDecoEmailUsername}
-                onChange={handleChange}
-                placeholder="name"
-                disabled={paywallEnabled}
-              />
-              <Text color="gray.dark" pl="13px">
-                @{emailDomain}
-              </Text>
-            </Flex>
-            {!emailValid && (
-              <FormErrorMessage>Email address is invalid</FormErrorMessage>
-            )}
-            {!emailAvailable && (
-              <FormErrorMessage>Email address already taken</FormErrorMessage>
-            )}
-          </FormControl>
-        )}
-
-        {showCreateButton ? (
-          <>
-            <Tag
-              mt="15px"
-              width="-webkit-fit-content"
+      <Flex my="20px">
+        <Image
+          maxWidth={'200px'}
+          src={positiveNews}
+          alt="An excited woman holds a large envelope tucked under one arm"
+        />
+        <Text alignSelf={'center'}>
+          This is the shiny new email address you'll use to send emails to your
+          Notion workspace. Once you decide, you can't change it, so choose
+          wisely!
+        </Text>
+      </Flex>
+      {emailDomain && (
+        <FormControl mt="30px" isInvalid={!emailAvailable}>
+          <FormLabel htmlFor="email">Choose your email address</FormLabel>
+          <Flex flexDir="row" alignItems="center">
+            <Input
+              w="450px"
               size="lg"
-              variant="solid"
-              colorScheme="green"
-            >
-              That email address is available!
-            </Tag>
-            <Button
-              w="300px"
-              my="20px"
-              onClick={() =>
-                handleSetEmail({
-                  variables: { username: newDecoEmailUsername },
-                })
-              }
-              disabled={!emailValid || paywallEnabled}
-            >
-              Create Deco Email
-            </Button>
-          </>
-        ) : (
-          <Button
-            w="300px"
-            my="20px"
-            onClick={checkEmailAvailability}
-            disabled={!emailValid || paywallEnabled}
-          >
-            Check Availability
-          </Button>
-        )}
-      </>
+              id="email"
+              type="email"
+              value={newDecoEmailUsername}
+              onChange={handleChange}
+              placeholder="name"
+              disabled={paywallEnabled}
+            />
+            <Text color="gray.dark" pl="13px">
+              @{emailDomain}
+            </Text>
+          </Flex>
+          {!emailAvailable && (
+            <FormErrorMessage>Email address is not available</FormErrorMessage>
+          )}
+        </FormControl>
+      )}
+      {emailAvailable && (
+        <Alert status="success" mt="20px" w="450px">
+          <AlertIcon />
+          That email is available!
+        </Alert>
+      )}
+      <Button
+        w="450px"
+        my="20px"
+        onClick={() =>
+          handleSetEmail({
+            variables: { username: newDecoEmailUsername },
+          })
+        }
+        disabled={!emailAvailable || paywallEnabled}
+        color={'white'}
+        backgroundColor="blue.light"
+        border={'1px solid blue.dark'}
+        _hover={{ backgroundColor: 'blue.dark' }}
+      >
+        Create Deco Email
+      </Button>
     </>
   )
 }
