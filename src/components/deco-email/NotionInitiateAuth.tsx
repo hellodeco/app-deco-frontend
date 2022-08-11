@@ -47,6 +47,39 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
     }, 300)
   }, [notionIntegration, notionDatabase])
 
+  const notionIntegrationData =
+    notionIntegration.data?.getCurrentUserNotionIntegration
+
+  if (notionIntegrationData) {
+    return (
+      <>
+        <Heading my="15px" size="lg">
+          Notion workspace connected
+        </Heading>
+        <Flex mt="15px" alignItems="center">
+          <Flex flexDir="column">
+            <Text fontSize={'lg'}>
+              Name:{' '}
+              {notionIntegrationData.workspaceIcon &&
+                notionIntegrationData.workspaceIcon}{' '}
+              {notionIntegrationData.workspaceName}
+            </Text>
+            <Text fontSize={'lg'}>
+              Owner: {notionIntegrationData.userFullName}
+            </Text>
+            <Text fontSize={'lg'}>Email: {notionIntegrationData.email}</Text>
+          </Flex>
+          <Image
+            ml="80px"
+            maxWidth={'200px'}
+            src={dealConnection}
+            alt="A stylized illustration of a two men in business suits shaking hands"
+          />
+        </Flex>
+      </>
+    )
+  }
+
   return (
     <>
       <Heading size="lg">Step Two - connect your Notion workspace</Heading>
