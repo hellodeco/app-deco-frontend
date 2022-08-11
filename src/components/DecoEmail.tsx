@@ -6,6 +6,7 @@ import {
   Divider,
   Flex,
   Heading,
+  Link,
 } from '@chakra-ui/react'
 import type { User } from '../types/types'
 import { ManageDecoEmail } from './deco-email/ManageDecoEmail'
@@ -25,7 +26,7 @@ function DecoEmail({ userData }: DecoEmailProps) {
         <Alert status="error" mt="30px">
           <AlertTitle>Looks like you don't have a subscription!</AlertTitle>
           <AlertDescription>
-            Head over to the Account page to get started.
+            <Link color="blue.dark">Click here</Link> to get started.
           </AlertDescription>
         </Alert>
       )}

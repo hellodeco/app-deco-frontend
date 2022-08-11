@@ -25,6 +25,7 @@ const ForgotPasswordPage = () => {
     event.preventDefault()
     setErrorMessage('')
     setSuccessMessage('')
+    setEmail('')
     if (!email) {
       setErrorMessage('Please enter a valid email')
       return
@@ -60,6 +61,7 @@ const ForgotPasswordPage = () => {
             <Input
               placeholder="Email"
               onChange={(event) => setEmail(event.target.value)}
+              value={email}
             />
           </InputGroup>
           <Divider my="5px" />
@@ -78,9 +80,9 @@ const ForgotPasswordPage = () => {
 
         <Button
           color={'white'}
-          backgroundColor={'#e16259'}
-          border={'1px solid #be5643'}
-          _hover={{ backgroundColor: '#cf534a' }}
+          backgroundColor={'blue.light'}
+          border={'1px solid blue.dark'}
+          _hover={{ backgroundColor: 'blue.dark' }}
           onClick={(event) => handleResetPassword(event)}
         >
           Email Reset Link
