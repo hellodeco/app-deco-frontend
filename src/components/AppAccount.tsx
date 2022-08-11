@@ -6,14 +6,9 @@ import {
   Input,
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Tag,
-  Text,
   Alert,
   AlertIcon,
   AlertTitle,
-  AlertDescription,
   Stack,
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
@@ -107,9 +102,9 @@ function AppAccount({ userData }: AppAccountProps) {
       </Heading>
       <Button
         color={'white'}
-        backgroundColor={'#e16259'}
-        border={'1px solid #be5643'}
-        _hover={{ backgroundColor: '#cf534a' }}
+        backgroundColor={'blue.light'}
+        border={'1px solid blue.dark'}
+        _hover={{ backgroundColor: 'blue.dark' }}
         width="300px"
         onClick={handleStripeBillingPortal}
       >
@@ -177,9 +172,9 @@ function AppAccount({ userData }: AppAccountProps) {
       </FormControl>
       <Button
         color={'white'}
-        backgroundColor={'#e16259'}
-        border={'1px solid #be5643'}
-        _hover={{ backgroundColor: '#cf534a' }}
+        backgroundColor={'blue.light'}
+        border={'1px solid blue.dark'}
+        _hover={{ backgroundColor: 'blue.dark' }}
         width="300px"
         my="20px"
         onClick={handlePasswordReset}
