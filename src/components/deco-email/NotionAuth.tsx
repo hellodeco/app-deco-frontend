@@ -207,23 +207,6 @@ export function NotionAuth(props: NotionAuthProps) {
   const notionDatabaseIsBeingFormatted =
     formatNotionDatabaseData?.loading === true
 
-  if (!notionIntegrationData) {
-    // show notion connect button
-    return (
-      <>
-        <Heading size="md">Connect your Notion Account</Heading>
-        <Button
-          w="300px"
-          my="30px"
-          onClick={handleAuthWithNotion}
-          disabled={paywallEnabled}
-        >
-          Connect to Notion
-        </Button>
-      </>
-    )
-  }
-
   if (notionIntegration && !notionDatabaseData) {
     // show shared database selector
     return (

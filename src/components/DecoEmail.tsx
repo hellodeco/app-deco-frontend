@@ -7,10 +7,12 @@ import {
   Flex,
   Heading,
   Link,
+  Text,
 } from '@chakra-ui/react'
 import type { User } from '../types/types'
 import { ManageDecoEmail } from './deco-email/ManageDecoEmail'
 import { NotionAuth } from './deco-email/NotionAuth'
+import NotionInitiateAuth from './deco-email/NotionInitiateAuth'
 interface DecoEmailProps {
   userData: User
 }
@@ -46,7 +48,7 @@ function DecoEmail({ userData }: DecoEmailProps) {
 
   return (
     <Flex flexDirection="column" w="100%">
-      <Heading size="xl">Manage Deco Email</Heading>
+      <Heading size="xl">Manage HelloDeco Email</Heading>
 
       {paywallEnabled && (
         <Alert status="error" mt="30px">
@@ -63,8 +65,27 @@ function DecoEmail({ userData }: DecoEmailProps) {
         </Alert>
       )}
       <Divider my="30px" />
+
       <ManageDecoEmail userData={userData} />
-      <NotionAuth userData={userData} />
+      <NotionInitiateAuth userData={userData} />
+      {/* <NotionAuth userData={userData} />
+      <Text pt="15px">
+        HelloDeco provides you with a custom "@deco.so" email address of your
+        choosing.
+      </Text>
+      <Text pt="15px">
+        Any emails sent or forwarded to this address will be delivered directly
+        into your Notion workspace, safely tucked into a database you designate
+        as your inbox.
+      </Text>
+      <Text pt="15px">
+        While Notion doesn't allow us to upload files to your workspace
+        directly, we'll save any email attachments you recieve and make the link
+        available in Notion for quick access.
+      </Text>
+      <Text pt="15px">
+        Sending email is currently not supported, but it's next on our roadmap!
+      </Text> */}
     </Flex>
   )
 }
