@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import {
+  Divider,
   Heading,
   Button,
   Link,
@@ -53,11 +54,11 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
   if (notionIntegrationData) {
     return (
       <>
-        <Heading my="15px" size="lg">
-          Notion workspace connected
-        </Heading>
         <Flex mt="15px" alignItems="center">
           <Flex flexDir="column">
+            <Text fontSize="lg" fontWeight={'bold'}>
+              Notion workspace connected
+            </Text>
             <Text fontSize={'lg'}>
               Name:{' '}
               {notionIntegrationData.workspaceIcon &&
@@ -76,6 +77,8 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
             alt="A stylized illustration of a two men in business suits shaking hands"
           />
         </Flex>
+
+        <Divider my="30px" />
       </>
     )
   }
@@ -129,6 +132,8 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
       >
         Connect to Notion
       </Button>
+
+      <Divider my="30px" />
     </>
   )
 }
