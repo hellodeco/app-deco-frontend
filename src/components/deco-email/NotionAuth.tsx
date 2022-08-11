@@ -48,73 +48,6 @@ interface NotionAuthProps {
   userData: User
 }
 
-function NotionSharedDBSelector({
-  refetchNotionDatabaseInfo,
-}: {
-  refetchNotionDatabaseInfo: () => Promise<void>
-}) {
-  const [selectedPageId, setSelectedPageId] = useState('')
-  const { data, loading } = useQuery(CONNECTED_NOTION_PAGES, {
-    fetchPolicy: 'cache-and-network',
-  })
-  const [selectNotionDatabase] = useMutation(SELECT_NOTION_DATABASE)
-
-  if (loading) {
-    return null
-  }
-
-  return (
-    <Flex flexDir="column">
-      <Heading size="md">Select Your Notion Page</Heading>
-      <Text>
-        Deco currently supports sending email to one Notion page at a time.
-        Choose the shared Notion page you would like to send emails to.
-      </Text>
-      <Select
-        placeholder="Select shared database..."
-        onChange={(event) => {
-          setSelectedPageId(event.target.value)
-        }}
-      >
-        {data?.connectedNotionPages?.map((page: NotionPage) => {
-          let { title, icon } = page
-
-          let optionText = ''
-          if (icon.emoji) {
-            optionText += icon.emoji
-            optionText += ' '
-          }
-
-          optionText += title
-
-          return (
-            <option key={page.id} value={page.id}>
-              {optionText}
-            </option>
-          )
-        })}
-      </Select>
-      <Button
-        disabled={!Boolean(selectedPageId)}
-        onClick={async () => {
-          // set the selected page in the db
-          await selectNotionDatabase({
-            variables: {
-              databaseId: selectedPageId,
-            },
-          })
-
-          await refetchNotionDatabaseInfo()
-        }}
-        width="200px"
-        mt="30px"
-      >
-        Select database
-      </Button>
-    </Flex>
-  )
-}
-
 export function NotionAuth(props: NotionAuthProps) {
   const { userData } = props
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
@@ -211,12 +144,6 @@ export function NotionAuth(props: NotionAuthProps) {
     // show shared database selector
     return (
       <>
-        <NotionSharedDBSelector
-          refetchNotionDatabaseInfo={async () => {
-            await notionDatabase.refetch()
-          }}
-        />
-
         <Button
           w="300px"
           my="30px"
@@ -234,38 +161,7 @@ export function NotionAuth(props: NotionAuthProps) {
   if (notionIntegrationData && notionDatabaseData) {
     return (
       <>
-        <Heading size="md">Notion Settings</Heading>
-
         {formatNotionDatabaseData?.loading && <>Formatting your notion db...</>}
-
-        <Heading my="15px" size="sm">
-          Connected Workspace
-        </Heading>
-
-        <Flex flexDir="row" alignItems="flex-end">
-          {notionIntegrationData.workspaceIcon && (
-            <Image
-              src={notionIntegrationData.workspaceIcon}
-              alt="notion workspace icon"
-              height="40px"
-            />
-          )}
-          <Text ml="10px">{notionIntegrationData.workspaceName}</Text>
-        </Flex>
-
-        <Heading mt="15px" size="sm">
-          Connected Database
-        </Heading>
-
-        <Link
-          mt="15px"
-          href={notionDatabaseData.url}
-          isExternal
-          color="#2596be"
-        >
-          {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
-          <ExternalLinkIcon mx="2px" mb="6px" />
-        </Link>
 
         {notionDatabaseData.needsManualFormatting ? (
           <Flex flexDir="column">
