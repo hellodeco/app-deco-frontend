@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import {
   Heading,
   Button,
@@ -19,30 +19,14 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Userfront from '@userfront/core'
 import { useQuery, useMutation } from '@apollo/client'
 import {
   GET_CURRENT_USER_NOTION_INTEGRATION,
   GET_CURRENT_USER_NOTION_DATABASE_INFO,
-  CONNECTED_NOTION_PAGES,
 } from '../../graphql/queries'
-import {
-  DROP_AND_MIGRATE_USERS_NOTION_DATABASE,
-  SELECT_NOTION_DATABASE,
-} from '../../graphql/mutations'
+import { DROP_AND_MIGRATE_USERS_NOTION_DATABASE } from '../../graphql/mutations'
 import { User } from '../../types/types'
-
-interface NotionPage {
-  id: string
-  title: string
-  url: string
-  icon: {
-    type: string
-    emoji: string
-    url: string
-  }
-}
 
 interface NotionAuthProps {
   userData: User
@@ -57,75 +41,16 @@ export function NotionAuth(props: NotionAuthProps) {
   const [formatNotionDatabase, formatNotionDatabaseData] = useMutation(
     DROP_AND_MIGRATE_USERS_NOTION_DATABASE,
   )
-  const {
-    isOpen: isChangeWarningModalOpen,
-    onOpen: onChangeWarningModalOpen,
-    onClose: onChangeWarningModalClose,
-  } = useDisclosure()
+
   const {
     isOpen: isFormatWarningModalOpen,
     onOpen: onFormatWarningModalOpen,
     onClose: onFormatWarningModalClose,
   } = useDisclosure()
 
-  const handleAuthWithNotion = useCallback(() => {
-    const params = new URLSearchParams()
-    params.append('authToken', Userfront.tokens?.accessToken)
-    const authUrl = `${
-      process.env.REACT_APP_API_URL
-    }/oauth/notion?${params.toString()}`
-    const tab = window.open(authUrl, '_blank')
-    tab?.focus()
-
-    const interval = setInterval(() => {
-      if (tab?.closed) {
-        notionIntegration.refetch()
-        notionDatabase.refetch()
-        clearInterval(interval)
-      }
-    }, 300)
-  }, [notionIntegration, notionDatabase])
-
   const handleFormatNotionDatabase = async () => {
     await formatNotionDatabase()
     await notionDatabase.refetch()
-  }
-
-  const renderChangeConnectedPageWarningModal = () => {
-    return (
-      <Modal
-        isOpen={isChangeWarningModalOpen}
-        onClose={onChangeWarningModalClose}
-        isCentered
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Are you sure you want to proceed?</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text>
-              Changing the connected Notion page will temporarily interrupt
-              email delivery until you have finished setting up the new page.
-            </Text>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={onChangeWarningModalClose}>
-              Cancel
-            </Button>
-            <Button
-              colorScheme="blue"
-              onClick={() => {
-                handleAuthWithNotion()
-                onChangeWarningModalClose()
-              }}
-            >
-              Confirm
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    )
   }
 
   if (notionIntegration.loading || notionDatabase.loading) {
@@ -140,124 +65,58 @@ export function NotionAuth(props: NotionAuthProps) {
   const notionDatabaseIsBeingFormatted =
     formatNotionDatabaseData?.loading === true
 
-  if (notionIntegration && !notionDatabaseData) {
-    // show shared database selector
-    return (
-      <>
-        <Button
-          w="300px"
-          my="30px"
-          onClick={onChangeWarningModalOpen}
-          isActive={notionDatabaseIsBeingFormatted}
-        >
-          Change Connected Notion Page
-        </Button>
-        {renderChangeConnectedPageWarningModal()}
-      </>
-    )
-  }
-
-  // this should be the completely connected state
+  // workspace connected and database chosen
   if (notionIntegrationData && notionDatabaseData) {
-    return (
-      <>
-        {formatNotionDatabaseData?.loading && <>Formatting your notion db...</>}
+    if (notionDatabaseData.needsManualFormatting) {
+      return (
+        <Flex flexDir="column">
+          {/* user needs to connect a different page that matches the correct Database format */}
+        </Flex>
+      )
+    }
 
-        {notionDatabaseData.needsManualFormatting ? (
-          <Flex flexDir="column">
+    if (notionDatabaseData.needsFormatting) {
+      return (
+        <>
+          {notionDatabaseIsBeingFormatted ? (
+            <Text>Formatting notion page...</Text>
+          ) : (
             <Tag
               mt="15px"
               width="-webkit-fit-content"
               size="lg"
               variant="solid"
-              padding="7px"
-              colorScheme="gray"
+              colorScheme="red"
             >
-              ⚠️ Your shared Notion page needs manual formatting
+              Not ready to receive email! Please format your database using the
+              button below.
             </Tag>
-            <Text my="13px">
-              It looks like you've shared a Notion page with us that isn't
-              formatted as a database. Unfortunately due to Notion limitations
-              we can't do this for you 😢
-              <br />
-              <br />
-              <i>Don't worry though! It's easy</i> 👌
-              <OrderedList my="13px">
-                <ListItem>
-                  Delete any existing content in{' '}
-                  <Link
-                    mt="15px"
-                    href={notionDatabaseData.url}
-                    isExternal
-                    color="#2596be"
-                  >
-                    the shared page
-                  </Link>
-                </ListItem>
-                <ListItem>
-                  Select <i>Database</i> {'->'} <i>Table</i>
-                </ListItem>
-                <Image
-                  src="notion-database-format-instruction.png"
-                  alt="create a new database in Notion"
-                />
-                <ListItem>Click "New database" on the right hand side</ListItem>
-                <Image
-                  src="notion-database-data-source-instruction.png"
-                  alt="add a data source to a Notion databas"
-                />
-                <ListItem>Once done, return here and refresh the page</ListItem>
-              </OrderedList>
-            </Text>
-          </Flex>
-        ) : notionDatabaseData.needsFormatting ? (
-          <>
-            {notionDatabaseIsBeingFormatted ? (
-              <Text>Formatting notion page...</Text>
-            ) : (
-              <Tag
-                mt="15px"
-                width="-webkit-fit-content"
-                size="lg"
-                variant="solid"
-                colorScheme="red"
-              >
-                Not ready to receive email! Please format your database using
-                the button below.
-              </Tag>
-            )}
-            <Button
-              w="300px"
-              my="30px"
-              onClick={onFormatWarningModalOpen}
-              isActive={notionDatabaseIsBeingFormatted}
-            >
-              Format Notion DB
-            </Button>
-          </>
-        ) : (
-          <Tag
-            mt="15px"
-            width="-webkit-fit-content"
-            size="lg"
-            variant="solid"
-            colorScheme="green"
+          )}
+          <Button
+            w="300px"
+            my="30px"
+            onClick={onFormatWarningModalOpen}
+            isActive={notionDatabaseIsBeingFormatted}
           >
-            Ready to receive email!
-          </Tag>
-        )}
+            Format Notion DB
+          </Button>
+        </>
+      )
+    }
 
-        <Button
-          w="300px"
-          my="30px"
-          onClick={onChangeWarningModalOpen}
-          isActive={notionDatabaseIsBeingFormatted}
+    return (
+      <>
+        {' '}
+        <Tag
+          mt="15px"
+          width="-webkit-fit-content"
+          size="lg"
+          variant="solid"
+          colorScheme="green"
         >
-          Change Connected Notion Page
-        </Button>
-
+          Ready to receive email!
+        </Tag>
         {/* Chakra's modal API is dumb as fuck and its just easier to define two entirely separate component trees for each modal rather than getting fancy with some abstraction */}
-
         {/* Change Notion page warning modal */}
         <Modal
           isOpen={isFormatWarningModalOpen}
@@ -296,9 +155,6 @@ export function NotionAuth(props: NotionAuthProps) {
             </ModalFooter>
           </ModalContent>
         </Modal>
-
-        {/* Change Notion page warning modal */}
-        {renderChangeConnectedPageWarningModal()}
       </>
     )
   }
