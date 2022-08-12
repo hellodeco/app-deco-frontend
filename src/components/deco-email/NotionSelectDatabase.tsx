@@ -8,13 +8,13 @@ import {
   Image,
   Link,
   Alert,
-  AlertIcon,
   AlertTitle,
   AlertDescription,
 } from '@chakra-ui/react'
 import { useQuery, useMutation } from '@apollo/client'
 import {
   GET_CURRENT_USER_NOTION_DATABASE_INFO,
+  GET_CURRENT_USER_NOTION_INTEGRATION,
   CONNECTED_NOTION_PAGES,
 } from '../../graphql/queries'
 import { SELECT_NOTION_DATABASE } from '../../graphql/mutations'
@@ -43,13 +43,14 @@ const NotionSelectDatabase = (props: NotionAuthProps) => {
     fetchPolicy: 'cache-and-network',
   })
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
+  const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
   const [selectNotionDatabase] = useMutation(SELECT_NOTION_DATABASE)
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   const notionDatabaseData =
     notionDatabase.data?.getCurrentUserNotionDatabaseInfo
 
-  if (loading) {
+  if (!userData?.emailAddress || !notionIntegration.data) {
     return null
   }
 

@@ -9,7 +9,9 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
+  AlertDescription,
   Stack,
+  Link,
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import type { User } from '../types/types'
@@ -91,6 +93,14 @@ function AppAccount({ userData }: AppAccountProps) {
   return (
     <Flex flexDirection="column" w="100%" mx="20px" mb="40px">
       <Heading size="xl">Account Details</Heading>
+      {paywallEnabled && (
+        <Alert status="error" mt="30px">
+          <AlertTitle>Looks like you don't have a subscription!</AlertTitle>
+          <AlertDescription>
+            Purchase subscription to get started.
+          </AlertDescription>
+        </Alert>
+      )}
       <Divider my="30px" />
       <Heading size="md" mb="20px">
         Signup Information
@@ -108,7 +118,7 @@ function AppAccount({ userData }: AppAccountProps) {
         width="300px"
         onClick={handleStripeBillingPortal}
       >
-        {paywallEnabled ? 'Purchase Subscription' : 'Open Billing Portal'}
+        {paywallEnabled ? 'Purchase subscription' : 'Go to billing'}
       </Button>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
@@ -179,7 +189,7 @@ function AppAccount({ userData }: AppAccountProps) {
         my="20px"
         onClick={handlePasswordReset}
       >
-        Reset Password
+        Reset password
       </Button>
     </Flex>
   )

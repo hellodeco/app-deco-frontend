@@ -93,6 +93,10 @@ const NotionReselectDatabase = (props: NotionAuthProps) => {
     )
   }
 
+  if (!userData?.emailAddress) {
+    return null
+  }
+
   return (
     <Flex direction={'column'}>
       <Text py="5px">Changed your mind?</Text>
