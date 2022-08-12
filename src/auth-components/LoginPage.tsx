@@ -74,7 +74,13 @@ const LoginPage = () => {
             />
           </InputGroup>
           <Flex width="100%" justifyContent="flex-start">
-            <Button variant="link" onClick={() => navigate('/forgot-password')}>
+            <Button
+              color="black"
+              variant="link"
+              pl="18px"
+              onClick={() => navigate('/forgot-password')}
+              fontSize="sm"
+            >
               Forgot Password?
             </Button>
           </Flex>
