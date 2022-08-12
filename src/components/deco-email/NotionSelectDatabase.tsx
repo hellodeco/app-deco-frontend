@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Divider,
   Heading,
@@ -11,12 +11,8 @@ import {
   AlertTitle,
   AlertDescription,
 } from '@chakra-ui/react'
-import { useQuery, useMutation } from '@apollo/client'
-import {
-  GET_CURRENT_USER_NOTION_DATABASE_INFO,
-  GET_CURRENT_USER_NOTION_INTEGRATION,
-  CONNECTED_NOTION_PAGES,
-} from '../../graphql/queries'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import { CONNECTED_NOTION_PAGES } from '../../graphql/queries'
 import { SELECT_NOTION_DATABASE } from '../../graphql/mutations'
 import { User } from '../../types/types'
 import NotionReselectDatabase from './NotionReselectDatabase'
@@ -35,15 +31,23 @@ interface NotionPage {
 
 interface NotionAuthProps {
   userData: User
+  notionDatabase: any
+  notionIntegration: any
 }
 
 const NotionSelectDatabase = (props: NotionAuthProps) => {
-  const { userData } = props
-  const { data, loading } = useQuery(CONNECTED_NOTION_PAGES, {
-    fetchPolicy: 'cache-and-network',
-  })
-  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
-  const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
+  const { userData, notionDatabase, notionIntegration } = props
+  const [getConnectedNotionPages, { data, loading }] = useLazyQuery(
+    CONNECTED_NOTION_PAGES,
+    {
+      fetchPolicy: 'cache-and-network',
+    },
+  )
+
+  useEffect(() => {
+    getConnectedNotionPages()
+  }, [notionIntegration, getConnectedNotionPages])
+
   const [selectNotionDatabase] = useMutation(SELECT_NOTION_DATABASE)
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
