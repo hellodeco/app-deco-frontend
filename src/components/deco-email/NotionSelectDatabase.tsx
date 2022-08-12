@@ -6,10 +6,12 @@ import {
   Flex,
   Select,
   Image,
-  Tag,
   Link,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useQuery, useMutation } from '@apollo/client'
 import {
   GET_CURRENT_USER_NOTION_DATABASE_INFO,
@@ -51,7 +53,7 @@ const NotionSelectDatabase = (props: NotionAuthProps) => {
     return null
   }
 
-  if (notionDatabaseData) {
+  if (notionDatabaseData && !notionDatabaseData.needsManualFormatting) {
     return (
       <>
         <Flex my="20px">
@@ -89,6 +91,19 @@ const NotionSelectDatabase = (props: NotionAuthProps) => {
   return (
     <Flex flexDir="column">
       <Heading size="lg">Step Three - almost there!</Heading>
+      {notionDatabaseData && notionDatabaseData.needsManualFormatting && (
+        <Alert
+          status="error"
+          flexDirection={'column'}
+          alignItems={'flex-start'}
+          mt="15px"
+        >
+          <AlertTitle>The page you selected is not a database.</AlertTitle>
+          <AlertDescription>
+            Try choosing a different option from the dropdown.
+          </AlertDescription>
+        </Alert>
+      )}
       <Text my="15px">
         Select the database you created in Step Two from the dropdown below.
         This will tell us exactly where to send your email!

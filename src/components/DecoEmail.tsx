@@ -47,7 +47,7 @@ function DecoEmail({ userData }: DecoEmailProps) {
   }
 
   return (
-    <Flex flexDirection="column" w="100%">
+    <Flex flexDirection="column" w="100%" pb="100px">
       <Heading size="xl">Manage HelloDeco Email</Heading>
 
       {paywallEnabled && (
