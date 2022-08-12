@@ -67,9 +67,9 @@ function DecoEmail({ userData }: DecoEmailProps) {
       <Divider my="30px" />
 
       <ManageDecoEmail userData={userData} />
-      <NotionInitiateAuth userData={userData} />
-      <NotionSelectDatabase userData={userData} />
-      <NotionSuccessOrFormat userData={userData} />
+      {!paywallEnabled && <NotionInitiateAuth userData={userData} />}
+      {!paywallEnabled && <NotionSelectDatabase userData={userData} />}
+      {!paywallEnabled && <NotionSuccessOrFormat userData={userData} />}
       {/* <Text pt="15px">
         HelloDeco provides you with a custom "@deco.so" email address of your
         choosing.

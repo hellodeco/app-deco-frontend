@@ -58,6 +58,10 @@ const NotionSuccessOrFormat = (props: NotionAuthProps) => {
   const notionDatabaseIsBeingFormatted =
     formatNotionDatabaseData?.loading === true
 
+  if (!userData?.emailAddress) {
+    return null
+  }
+
   // workspace connected and database chosen
   if (
     notionIntegrationData &&

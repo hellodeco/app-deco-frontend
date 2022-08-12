@@ -16,7 +16,7 @@ import {
   AlertIcon,
 } from '@chakra-ui/react'
 import type { User } from '../../types/types'
-import { useQuery, useMutation } from '@apollo/client'
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import {
   EMAIL_DOMAIN,
   GET_EMAIL_AVAILABILITY,
@@ -52,6 +52,7 @@ function AddNewEmailForm(props: IProps) {
   const { userData } = props
   const [newDecoEmailUsername, setNewDecoEmail] = useState('')
   const [emailAvailable, setEmailAvailable] = useState(true)
+  const [timer, setTimer] = useState<any>()
   // TODO add error handling for failed query or mutation
   const [showError, setShowError] = useState(false)
 
@@ -60,29 +61,37 @@ function AddNewEmailForm(props: IProps) {
     return emailRegex.test(email)
   }
 
+  const [getEmailAvailable, { loading, data }] = useLazyQuery(
+    GET_EMAIL_AVAILABILITY,
+  )
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     const decoEmailUsername = e.target.value
 
     setNewDecoEmail(decoEmailUsername)
 
-    if (
-      data?.emailUsernameAvailable &&
-      decoEmailUsername.length > 3 &&
-      isValidEmailUsername(decoEmailUsername)
-    ) {
-      setEmailAvailable(true)
-    } else {
-      setEmailAvailable(false)
-    }
+    clearTimeout(timer)
+
+    const newTimer = setTimeout(() => {
+      getEmailAvailable({ variables: { username: newDecoEmailUsername } })
+
+      if (
+        decoEmailUsername.length > 3 &&
+        data?.emailUsernameAvailable &&
+        isValidEmailUsername(decoEmailUsername)
+      ) {
+        setEmailAvailable(true)
+      } else {
+        setEmailAvailable(false)
+      }
+    }, 500)
+
+    setTimer(newTimer)
   }
 
   const { data: emailDomainData } = useQuery(EMAIL_DOMAIN)
   const emailDomain = emailDomainData?.emailDomain
-
-  const { data } = useQuery(GET_EMAIL_AVAILABILITY, {
-    variables: { username: newDecoEmailUsername },
-  })
 
   const [handleSetEmail, { data: setEmailData }] = useMutation(
     SET_USERS_DECO_EMAIL,
@@ -139,7 +148,7 @@ function AddNewEmailForm(props: IProps) {
           )}
         </FormControl>
       )}
-      {emailAvailable && (
+      {emailAvailable && newDecoEmailUsername !== '' && (
         <Alert status="success" mt="20px" w="450px">
           <AlertIcon />
           That email is available!

@@ -51,6 +51,10 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
   const notionIntegrationData =
     notionIntegration.data?.getCurrentUserNotionIntegration
 
+  if (!userData?.emailAddress) {
+    return null
+  }
+
   if (notionIntegrationData) {
     return (
       <>
