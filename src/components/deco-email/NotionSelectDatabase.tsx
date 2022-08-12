@@ -17,6 +17,7 @@ import {
 } from '../../graphql/queries'
 import { SELECT_NOTION_DATABASE } from '../../graphql/mutations'
 import { User } from '../../types/types'
+import NotionReselectDatabase from './NotionReselectDatabase'
 import envelopeNotionConnected from '../../media/envelope-notion-connected.png'
 
 interface NotionPage {
@@ -63,23 +64,20 @@ const NotionSelectDatabase = (props: NotionAuthProps) => {
             <Text my="10px" fontWeight={'bold'} fontSize={'lg'}>
               Notion database connected
             </Text>
-            <div>
-              <Tag
-                py="8px"
-                color="white"
-                backgroundColor={'blue.light'}
-                justifyContent="center"
+            <Text py="5px">
+              Database name:{' '}
+              <Link
+                isExternal
+                color={'blue.dark'}
+                textAlign="center"
+                fontSize={'md'}
+                href={notionDatabaseData.url}
+                variant={''}
               >
-                <Link
-                  textAlign="center"
-                  fontSize={'md'}
-                  href={notionDatabaseData.url}
-                >
-                  {notionDatabaseData.icon} {notionDatabaseData.title}{' '}
-                  <ExternalLinkIcon mx="2px" mb="6px" />
-                </Link>
-              </Tag>
-            </div>
+                {notionDatabaseData.icon} {notionDatabaseData.title}
+              </Link>{' '}
+            </Text>
+            <NotionReselectDatabase userData={userData} />
           </Flex>
         </Flex>
 

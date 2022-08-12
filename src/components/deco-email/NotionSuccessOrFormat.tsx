@@ -1,15 +1,12 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import {
   Heading,
   Button,
   Tag,
-  Link,
+  Divider,
   Image,
   Text,
   Flex,
-  Select,
-  OrderedList,
-  ListItem,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -27,12 +24,13 @@ import {
 } from '../../graphql/queries'
 import { DROP_AND_MIGRATE_USERS_NOTION_DATABASE } from '../../graphql/mutations'
 import { User } from '../../types/types'
+import pleasantSurprise from '../../media/pleasant-surprise.png'
 
 interface NotionAuthProps {
   userData: User
 }
 
-export function NotionAuth(props: NotionAuthProps) {
+const NotionSuccessOrFormat = (props: NotionAuthProps) => {
   const { userData } = props
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
@@ -53,10 +51,6 @@ export function NotionAuth(props: NotionAuthProps) {
     await notionDatabase.refetch()
   }
 
-  if (notionIntegration.loading || notionDatabase.loading) {
-    return <span>Loading notion data...</span>
-  }
-
   const notionIntegrationData =
     notionIntegration.data?.getCurrentUserNotionIntegration
   const notionDatabaseData =
@@ -67,6 +61,7 @@ export function NotionAuth(props: NotionAuthProps) {
 
   // workspace connected and database chosen
   if (notionIntegrationData && notionDatabaseData) {
+    // user connected a Notion page that is not a database
     if (notionDatabaseData.needsManualFormatting) {
       return (
         <Flex flexDir="column">
@@ -75,6 +70,7 @@ export function NotionAuth(props: NotionAuthProps) {
       )
     }
 
+    // database is connected but is not formatted - user needs to click "format" button
     if (notionDatabaseData.needsFormatting) {
       return (
         <>
@@ -100,64 +96,72 @@ export function NotionAuth(props: NotionAuthProps) {
           >
             Format Notion DB
           </Button>
+
+          {/* Change Notion page warning modal */}
+          <Modal
+            isOpen={isFormatWarningModalOpen}
+            onClose={onFormatWarningModalClose}
+            isCentered
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Are you sure you want to proceed?</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Text>
+                  Continuing with the page format will delete all existing
+                  content in the shared page. Make sure you've saved anything
+                  important before proceeding!
+                </Text>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button
+                  variant="ghost"
+                  mr={3}
+                  onClick={onFormatWarningModalClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  colorScheme="blue"
+                  onClick={() => {
+                    handleFormatNotionDatabase()
+                    onFormatWarningModalClose()
+                  }}
+                >
+                  Confirm
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </>
       )
     }
 
+    // no issues with connected database, user is all set
     return (
       <>
-        {' '}
-        <Tag
-          mt="15px"
-          width="-webkit-fit-content"
-          size="lg"
-          variant="solid"
-          colorScheme="green"
-        >
-          Ready to receive email!
-        </Tag>
-        {/* Chakra's modal API is dumb as fuck and its just easier to define two entirely separate component trees for each modal rather than getting fancy with some abstraction */}
-        {/* Change Notion page warning modal */}
-        <Modal
-          isOpen={isFormatWarningModalOpen}
-          onClose={onFormatWarningModalClose}
-          isCentered
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Are you sure you want to proceed?</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Text>
-                Continuing with the page format will delete all existing content
-                in the shared page. Make sure you've saved anything important
-                before proceeding!
-              </Text>
-            </ModalBody>
+        <Heading size="lg"> Congrats! You're all set </Heading>
+        <Text my="10px">
+          Get out there and enjoy the refreshingly modern experience of managing
+          email in Notion.
+        </Text>
+        <Flex justifyContent={'center'}>
+          <Image
+            src={pleasantSurprise}
+            alt="A stylized illustration of an excited woman receiving a gift wrapped box"
+            maxWidth={'250px'}
+          />
+        </Flex>
 
-            <ModalFooter>
-              <Button
-                variant="ghost"
-                mr={3}
-                onClick={onFormatWarningModalClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                colorScheme="blue"
-                onClick={() => {
-                  handleFormatNotionDatabase()
-                  onFormatWarningModalClose()
-                }}
-              >
-                Confirm
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        <Divider my="30px" />
       </>
     )
   }
 
+  // either workspace not connected or database is not selected or both
   return null
 }
+
+export default NotionSuccessOrFormat

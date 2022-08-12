@@ -94,10 +94,9 @@ const NotionReselectDatabase = (props: NotionAuthProps) => {
   }
 
   return (
-    <Flex>
+    <Flex direction={'column'}>
+      <Text py="5px">Changed your mind?</Text>
       <Button
-        w="400px"
-        my="30px"
         color={'white'}
         backgroundColor="blue.light"
         border={'1px solid blue.dark'}
@@ -105,7 +104,7 @@ const NotionReselectDatabase = (props: NotionAuthProps) => {
         onClick={onChangeWarningModalOpen}
         disabled={paywallEnabled}
       >
-        Change Connected Notion Page
+        Connect a different Notion page
       </Button>
       {/* Change Notion page warning modal */}
       {renderChangeConnectedPageWarningModal()}

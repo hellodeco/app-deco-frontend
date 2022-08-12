@@ -10,10 +10,9 @@ import {
 } from '@chakra-ui/react'
 import type { User } from '../types/types'
 import { ManageDecoEmail } from './deco-email/ManageDecoEmail'
-import { NotionAuth } from './deco-email/NotionAuth'
+import NotionSuccessOrFormat from './deco-email/NotionSuccessOrFormat'
 import NotionInitiateAuth from './deco-email/NotionInitiateAuth'
 import NotionSelectDatabase from './deco-email/NotionSelectDatabase'
-import NotionReselectDatabase from './deco-email/NotionReselectDatabase'
 interface DecoEmailProps {
   userData: User
 }
@@ -70,8 +69,7 @@ function DecoEmail({ userData }: DecoEmailProps) {
       <ManageDecoEmail userData={userData} />
       <NotionInitiateAuth userData={userData} />
       <NotionSelectDatabase userData={userData} />
-      <NotionAuth userData={userData} />
-      <NotionReselectDatabase userData={userData} />
+      <NotionSuccessOrFormat userData={userData} />
       {/* <Text pt="15px">
         HelloDeco provides you with a custom "@deco.so" email address of your
         choosing.
