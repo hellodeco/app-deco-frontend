@@ -15,11 +15,7 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useQuery, useMutation } from '@apollo/client'
-import {
-  GET_CURRENT_USER_NOTION_INTEGRATION,
-  GET_CURRENT_USER_NOTION_DATABASE_INFO,
-} from '../../graphql/queries'
+import { useMutation } from '@apollo/client'
 import { DROP_AND_MIGRATE_USERS_NOTION_DATABASE } from '../../graphql/mutations'
 import { User } from '../../types/types'
 import pleasantSurprise from '../../media/pleasant-surprise.png'
@@ -27,14 +23,14 @@ import stackingCubes from '../../media/stacking-cubes.png'
 
 interface NotionAuthProps {
   userData: User
+  notionDatabase: any
+  notionIntegration: any
 }
 
 const NotionSuccessOrFormat = (props: NotionAuthProps) => {
-  const { userData } = props
+  const { userData, notionDatabase, notionIntegration } = props
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
-  const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
-  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
   const [formatNotionDatabase, formatNotionDatabaseData] = useMutation(
     DROP_AND_MIGRATE_USERS_NOTION_DATABASE,
   )

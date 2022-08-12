@@ -13,12 +13,24 @@ import { ManageDecoEmail } from './deco-email/ManageDecoEmail'
 import NotionSuccessOrFormat from './deco-email/NotionSuccessOrFormat'
 import NotionInitiateAuth from './deco-email/NotionInitiateAuth'
 import NotionSelectDatabase from './deco-email/NotionSelectDatabase'
+import { useQuery, useMutation } from '@apollo/client'
+import {
+  GET_CURRENT_USER_NOTION_DATABASE_INFO,
+  GET_CURRENT_USER_NOTION_INTEGRATION,
+} from '../graphql/queries'
 interface DecoEmailProps {
   userData: User
 }
 
 function DecoEmail({ userData }: DecoEmailProps) {
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
+  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
+  const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
+
+  const notionIntegrationData =
+    notionIntegration.data?.getCurrentUserNotionIntegration
+  const notionDatabaseData =
+    notionDatabase.data?.getCurrentUserNotionDatabaseInfo
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
     event.preventDefault()
@@ -67,9 +79,27 @@ function DecoEmail({ userData }: DecoEmailProps) {
       <Divider my="30px" />
 
       <ManageDecoEmail userData={userData} />
-      {!paywallEnabled && <NotionInitiateAuth userData={userData} />}
-      {!paywallEnabled && <NotionSelectDatabase userData={userData} />}
-      {!paywallEnabled && <NotionSuccessOrFormat userData={userData} />}
+      {!paywallEnabled && (
+        <NotionInitiateAuth
+          userData={userData}
+          notionDatabase={notionDatabase}
+          notionIntegration={notionIntegration}
+        />
+      )}
+      {!paywallEnabled && (
+        <NotionSelectDatabase
+          userData={userData}
+          notionDatabase={notionDatabase}
+          notionIntegration={notionIntegration}
+        />
+      )}
+      {!paywallEnabled && (
+        <NotionSuccessOrFormat
+          userData={userData}
+          notionDatabase={notionDatabase}
+          notionIntegration={notionIntegration}
+        />
+      )}
       {/* <Text pt="15px">
         HelloDeco provides you with a custom "@deco.so" email address of your
         choosing.

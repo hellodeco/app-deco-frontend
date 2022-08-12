@@ -11,24 +11,21 @@ import {
   UnorderedList,
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
-import { useQuery } from '@apollo/client'
-import {
-  GET_CURRENT_USER_NOTION_INTEGRATION,
-  GET_CURRENT_USER_NOTION_DATABASE_INFO,
-} from '../../graphql/queries'
 import { User } from '../../types/types'
 import dealConnection from '../../media/big-deal-connection.png'
 
 interface NotionAuthProps {
   userData: User
+  notionDatabase: any
+  notionIntegration: any
 }
 
 const NotionInitiateAuth = (props: NotionAuthProps) => {
-  const { userData } = props
+  const { userData, notionIntegration, notionDatabase } = props
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
-  const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
-  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
+  const notionIntegrationData =
+    notionIntegration.data?.getCurrentUserNotionIntegration
 
   const handleAuthWithNotion = useCallback(() => {
     const params = new URLSearchParams()
@@ -47,9 +44,6 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
       }
     }, 300)
   }, [notionIntegration, notionDatabase])
-
-  const notionIntegrationData =
-    notionIntegration.data?.getCurrentUserNotionIntegration
 
   if (!userData?.emailAddress) {
     return null
