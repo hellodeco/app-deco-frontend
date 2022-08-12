@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Flex, Heading } from '@chakra-ui/react'
+import { Flex, Heading, Text } from '@chakra-ui/react'
 
 export const NotionAuthSuccess = () => {
   useEffect(() => {
@@ -9,8 +9,11 @@ export const NotionAuthSuccess = () => {
   }, [])
 
   return (
-    <Flex>
+    <Flex direction={'column'}>
       <Heading size="md">Successfully connected to Notion!</Heading>
+      <Text pt="15px">
+        You can go ahead and close this tab, or wait for it to auto-close.
+      </Text>
     </Flex>
   )
 }
