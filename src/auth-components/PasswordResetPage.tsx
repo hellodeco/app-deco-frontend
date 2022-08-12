@@ -81,9 +81,9 @@ function PasswordResetPage() {
 
           <Button
             color={'white'}
-            backgroundColor={'#e16259'}
-            border={'1px solid #be5643'}
-            _hover={{ backgroundColor: '#cf534a' }}
+            backgroundColor="blue.light"
+            border={'1px solid blue.dark'}
+            _hover={{ backgroundColor: 'blue.dark' }}
             onClick={handlePasswordReset}
           >
             Reset Password
