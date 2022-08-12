@@ -2,7 +2,6 @@ import React from 'react'
 import {
   Heading,
   Button,
-  Tag,
   Divider,
   Image,
   Text,
@@ -16,7 +15,6 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react'
-import Userfront from '@userfront/core'
 import { useQuery, useMutation } from '@apollo/client'
 import {
   GET_CURRENT_USER_NOTION_INTEGRATION,
@@ -25,6 +23,7 @@ import {
 import { DROP_AND_MIGRATE_USERS_NOTION_DATABASE } from '../../graphql/mutations'
 import { User } from '../../types/types'
 import pleasantSurprise from '../../media/pleasant-surprise.png'
+import stackingCubes from '../../media/stacking-cubes.png'
 
 interface NotionAuthProps {
   userData: User
@@ -60,42 +59,41 @@ const NotionSuccessOrFormat = (props: NotionAuthProps) => {
     formatNotionDatabaseData?.loading === true
 
   // workspace connected and database chosen
-  if (notionIntegrationData && notionDatabaseData) {
-    // user connected a Notion page that is not a database
-    if (notionDatabaseData.needsManualFormatting) {
-      return (
-        <Flex flexDir="column">
-          {/* user needs to connect a different page that matches the correct Database format */}
-        </Flex>
-      )
-    }
-
+  if (
+    notionIntegrationData &&
+    notionDatabaseData &&
+    !notionDatabaseData.needsManualFormatting
+  ) {
     // database is connected but is not formatted - user needs to click "format" button
     if (notionDatabaseData.needsFormatting) {
       return (
         <>
-          {notionDatabaseIsBeingFormatted ? (
-            <Text>Formatting notion page...</Text>
-          ) : (
-            <Tag
-              mt="15px"
-              width="-webkit-fit-content"
-              size="lg"
-              variant="solid"
-              colorScheme="red"
-            >
-              Not ready to receive email! Please format your database using the
-              button below.
-            </Tag>
-          )}
-          <Button
-            w="300px"
-            my="30px"
-            onClick={onFormatWarningModalOpen}
-            isActive={notionDatabaseIsBeingFormatted}
-          >
-            Format Notion DB
-          </Button>
+          <Flex direction={'column'}>
+            <Heading>One more thing...</Heading>
+            <Flex>
+              <Flex direction={'column'} justifyContent={'center'}>
+                <Text>We need to prepare your database to recieve email.</Text>
+                <Text>Click the button below and we'll handle the rest!</Text>
+                <Button
+                  mt="15px"
+                  w="200px"
+                  onClick={onFormatWarningModalOpen}
+                  isActive={notionDatabaseIsBeingFormatted}
+                  color={'white'}
+                  backgroundColor="blue.light"
+                  border={'1px solid blue.dark'}
+                  _hover={{ backgroundColor: 'blue.dark' }}
+                >
+                  Format database
+                </Button>
+              </Flex>
+              <Image
+                src={stackingCubes}
+                alt="A stylized illustration of a hand stacking two cubes"
+                maxWidth={'250px'}
+              />
+            </Flex>
+          </Flex>
 
           {/* Change Notion page warning modal */}
           <Modal
@@ -154,8 +152,6 @@ const NotionSuccessOrFormat = (props: NotionAuthProps) => {
             maxWidth={'250px'}
           />
         </Flex>
-
-        <Divider my="30px" />
       </>
     )
   }
