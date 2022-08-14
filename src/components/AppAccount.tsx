@@ -29,11 +29,7 @@ function AppAccount() {
   const userData = data?.currentUser
 
   if (loading) {
-    return (
-      <Flex>
-        Loading...
-      </Flex>
-    )
+    return <Flex>Loading...</Flex>
   }
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
