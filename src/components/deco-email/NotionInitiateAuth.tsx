@@ -26,7 +26,7 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
 
   const notionIntegrationData =
     notionIntegration.data?.getCurrentUserNotionIntegration
-
+  
   const handleAuthWithNotion = useCallback(() => {
     const params = new URLSearchParams()
     params.append('authToken', Userfront.tokens?.accessToken)
@@ -57,10 +57,17 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
             <Text fontSize="lg" fontWeight={'bold'}>
               Notion workspace connected
             </Text>
-            <Text fontSize={'lg'}>
+            <Text fontSize={'lg'} display="flex">
               Name:{' '}
               {notionIntegrationData.workspaceIcon &&
-                notionIntegrationData.workspaceIcon}{' '}
+              <Image
+                src={notionIntegrationData.workspaceIcon}
+                alt="Your notion workspace icon"
+                mx="5px"
+                mt="3px"
+                height="21px"
+                width="21px"
+              />}
               {notionIntegrationData.workspaceName}
             </Text>
             <Text fontSize={'lg'}>

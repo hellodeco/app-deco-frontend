@@ -20,6 +20,7 @@ import {
 } from '../graphql/queries'
 import { GET_USER_META } from '../graphql/queries'
 
+
 function DecoEmail() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
