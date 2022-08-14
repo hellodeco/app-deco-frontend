@@ -18,14 +18,16 @@ import {
   GET_CURRENT_USER_NOTION_DATABASE_INFO,
   GET_CURRENT_USER_NOTION_INTEGRATION,
 } from '../graphql/queries'
-interface DecoEmailProps {
-  userData: User
-}
+import { GET_USER_META } from '../graphql/queries'
 
-function DecoEmail({ userData }: DecoEmailProps) {
-  const paywallEnabled = userData?.subscriptionStatus !== 'active'
+
+function DecoEmail() {
+  const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
+
+  const userData = data?.currentUser
+  const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
     event.preventDefault()
@@ -51,6 +53,14 @@ function DecoEmail({ userData }: DecoEmailProps) {
 
     const resBody = await response.json()
     window.location = resBody.sessionUrl
+  }
+
+  if (loading) {
+    return (
+      <Flex>
+        Loading...
+      </Flex>
+    )
   }
 
   return (

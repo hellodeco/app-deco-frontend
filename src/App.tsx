@@ -75,18 +75,7 @@ const client = new ApolloClient({
 })
 
 function App() {
-  const { loading, data } = useQuery(GET_USER_META)
-
-  const userData = data?.currentUser
-
-  const defaultAuthedRouteProps: Omit<AuthedRouteProps, 'outlet'> = {
-    isAuthenticated: Userfront.accessToken(),
-    authenticationPath: '/',
-  }
-
-  if (loading) {
-    return null
-  }
+  const wildCardNavigateTo = Userfront.accessToken() ? '/email' : '/login'
 
   // Shout out to the below stack overflow for the great protected route component guide
   // https://stackoverflow.com/questions/47747754/how-to-rewrite-the-protected-private-route-using-typescript-and-react-router-4
@@ -112,8 +101,7 @@ function App() {
           element={
             <NavBarLayout>
               <AuthedRoute
-                {...defaultAuthedRouteProps}
-                outlet={<AppAccount userData={userData} />}
+                outlet={<AppAccount />}
               />
             </NavBarLayout>
           }
@@ -124,8 +112,7 @@ function App() {
           element={
             <NavBarLayout>
               <AuthedRoute
-                {...defaultAuthedRouteProps}
-                outlet={<DecoEmail userData={userData} />}
+                outlet={<DecoEmail />}
               />
             </NavBarLayout>
           }
@@ -194,7 +181,7 @@ function App() {
           element={<Attachments />}
         />
 
-        <Route path="*" element={<Navigate to={'/login'} />} />
+        <Route path="*" element={<Navigate to={wildCardNavigateTo} />} />
       </Routes>
     </ChakraProvider>
   )

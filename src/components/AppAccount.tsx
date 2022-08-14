@@ -11,22 +11,30 @@ import {
   AlertTitle,
   AlertDescription,
   Stack,
-  Link,
 } from '@chakra-ui/react'
+import Userfront from '@userfront/core'
+import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import type { User } from '../types/types'
-import Userfront from '@userfront/core'
+import { GET_USER_META } from '../graphql/queries'
 
-interface AppAccountProps {
-  userData: User
-}
-
-function AppAccount({ userData }: AppAccountProps) {
+function AppAccount() {
+  const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
   const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [validateNewPassword, setValidateNewPassword] = useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
   const [successMessage, setSuccessMessage] = React.useState('')
+
+  const userData = data?.currentUser
+
+  if (loading) {
+    return (
+      <Flex>
+        Loading...
+      </Flex>
+    )
+  }
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
     event.preventDefault()
