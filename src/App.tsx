@@ -4,14 +4,13 @@ import { Helmet } from 'react-helmet'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import PasswordResetPage from './auth-components/PasswordResetPage'
-import AuthedRoute, { AuthedRouteProps } from './auth-components/AuthedRoute'
+import AuthedRoute from './auth-components/AuthedRoute'
 import AppAccount from './components/AppAccount'
 import './App.css'
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  useQuery,
   createHttpLink,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
@@ -20,11 +19,11 @@ import SignupPage from './auth-components/SignupPage'
 import PostCheckout from './components/PostCheckout'
 import DecoEmail from './components/DecoEmail'
 import ForgotPasswordPage from './auth-components/ForgotPasswordPage'
-import { GET_USER_META } from './graphql/queries'
 import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
-import NavBarLayout from './components/NavBarLayout'
+import TopNavigationLayout from './components/layouts/TopNavigationLayout'
+import SideNavigationLayout from './components/layouts/SideNavigationLayout'
 import { Navigate } from 'react-router-dom'
 
 const MAIN_YELLOW = '#F7CD45'
@@ -99,80 +98,80 @@ function App() {
         <Route
           path="/account"
           element={
-            <NavBarLayout>
-              <AuthedRoute
-                outlet={<AppAccount />}
-              />
-            </NavBarLayout>
+            <AuthedRoute>
+              <SideNavigationLayout>
+                <AppAccount />
+              </SideNavigationLayout>
+            </AuthedRoute>
           }
         />
 
         <Route
           path="/email"
           element={
-            <NavBarLayout>
-              <AuthedRoute
-                outlet={<DecoEmail />}
-              />
-            </NavBarLayout>
+            <AuthedRoute>
+              <SideNavigationLayout>
+                <DecoEmail />
+              </SideNavigationLayout>
+            </AuthedRoute>
           }
         />
 
         <Route
           path="/reset-password"
           element={
-            <NavBarLayout>
+            <TopNavigationLayout>
               <PasswordResetPage />
-            </NavBarLayout>
+            </TopNavigationLayout>
           }
         />
 
         <Route
           path="/login"
           element={
-            <NavBarLayout>
+            <TopNavigationLayout>
               <LoginPage />
-            </NavBarLayout>
+            </TopNavigationLayout>
           }
         />
         <Route
           path="/signup"
           element={
-            <NavBarLayout>
+            <TopNavigationLayout>
               <SignupPage />
-            </NavBarLayout>
+            </TopNavigationLayout>
           }
         />
         <Route
           path="/forgot-password"
           element={
-            <NavBarLayout>
+            <TopNavigationLayout>
               <ForgotPasswordPage />
-            </NavBarLayout>
+            </TopNavigationLayout>
           }
         />
         <Route
           path="/post-checkout"
           element={
-            <NavBarLayout>
+            <TopNavigationLayout>
               <PostCheckout />
-            </NavBarLayout>
+            </TopNavigationLayout>
           }
         />
         <Route
           path="/oauth/notion/fail"
           element={
-            <NavBarLayout>
+            <TopNavigationLayout>
               <NotionAuthFail />
-            </NavBarLayout>
+            </TopNavigationLayout>
           }
         />
         <Route
           path="/oauth/notion/success"
           element={
-            <NavBarLayout>
+            <TopNavigationLayout>
               <NotionAuthSuccess />
-            </NavBarLayout>
+            </TopNavigationLayout>
           }
         />
 
