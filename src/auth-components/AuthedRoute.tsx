@@ -1,18 +1,19 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { Flex } from '@chakra-ui/react'
+import Userfront from '@userfront/core'
 import AccountNav from '../components/AccountNav'
+
 export interface AuthedRouteProps {
-  isAuthenticated: boolean
-  authenticationPath: string
   outlet: JSX.Element
 }
 
-const RequireAuth = ({
-  isAuthenticated,
-  authenticationPath,
+function AuthedRoute({
   outlet,
-}: AuthedRouteProps) => {
+}: AuthedRouteProps) {
+  const isAuthenticated = Userfront.accessToken()
+  const authenticationPath = '/'
+
   if (isAuthenticated) {
     return (
       <Flex>
@@ -25,4 +26,4 @@ const RequireAuth = ({
   }
 }
 
-export default RequireAuth
+export default AuthedRoute

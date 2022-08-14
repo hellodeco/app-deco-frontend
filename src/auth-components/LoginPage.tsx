@@ -49,7 +49,7 @@ const LoginPage = () => {
   }
 
   if (Userfront.accessToken()) {
-    return <Navigate to={'/account'} />
+    return <Navigate to={'/email'} />
   }
 
   return (
