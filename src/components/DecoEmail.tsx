@@ -13,7 +13,7 @@ import { ManageDecoEmail } from './deco-email/ManageDecoEmail'
 import NotionSuccessOrFormat from './deco-email/NotionSuccessOrFormat'
 import NotionInitiateAuth from './deco-email/NotionInitiateAuth'
 import NotionSelectDatabase from './deco-email/NotionSelectDatabase'
-import { useQuery, useMutation } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import {
   GET_CURRENT_USER_NOTION_DATABASE_INFO,
   GET_CURRENT_USER_NOTION_INTEGRATION,
@@ -26,11 +26,6 @@ function DecoEmail({ userData }: DecoEmailProps) {
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
-
-  const notionIntegrationData =
-    notionIntegration.data?.getCurrentUserNotionIntegration
-  const notionDatabaseData =
-    notionDatabase.data?.getCurrentUserNotionDatabaseInfo
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
     event.preventDefault()
@@ -100,23 +95,6 @@ function DecoEmail({ userData }: DecoEmailProps) {
           notionIntegration={notionIntegration}
         />
       )}
-      {/* <Text pt="15px">
-        HelloDeco provides you with a custom "@deco.so" email address of your
-        choosing.
-      </Text>
-      <Text pt="15px">
-        Any emails sent or forwarded to this address will be delivered directly
-        into your Notion workspace, safely tucked into a database you designate
-        as your inbox.
-      </Text>
-      <Text pt="15px">
-        While Notion doesn't allow us to upload files to your workspace
-        directly, we'll save any email attachments you recieve and make the link
-        available in Notion for quick access.
-      </Text>
-      <Text pt="15px">
-        Sending email is currently not supported, but it's next on our roadmap!
-      </Text> */}
     </Flex>
   )
 }

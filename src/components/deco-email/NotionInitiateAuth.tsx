@@ -109,7 +109,10 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
         </ListItem>
         <ListItem>
           If you're still not sure you got it right, you can{' '}
-          <Link color="blue.dark">
+          <Link
+            color="blue.dark"
+            href="https://www.loom.com/share/4a3c68f383be41d29f357f1f900b3f07"
+          >
             watch our Loom demonstrating the setup process
           </Link>
         </ListItem>
