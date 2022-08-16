@@ -5,6 +5,7 @@ import Userfront from '@userfront/core'
 import exitDoor from '../media/door-exitdeco.svg'
 import mailbox from '../media/mailboxdeco.svg'
 import user from '../media/userdeco.svg'
+import help from '../media/help.svg'
 
 function AccountNav() {
   let navigate = useNavigate()
@@ -45,7 +46,7 @@ function AccountNav() {
           window.open('https://hellodeco.so/how-it-works', '_blank')
         }
       >
-        <Image src={mailbox} marginRight="5px" />
+        <Image src={help} marginRight="5px" />
         How it works
       </Button>
       <Button
