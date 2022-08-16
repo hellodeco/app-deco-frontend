@@ -116,9 +116,9 @@ function AppAccount() {
       </Heading>
       <Button
         color={'white'}
-        backgroundColor={'blue.light'}
-        border={'1px solid blue.dark'}
-        _hover={{ backgroundColor: 'blue.dark' }}
+        backgroundColor={'blue.dark'}
+        border={'1px solid blue.light'}
+        _hover={{ backgroundColor: 'blue.light' }}
         width="300px"
         onClick={handleStripeBillingPortal}
       >
@@ -186,9 +186,9 @@ function AppAccount() {
       </FormControl>
       <Button
         color={'white'}
-        backgroundColor={'blue.light'}
-        border={'1px solid blue.dark'}
-        _hover={{ backgroundColor: 'blue.dark' }}
+        backgroundColor={'blue.dark'}
+        border={'1px solid blue.light'}
+        _hover={{ backgroundColor: 'blue.light' }}
         width="300px"
         my="20px"
         onClick={handlePasswordReset}

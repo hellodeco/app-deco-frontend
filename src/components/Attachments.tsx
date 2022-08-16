@@ -59,7 +59,7 @@ export function Attachments() {
         <Text fontSize="1.5rem">You are not logged in!</Text>
         <Text>
           Please{' '}
-          <Link href={href} color="blue.light">
+          <Link href={href} color="blue.dark">
             login
           </Link>{' '}
           to view file.
@@ -83,11 +83,11 @@ export function Attachments() {
         </Text>
         <Text>
           If you think this is a mistake, try{' '}
-          <Link href={'/login'} color="blue.light">
+          <Link href={'/login'} color="blue.dark">
             logging in
           </Link>{' '}
           or{' '}
-          <Link href="/signup" color="blue.light">
+          <Link href="/signup" color="blue.dark">
             create an account
           </Link>{' '}
           to get started using Deco.

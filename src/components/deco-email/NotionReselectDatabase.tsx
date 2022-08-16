@@ -102,9 +102,9 @@ const NotionReselectDatabase = (props: NotionAuthProps) => {
       <Text py="5px">Changed your mind?</Text>
       <Button
         color={'white'}
-        backgroundColor="blue.light"
-        border={'1px solid blue.dark'}
-        _hover={{ backgroundColor: 'blue.dark' }}
+        backgroundColor={'blue.dark'}
+        border={'1px solid blue.light'}
+        _hover={{ backgroundColor: 'blue.light' }}
         onClick={onChangeWarningModalOpen}
         disabled={paywallEnabled}
       >

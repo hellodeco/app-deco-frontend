@@ -80,9 +80,9 @@ const ForgotPasswordPage = () => {
 
         <Button
           color={'white'}
-          backgroundColor={'blue.light'}
-          border={'1px solid blue.dark'}
-          _hover={{ backgroundColor: 'blue.dark' }}
+          backgroundColor={'blue.dark'}
+          border={'1px solid blue.light'}
+          _hover={{ backgroundColor: 'blue.light' }}
           onClick={(event) => handleResetPassword(event)}
         >
           Email Reset Link
