@@ -164,9 +164,9 @@ function AddNewEmailForm(props: IProps) {
         }
         disabled={!emailAvailable || paywallEnabled}
         color={'white'}
-        backgroundColor="blue.light"
-        border={'1px solid blue.dark'}
-        _hover={{ backgroundColor: 'blue.dark' }}
+        backgroundColor={'blue.dark'}
+        border={'1px solid blue.light'}
+        _hover={{ backgroundColor: 'blue.light' }}
       >
         Create Deco Email
       </Button>
@@ -193,7 +193,7 @@ export function ManageDecoEmail(props: IProps) {
               <Tag
                 py="5px"
                 color="white"
-                backgroundColor={'blue.light'}
+                backgroundColor={'blue.dark'}
                 justifyContent="center"
               >
                 <Link

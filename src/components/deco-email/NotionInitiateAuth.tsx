@@ -26,7 +26,7 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
 
   const notionIntegrationData =
     notionIntegration.data?.getCurrentUserNotionIntegration
-  
+
   const handleAuthWithNotion = useCallback(() => {
     const params = new URLSearchParams()
     params.append('authToken', Userfront.tokens?.accessToken)
@@ -58,15 +58,7 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
               Notion workspace connected
             </Text>
             <Text fontSize={'lg'} display="flex">
-              Name:{' '}
-              {notionIntegrationData.workspaceIcon &&
-              <Image
-                src={notionIntegrationData.workspaceIcon}
-                mx="5px"
-                mt="3px"
-                height="21px"
-                width="21px"
-              />}
+              Name: {notionIntegrationData.workspaceIcon}{' '}
               {notionIntegrationData.workspaceName}
             </Text>
             <Text fontSize={'lg'}>
@@ -118,8 +110,9 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
           <Link
             color="blue.dark"
             href="https://www.loom.com/share/4a3c68f383be41d29f357f1f900b3f07"
+            isExternal
           >
-            watch our Loom demonstrating the setup process
+            watch our Loom screenshare demonstrating the setup process
           </Link>
         </ListItem>
       </UnorderedList>
@@ -133,9 +126,9 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
         onClick={handleAuthWithNotion}
         disabled={paywallEnabled || !userData?.emailAddress}
         color={'white'}
-        backgroundColor="blue.light"
-        border={'1px solid blue.dark'}
-        _hover={{ backgroundColor: 'blue.dark' }}
+        backgroundColor={'blue.dark'}
+        border={'1px solid blue.light'}
+        _hover={{ backgroundColor: 'blue.light' }}
       >
         Connect to Notion
       </Button>

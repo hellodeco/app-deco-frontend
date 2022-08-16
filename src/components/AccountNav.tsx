@@ -41,6 +41,18 @@ function AccountNav() {
         variant="link"
         mb="20px"
         p="5px"
+        onClick={() =>
+          window.open('https://hellodeco.so/how-it-works', '_blank')
+        }
+      >
+        <Image src={mailbox} marginRight="5px" />
+        How it works
+      </Button>
+      <Button
+        color="black"
+        variant="link"
+        mb="20px"
+        p="5px"
         onClick={() => Userfront.logout()}
       >
         <Image src={exitDoor} marginRight="5px" />
