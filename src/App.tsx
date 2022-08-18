@@ -24,6 +24,7 @@ import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
 import TopNavigationLayout from './components/layouts/TopNavigationLayout'
 import SideNavigationLayout from './components/layouts/SideNavigationLayout'
+import SendEmail from './components/SendEmail'
 import { Navigate } from 'react-router-dom'
 
 const MAIN_YELLOW = '#F7CD45'
@@ -173,6 +174,11 @@ function App() {
               <NotionAuthSuccess />
             </TopNavigationLayout>
           }
+        />
+
+        <Route
+          path="/send-email"
+          element={<SendEmail />}
         />
 
         <Route
