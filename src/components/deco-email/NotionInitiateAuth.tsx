@@ -9,6 +9,14 @@ import {
   Flex,
   ListItem,
   UnorderedList,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
 import { User } from '../../types/types'
@@ -46,6 +54,56 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
     }, 300)
   }, [notionIntegration, notionDatabase])
 
+  const {
+    isOpen: isInstructionModalOpen,
+    onOpen: onInstructionModalOpen,
+    onClose: onInstructionModalClose,
+  } = useDisclosure()
+
+  const renderShowSetupInstructionsModal = () => {
+    return (
+      <Modal
+        isOpen={isInstructionModalOpen}
+        onClose={onInstructionModalClose}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Notion Inbox Setup Instructions</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <UnorderedList>
+              <ListItem>Open your Notion workspace</ListItem>
+              <ListItem>
+                Start by selecting "Add a page" in the left menu
+              </ListItem>
+              <ListItem>
+                Instead of continuing with an empty page, choose the database
+                "table" template
+              </ListItem>
+              <ListItem>
+                Notion will ask you to choose a data source - select the very
+                bottom option on the right, "New Database"
+              </ListItem>
+              <ListItem>
+                If you're still not sure you got it right, you can{' '}
+                <Link
+                  color="blue.dark"
+                  href="https://www.loom.com/share/4a3c68f383be41d29f357f1f900b3f07"
+                  isExternal
+                >
+                  watch our Loom screenshare demonstrating the setup process
+                </Link>
+              </ListItem>
+            </UnorderedList>
+          </ModalBody>
+
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
+    )
+  }
+
   if (!userData?.emailAddress) {
     return null
   }
@@ -67,6 +125,22 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
             </Text>
             <Text fontSize={'lg'}>Email: {notionIntegrationData.email}</Text>
             <NotionReselectDatabase userData={userData} />
+            <Text fontSize="lg" fontWeight={'bold'}>
+              Need to see the instructions again?
+            </Text>
+            <Button
+              variant={'link'}
+              onClick={onInstructionModalOpen}
+              py="15px"
+              // ml="0"
+              color="blue.dark"
+              fontStyle={'underline'}
+              justifyContent={'flex-start'}
+            >
+              View setup instructions
+            </Button>
+            {/* Change Notion page warning modal */}
+            {renderShowSetupInstructionsModal()}
           </Flex>
           <Image
             ml="80px"
