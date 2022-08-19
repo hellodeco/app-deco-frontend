@@ -17,6 +17,9 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Alert,
+  AlertIcon,
+  AlertTitle,
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
 import { User } from '../../types/types'
@@ -158,11 +161,42 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
   return (
     <>
       <Heading size="lg">Step Two - connect your Notion workspace</Heading>
+      <Alert status="warning" mt="20px">
+        <AlertIcon />
+        <AlertTitle mr={2}>Notion Setup Required!</AlertTitle>
+      </Alert>
       <Flex mt="15px" alignItems={'center'}>
-        <Text py="10px" fontSize={'md'}>
-          Before you start, you'll need to set up a blank database page in your
-          Notion workspace. This page will become your Inbox!
-        </Text>
+        <Flex flexDir="column">
+          <Text pb="20px" fontWeight={'bold'}>
+            {' '}
+            Before you continue, you'll need to set up a new database in your
+            Notion workspace.
+          </Text>
+          <UnorderedList>
+            <ListItem>Open your Notion workspace</ListItem>
+            <ListItem>
+              Start by selecting "Add a page" in the left menu
+            </ListItem>
+            <ListItem>
+              Instead of continuing with an empty page, choose the database
+              "table" template
+            </ListItem>
+            <ListItem>
+              Notion will ask you to choose a data source - select the very
+              bottom option on the right, "New Database"
+            </ListItem>
+            <ListItem>
+              If you're still not sure you got it right, you can{' '}
+              <Link
+                color="blue.dark"
+                href="https://www.loom.com/share/4a3c68f383be41d29f357f1f900b3f07"
+                isExternal
+              >
+                watch our Loom screenshare demonstrating the setup process
+              </Link>
+            </ListItem>
+          </UnorderedList>
+        </Flex>
         <Image
           ml="80px"
           maxWidth={'200px'}
@@ -170,28 +204,6 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
           alt="A stylized illustration of a two men in business suits shaking hands"
         />
       </Flex>
-      <UnorderedList>
-        <ListItem>Open your Notion workspace</ListItem>
-        <ListItem>Start by selecting "Add a page" in the left menu</ListItem>
-        <ListItem>
-          Instead of continuing with an empty page, choose the database "table"
-          template
-        </ListItem>
-        <ListItem>
-          Notion will ask you to choose a data source - select the very bottom
-          option on the right, "New Database"
-        </ListItem>
-        <ListItem>
-          If you're still not sure you got it right, you can{' '}
-          <Link
-            color="blue.dark"
-            href="https://www.loom.com/share/4a3c68f383be41d29f357f1f900b3f07"
-            isExternal
-          >
-            watch our Loom screenshare demonstrating the setup process
-          </Link>
-        </ListItem>
-      </UnorderedList>
       <Text pt="20px" fontWeight={'bold'}>
         Completed the steps above? You're all set! Go ahead and click that
         button that says "Connect to Notion".
@@ -200,6 +212,7 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
         w="450px"
         my="30px"
         onClick={handleAuthWithNotion}
+        alignSelf={'center'}
         disabled={paywallEnabled || !userData?.emailAddress}
         color={'white'}
         backgroundColor={'blue.dark'}
