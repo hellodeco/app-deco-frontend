@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
 import { User } from '../../types/types'
+import NotionReselectDatabase from './NotionReselectDatabase'
 import dealConnection from '../../media/big-deal-connection.png'
 
 interface NotionAuthProps {
@@ -65,6 +66,7 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
               Owner: {notionIntegrationData.userFullName}
             </Text>
             <Text fontSize={'lg'}>Email: {notionIntegrationData.email}</Text>
+            <NotionReselectDatabase userData={userData} />
           </Flex>
           <Image
             ml="80px"

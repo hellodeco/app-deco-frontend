@@ -98,8 +98,10 @@ const NotionReselectDatabase = (props: NotionAuthProps) => {
   }
 
   return (
-    <Flex direction={'column'}>
-      <Text py="5px">Changed your mind?</Text>
+    <Flex direction={'column'} my="15px">
+      <Text fontSize="lg" fontWeight={'bold'} py="5px">
+        Changed your mind?
+      </Text>
       <Button
         color={'white'}
         backgroundColor={'blue.dark'}
