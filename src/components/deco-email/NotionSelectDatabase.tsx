@@ -84,7 +84,6 @@ const NotionSelectDatabase = (props: NotionAuthProps) => {
                 {notionDatabaseData.icon} {notionDatabaseData.title}
               </Link>{' '}
             </Text>
-            <NotionReselectDatabase userData={userData} />
           </Flex>
         </Flex>
 
