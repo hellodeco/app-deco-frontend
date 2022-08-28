@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Alert,
   AlertTitle,
-  AlertDescription,
+  Text,
   Divider,
   Flex,
   Heading,
@@ -63,18 +63,29 @@ function DecoEmail() {
       <Heading size="xl">Manage HelloDeco Email</Heading>
 
       {paywallEnabled && (
-        <Alert status="error" mt="30px">
-          <AlertTitle>Looks like you don't have a subscription!</AlertTitle>
-          <AlertDescription>
-            <Link
-              color="blue.dark"
-              onClick={(e) => handleStripeBillingPortal(e)}
-            >
-              Click here
-            </Link>{' '}
-            to get started.
-          </AlertDescription>
-        </Alert>
+        <>
+          <Alert
+            status="warning"
+            mt="30px"
+            flexDir={'column'}
+            alignItems="flex-start"
+          >
+            <AlertTitle>Heads up! You're still on our free plan.</AlertTitle>
+            <Text>
+              Our free plan limits you to 10 emails in your Notion inbox.
+            </Text>
+            <Text>
+              Don't want to worry about email delivery?{' '}
+              <Link
+                color="blue.dark"
+                onClick={(e) => handleStripeBillingPortal(e)}
+              >
+                Click here
+              </Link>{' '}
+              to upgrade.
+            </Text>
+          </Alert>
+        </>
       )}
       <Divider my="30px" />
 
