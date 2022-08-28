@@ -20,7 +20,6 @@ import {
 } from '../graphql/queries'
 import { GET_USER_META } from '../graphql/queries'
 
-
 function DecoEmail() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
@@ -80,27 +79,22 @@ function DecoEmail() {
       <Divider my="30px" />
 
       <ManageDecoEmail userData={userData} />
-      {!paywallEnabled && (
-        <NotionInitiateAuth
-          userData={userData}
-          notionDatabase={notionDatabase}
-          notionIntegration={notionIntegration}
-        />
-      )}
-      {!paywallEnabled && (
-        <NotionSelectDatabase
-          userData={userData}
-          notionDatabase={notionDatabase}
-          notionIntegration={notionIntegration}
-        />
-      )}
-      {!paywallEnabled && (
-        <NotionSuccessOrFormat
-          userData={userData}
-          notionDatabase={notionDatabase}
-          notionIntegration={notionIntegration}
-        />
-      )}
+
+      <NotionInitiateAuth
+        userData={userData}
+        notionDatabase={notionDatabase}
+        notionIntegration={notionIntegration}
+      />
+      <NotionSelectDatabase
+        userData={userData}
+        notionDatabase={notionDatabase}
+        notionIntegration={notionIntegration}
+      />
+      <NotionSuccessOrFormat
+        userData={userData}
+        notionDatabase={notionDatabase}
+        notionIntegration={notionIntegration}
+      />
     </Flex>
   )
 }

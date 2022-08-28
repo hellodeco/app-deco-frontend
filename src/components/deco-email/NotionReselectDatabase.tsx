@@ -28,7 +28,6 @@ interface NotionAuthProps {
 
 const NotionReselectDatabase = (props: NotionAuthProps) => {
   const { userData } = props
-  const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
@@ -108,7 +107,6 @@ const NotionReselectDatabase = (props: NotionAuthProps) => {
         border={'1px solid blue.light'}
         _hover={{ backgroundColor: 'blue.light' }}
         onClick={onChangeWarningModalOpen}
-        disabled={paywallEnabled}
       >
         Connect a different Notion page
       </Button>

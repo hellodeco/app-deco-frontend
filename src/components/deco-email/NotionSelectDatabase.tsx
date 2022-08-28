@@ -49,7 +49,6 @@ const NotionSelectDatabase = (props: NotionAuthProps) => {
   }, [notionIntegration, getConnectedNotionPages])
 
   const [selectNotionDatabase] = useMutation(SELECT_NOTION_DATABASE)
-  const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   const notionDatabaseData =
     notionDatabase.data?.getCurrentUserNotionDatabaseInfo
@@ -117,7 +116,6 @@ const NotionSelectDatabase = (props: NotionAuthProps) => {
         _hover={{
           cursor: 'pointer',
         }}
-        disabled={paywallEnabled}
         placeholder="Select shared database..."
         onChange={async (event) => {
           await selectNotionDatabase({

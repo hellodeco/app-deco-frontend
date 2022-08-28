@@ -106,8 +106,6 @@ function AddNewEmailForm(props: IProps) {
     console.log(errorReason)
   }
 
-  const paywallEnabled = userData?.subscriptionStatus !== 'active'
-
   return (
     <>
       <Heading size="lg" mt="20px">
@@ -137,7 +135,6 @@ function AddNewEmailForm(props: IProps) {
               value={newDecoEmailUsername}
               onChange={handleChange}
               placeholder="name"
-              disabled={paywallEnabled}
             />
             <Text color="gray.dark" pl="13px">
               @{emailDomain}
@@ -162,7 +159,7 @@ function AddNewEmailForm(props: IProps) {
             variables: { username: newDecoEmailUsername },
           })
         }
-        disabled={!emailAvailable || paywallEnabled}
+        disabled={!emailAvailable}
         color={'white'}
         backgroundColor={'blue.dark'}
         border={'1px solid blue.light'}
