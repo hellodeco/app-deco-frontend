@@ -29,7 +29,6 @@ interface NotionAuthProps {
 
 const NotionSuccessOrFormat = (props: NotionAuthProps) => {
   const { userData, notionDatabase, notionIntegration } = props
-  const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   const [formatNotionDatabase, formatNotionDatabaseData] = useMutation(
     DROP_AND_MIGRATE_USERS_NOTION_DATABASE,

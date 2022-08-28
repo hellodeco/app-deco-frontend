@@ -34,7 +34,6 @@ interface NotionAuthProps {
 
 const NotionInitiateAuth = (props: NotionAuthProps) => {
   const { userData, notionIntegration, notionDatabase } = props
-  const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   const notionIntegrationData =
     notionIntegration.data?.getCurrentUserNotionIntegration
@@ -213,7 +212,7 @@ const NotionInitiateAuth = (props: NotionAuthProps) => {
         my="30px"
         onClick={handleAuthWithNotion}
         alignSelf={'center'}
-        disabled={paywallEnabled || !userData?.emailAddress}
+        disabled={!userData?.emailAddress}
         color={'white'}
         backgroundColor={'blue.dark'}
         border={'1px solid blue.light'}
