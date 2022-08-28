@@ -53,18 +53,59 @@ const theme = extendTheme({
   },
 })
 
+// Userfront methods fail to lookup the access token correctly when embedded in an iframe so
+// we do this jank ass workaround to get the access token if the Userfront lib fails
+// Userfront cookies need to be set like this:
+// https://stackoverflow.com/a/45095345
+// then we can delete this shit
+function fallbackGetAccessToken() {
+  const cookies = document.cookie
+    .split(';')
+    .filter(Boolean)
+    // @ts-ignore
+    .reduce((acc, str) => {
+      let [key, val] = str.split('=')
+      console.log({ key, val })
+
+      if (!key || !val) return
+      key = key.trim()
+      val = val.trim()
+
+      acc[key] = val
+
+      return acc
+    }, {} as { [key: string]: string })
+
+    const entries = Object.entries(cookies)
+
+    console.log({ cookies, entries })
+    // @ts-ignore
+    const [, accessToken] = entries.find(([key, val]) => key.startsWith('access'))
+
+    console.log({ accessToken })
+
+    return accessToken
+}
+
+
 const httpLink = createHttpLink({
   uri: `${process.env.REACT_APP_API_URL}/api`,
 })
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const accessTokenData = Userfront.tokens
-  // return the headers to the context so httpLink can read them
+  let accessToken = Userfront.accessToken() 
+  console.log(accessToken)
+  
+  if (!accessToken) {
+    console.log('no access token')
+  }
+  
+  accessToken = fallbackGetAccessToken()
+
   return {
     headers: {
       ...headers,
-      authorization: `Bearer ${accessTokenData?.accessToken}`,
+      authorization: `Bearer ${accessToken}`,
     },
   }
 })
@@ -83,6 +124,7 @@ function App() {
     <ChakraProvider theme={theme}>
       <Helmet>
         <meta property="og:url" content="https://app.hellodeco.so" />
+        {/* <meta property="og:url" content="https://vsp.ngrok.io" /> */}
         <meta property="og:title" content="Email for your Notion workspace" />
         <meta
           property="og:description"

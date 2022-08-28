@@ -9,6 +9,7 @@ import {
   FormHelperText,
   Button,
 } from '@chakra-ui/react'
+import Userfront from '@userfront/core'
 import { isNumber } from 'lodash'
 import { useMutation } from '@apollo/client'
 import { gql } from '@apollo/client'
@@ -51,27 +52,50 @@ interface EmailEditorProps {
 
 function EmailEditor({}: EmailEditorProps) {
   const params = useQueryParams()
+  const replyTo = params.get('replyTo')
+  const inReplyToEmailId = params.get('inReplyToEmailId')
 
   const [subject, setSubject] = useState('')
-  const [to, setTo] = useState('')
+  // @todo: add support for tokenized email input for multiple recipients
+  const [to, setTo] = useState(replyTo || '')
   const [emailContent, setEmailContent] = useState('')
   
   const [sendEmail, { data, loading, error }] = useMutation(SEND_EMAIL, {
 
   })
 
-  console.log({ data, loading, error })
+  const isReplyView = Boolean(replyTo) && Boolean(inReplyToEmailId)
+
+  const token = Userfront.accessToken()
+
+  console.log({ data, loading, error, isReplyView, replyTo, inReplyToEmailId, token })
+
+  let emailFieldLabel = 'Email'
+
+  if (isReplyView) {
+    emailFieldLabel = 'Reply'
+  }
 
   return (
     <FormControl>
 
-      <FormLabel>To</FormLabel>
-      <Input type="email" onChange={(e) => setTo(e.target.value)} value={to} />
+      {!isReplyView && (
+        <>
+          <FormLabel>To</FormLabel>
+          <Input type="email" onChange={(e) => setTo(e.target.value)} value={to} />
+        </>
+      )}
 
-      <FormLabel>Subject</FormLabel>
-      <Input type="text" onChange={(e) => setSubject(e.target.value)} value={subject} />
 
-      <FormLabel>Email</FormLabel>
+      {!isReplyView && (
+        <>
+          <FormLabel>Subject</FormLabel>
+          <Input type="text" onChange={(e) => setSubject(e.target.value)} value={subject} />
+        </>
+      )}
+
+
+      <FormLabel>{emailFieldLabel}</FormLabel>
       <Textarea onChange={(e) => setEmailContent(e.target.value)} value={emailContent} />
 
       <Button
@@ -117,10 +141,10 @@ function SendEmail({}: SendEmailProps) {
 
   return (
     <FullScreenContainer>
-      <Flex width="900px">
+      <Flex width="600px">
       <Helmet>
-        <meta property="og:url" content="https://vsp.ngrok.io/send-email?inReplyToEmailId=120" />
-        <meta property="og:title" content="Email for your Notion workspace" />
+        {/* <meta property="og:url" content="https://vsp.ngrok.io/send-email?inReplyToEmailId=120" /> */}
+        {/* <meta property="og:title" content="Email for your Notion workspace" /> */}
       </Helmet>
       <EmailEditor />
       </Flex>
