@@ -9,7 +9,8 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  AlertDescription,
+  Text,
+  Link,
   Stack,
 } from '@chakra-ui/react'
 import Userfront from '@userfront/core'
@@ -98,12 +99,29 @@ function AppAccount() {
     <Flex flexDirection="column" w="100%" mx="20px" mb="40px">
       <Heading size="xl">Account Details</Heading>
       {paywallEnabled && (
-        <Alert status="error" mt="30px">
-          <AlertTitle>Looks like you don't have a subscription!</AlertTitle>
-          <AlertDescription>
-            Purchase subscription to get started.
-          </AlertDescription>
-        </Alert>
+        <>
+          <Alert
+            status="warning"
+            mt="30px"
+            flexDir={'column'}
+            alignItems="flex-start"
+          >
+            <AlertTitle>Heads up! You're still on our free plan.</AlertTitle>
+            <Text>
+              Our free plan limits you to 10 emails in your Notion inbox.
+            </Text>
+            <Text>
+              Don't want to worry about email delivery?{' '}
+              <Link
+                color="blue.dark"
+                onClick={(e) => handleStripeBillingPortal(e)}
+              >
+                Click here
+              </Link>{' '}
+              to upgrade.
+            </Text>
+          </Alert>
+        </>
       )}
       <Divider my="30px" />
       <Heading size="md" mb="20px">
@@ -122,7 +140,7 @@ function AppAccount() {
         width="300px"
         onClick={handleStripeBillingPortal}
       >
-        {paywallEnabled ? 'Purchase subscription' : 'Go to billing'}
+        {paywallEnabled ? 'Upgrade to Pro' : 'Go to billing'}
       </Button>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
