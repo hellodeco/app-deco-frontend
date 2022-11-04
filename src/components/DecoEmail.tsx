@@ -72,7 +72,7 @@ function DecoEmail() {
           >
             <AlertTitle>Heads up! You're still on our free plan.</AlertTitle>
             <Text>
-              Our free plan limits you to 10 emails in your Notion inbox.
+              Our free plan limits you to 100 emails in your Notion inbox.
             </Text>
             <Text>
               Don't want to worry about email delivery?{' '}
