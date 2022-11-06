@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import PasswordResetPage from './auth-components/PasswordResetPage'
 import AuthedRoute from './auth-components/AuthedRoute'
 import AppAccount from './components/AppAccount'
+import Help from './components/HelpAccount'
 import './App.css'
 import {
   ApolloClient,
@@ -112,6 +113,17 @@ function App() {
             <AuthedRoute>
               <SideNavigationLayout>
                 <DecoEmail />
+              </SideNavigationLayout>
+            </AuthedRoute>
+          }
+        />
+
+        <Route
+          path="/help"
+          element={
+            <AuthedRoute>
+              <SideNavigationLayout>
+                <Help />
               </SideNavigationLayout>
             </AuthedRoute>
           }
