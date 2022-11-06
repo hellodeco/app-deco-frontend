@@ -100,31 +100,51 @@ function Help() {
       <Heading size="xl">Help + Support</Heading>
       <Divider my="30px" />
       <Heading size="md" mb="20px">
-        Email us with any questions or feedback at:
+        Have questions or feedback?
       </Heading>
-      <Link
-        width="200px"
-        textDecoration={'underline'}
-        href="mailto:help@hellodeco.so"
-      >
-        help@hellodeco.so
-      </Link>
-      <Divider my="30px" />
-      <Heading size="md" mb="20px">
-        Twitter
-      </Heading>
-      Tweet or DM one of us directly! We'd love to hear from you.
-      <a href="https://twitter.com/veryspry">@veryspry</a> - Engineer
-      <a href="https://twitter.com/tihalstead">@tihalstead</a> - Engineer
-      <a href="https://twitter.com/jackonawalk">@jackonawalk</a> - Marketing /
-      Design
-      <Divider my="30px" />
-      <Heading size="md" mb="20px">
-        Check out our help doc:
-      </Heading>
-      <Link href="https://hellodeco.so/how-it-works" target="_blank">
-        How it works
-      </Link>
+
+      <Text size="md" mb="20px">
+        For starters, you can check out our FAQ doc that walks you through how
+        it works:{' '}
+        <Link
+          href="https://hellodeco.so/how-it-works"
+          textDecoration={'underline'}
+          target="_blank"
+        >
+          read the doc
+        </Link>
+        .
+      </Text>
+
+      <Text size="md" mb="20px">
+        If you need to reach out, we'd love to hear from you, whether you're
+        having trouble getting started, found a bug, or have a feature request.
+        We do our best to respond within the same day, and ideally within the
+        same hour.
+      </Text>
+
+      <Text size="md" mb="20px">
+        Email us with any questions or feedback at:{' '}
+        <Link
+          textDecoration={'underline'}
+          href="mailto:help@hellodeco.so"
+          target="_blank"
+        >
+          help@hellodeco.so
+        </Link>
+      </Text>
+      <Text size="md" mb="20px">
+        Reach out to us on Twitter by tweeting at us or sending us a DM! You can
+        find us{' '}
+        <Link
+          textDecoration={'underline'}
+          href="https://mobile.twitter.com/hellodecoapp"
+          target="_blank"
+        >
+          @hellodecoapp
+        </Link>
+        .
+      </Text>
     </Flex>
   )
 }
