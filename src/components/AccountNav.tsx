@@ -45,7 +45,7 @@ function AccountNav() {
         onClick={() => navigate('/help')}
       >
         <Image src={help} marginRight="5px" />
-        How it works
+        Help + Support
       </Button>
       <Button
         color="black"
