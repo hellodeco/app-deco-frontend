@@ -42,9 +42,7 @@ function AccountNav() {
         variant="link"
         mb="20px"
         p="5px"
-        onClick={() =>
-          window.open('https://hellodeco.so/how-it-works', '_blank')
-        }
+        onClick={() => navigate('/help')}
       >
         <Image src={help} marginRight="5px" />
         How it works
