@@ -54,7 +54,7 @@ const theme = extendTheme({
 })
 
 const httpLink = createHttpLink({
-  uri: `${process.env.REACT_APP_API_URL}/api`,
+  uri: `${process.env.REACT_APP_GRAPHQL_URL}`,
 })
 
 const authLink = setContext((_, { headers }) => {
