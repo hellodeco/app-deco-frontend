@@ -82,7 +82,7 @@ function App() {
   // Shout out to the below stack overflow for the great protected route component guide
   // https://stackoverflow.com/questions/47747754/how-to-rewrite-the-protected-private-route-using-typescript-and-react-router-4
   return (
-    <ChakraProvider theme={theme}>
+    <div>
       <Helmet>
         <meta property="og:url" content="https://app.hellodeco.so" />
         <meta property="og:title" content="Email for your Notion workspace" />
@@ -196,7 +196,7 @@ function App() {
 
         <Route path="*" element={<Navigate to={wildCardNavigateTo} />} />
       </Routes>
-    </ChakraProvider>
+    </div>
   )
 }
 
