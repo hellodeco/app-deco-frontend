@@ -1,23 +1,10 @@
-import {
-  Flex,
-  Heading,
-  Divider,
-  Button,
-  Input,
-  FormControl,
-  FormLabel,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Text,
-  Link,
-  Stack,
-} from '@chakra-ui/react'
 import Userfront from '@userfront/core'
 import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import type { User } from '../types/types'
 import { GET_USER_META } from '../graphql/queries'
+import { MegaphoneIcon } from '@heroicons/react/24/outline'
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
 
 function AppAccount() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
@@ -30,7 +17,11 @@ function AppAccount() {
   const userData = data?.currentUser
 
   if (loading) {
-    return <Flex>Loading...</Flex>
+    return (
+      <div>
+        <h1 className="text-2xl font-semibold text-gray-900">Loading...</h1>
+      </div>
+    )
   }
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
@@ -71,7 +62,7 @@ function AppAccount() {
     setErrorMessage('')
     setSuccessMessage('')
     if (newPassword !== validateNewPassword) {
-      setErrorMessage("Passwords don't match")
+      setErrorMessage("Uh oh! Those passwords don't match!")
       return
     }
 
@@ -96,124 +87,159 @@ function AppAccount() {
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   return (
-    <Flex flexDirection="column" w="100%" mx="20px" mb="40px">
-      <Heading size="xl">Account Details</Heading>
-      {paywallEnabled && (
-        <>
-          <Alert
-            status="warning"
-            mt="30px"
-            flexDir={'column'}
-            alignItems="flex-start"
+    <>
+      <h1 className="text-2xl font-semibold text-gray-900">Account Details</h1>
+      <div className="mt-12 overflow-hidden rounded-lg bg-white shadow-xl">
+        {paywallEnabled && (
+          <div className="bg-indigo-600">
+            <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
+              <div className="flex flex-wrap items-center justify-between">
+                <div className="flex w-0 flex-1 items-center">
+                  <span className="flex rounded-lg bg-indigo-800 p-2">
+                    <MegaphoneIcon
+                      className="h-6 w-6 text-white"
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <p className="ml-3 truncate font-medium text-white">
+                    <span className="md:hidden">
+                      We announced a new product!
+                    </span>
+                    <span className="hidden md:inline">
+                      Heads up! You're still on our free plan. Our free plan
+                      limits you to 100 emails in your Notion inbox.
+                    </span>
+                  </p>
+                </div>
+                <div className="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
+                  <button
+                    onClick={(e) => handleStripeBillingPortal(e)}
+                    className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-indigo-600 shadow-sm hover:bg-indigo-50"
+                  >
+                    Upgrade
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="px-4 py-5 sm:p-6">
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Signup Information
+          </h2>
+          <p>Your signup email: {userData?.signupEmail}</p>
+
+          <div className="my-8 w-full border-t border-gray-300"></div>
+
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Manage Billing
+          </h2>
+
+          <button
+            type="button"
+            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            onClick={handleStripeBillingPortal}
           >
-            <AlertTitle>Heads up! You're still on our free plan.</AlertTitle>
-            <Text>
-              Our free plan limits you to 100 emails in your Notion inbox.
-            </Text>
-            <Text>
-              Don't want to worry about email delivery?{' '}
-              <Link
-                color="blue.dark"
-                onClick={(e) => handleStripeBillingPortal(e)}
+            {paywallEnabled ? 'Upgrade to Pro' : 'Go to billing'}
+          </button>
+
+          <div className="my-8 w-full border-t border-gray-300"></div>
+
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Reset Password
+          </h2>
+
+          <div className="w-1/2">
+            <div className="my-6">
+              <label
+                htmlFor="oldPassword"
+                className="block text-sm font-medium text-gray-700"
               >
-                Click here
-              </Link>{' '}
-              to upgrade.
-            </Text>
-          </Alert>
-        </>
-      )}
-      <Divider my="30px" />
-      <Heading size="md" mb="20px">
-        Signup Information
-      </Heading>
-      Your signup email: {userData?.signupEmail}
-      <Divider my="30px" />
-      <Heading size="md" mb="20px">
-        Manage Billing
-      </Heading>
-      <Button
-        color={'white'}
-        backgroundColor={'blue.dark'}
-        border={'1px solid blue.light'}
-        _hover={{ backgroundColor: 'blue.light' }}
-        width="300px"
-        onClick={handleStripeBillingPortal}
-      >
-        {paywallEnabled ? 'Upgrade to Pro' : 'Go to billing'}
-      </Button>
-      <Divider my="30px" />
-      <Heading size="md" mb="20px">
-        Reset Password
-      </Heading>
-      <Stack spacing={4} pb="6">
-        {errorMessage.length && (
-          <Alert status="error">
-            <AlertIcon />
-            <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
-          </Alert>
-        )}
-        {successMessage.length && (
-          <Alert status="success">
-            <AlertTitle mr={2}>{successMessage}!</AlertTitle>
-          </Alert>
-        )}
-      </Stack>
-      <FormControl>
-        <FormLabel htmlFor="password">Old password</FormLabel>
-        <Flex flexDir="row" alignItems="center">
-          <Input
-            w="300px"
-            size="lg"
-            id="oldPassword"
-            type="password"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-            placeholder="Old password"
-            mb="20px"
-          />
-        </Flex>
+                Old Password
+              </label>
+              <div className="mt-1">
+                <input
+                  type="password"
+                  name="oldPassword"
+                  id="oldPassword"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Old password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="my-6">
+              <label
+                htmlFor="newPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
+                New Password
+              </label>
+              <div className="mt-1">
+                <input
+                  type="password"
+                  name="newPassword"
+                  id="newPassword"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="New password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="my-6">
+              <label
+                htmlFor="verifyPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Verify Password
+              </label>
+              <div className="relative mt-1">
+                <input
+                  type="password"
+                  name="verifyPassword"
+                  id="verifyPassword"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Verify new password"
+                  value={validateNewPassword}
+                  onChange={(e) => setValidateNewPassword(e.target.value)}
+                />
+                {errorMessage && (
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                    <ExclamationCircleIcon
+                      className="h-5 w-5 text-red-500"
+                      aria-hidden="true"
+                    />
+                  </div>
+                )}
+              </div>
+              {errorMessage && (
+                <p className="mt-2 text-sm text-red-600" id="password-error">
+                  {errorMessage}
+                </p>
+              )}
+              {successMessage && (
+                <p
+                  className="mt-2 text-sm text-green-600"
+                  id="password-success"
+                >
+                  {successMessage}
+                </p>
+              )}
+            </div>
+          </div>
 
-        <FormLabel htmlFor="password">New password</FormLabel>
-        <Flex flexDir="row" alignItems="center">
-          <Input
-            w="300px"
-            size="lg"
-            id="newPassword"
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            placeholder="New password"
-            mb="20px"
-          />
-        </Flex>
-
-        <FormLabel htmlFor="password">Verify new password</FormLabel>
-        <Flex flexDir="row" alignItems="center">
-          <Input
-            w="300px"
-            size="lg"
-            id="validateNewPassword"
-            type="password"
-            value={validateNewPassword}
-            onChange={(e) => setValidateNewPassword(e.target.value)}
-            placeholder="Verify new password"
-            mb="20px"
-          />
-        </Flex>
-      </FormControl>
-      <Button
-        color={'white'}
-        backgroundColor={'blue.dark'}
-        border={'1px solid blue.light'}
-        _hover={{ backgroundColor: 'blue.light' }}
-        width="300px"
-        my="20px"
-        onClick={handlePasswordReset}
-      >
-        Reset password
-      </Button>
-    </Flex>
+          <button
+            type="button"
+            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            onClick={handlePasswordReset}
+          >
+            Reset password
+          </button>
+        </div>
+      </div>
+    </>
   )
 }
 
