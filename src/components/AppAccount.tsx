@@ -3,8 +3,10 @@ import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import type { User } from '../types/types'
 import { GET_USER_META } from '../graphql/queries'
-import { MegaphoneIcon } from '@heroicons/react/24/outline'
-import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
+import {
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+} from '@heroicons/react/20/solid'
 
 function AppAccount() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
@@ -88,53 +90,59 @@ function AppAccount() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold text-gray-900">Account Details</h1>
-      <div className="mt-12 overflow-hidden rounded-lg bg-white shadow-xl">
+      <h1 className="text-3xl font-semibold text-gray-900 px-4 sm:p-6">
+        Account Details
+      </h1>
+      <div className="overflow-hidden rounded-lg bg-white shadow-xl">
         {paywallEnabled && (
-          <div className="bg-indigo-600">
-            <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
-              <div className="flex flex-wrap items-center justify-between">
-                <div className="flex w-0 flex-1 items-center">
-                  <span className="flex rounded-lg bg-indigo-800 p-2">
-                    <MegaphoneIcon
-                      className="h-6 w-6 text-white"
-                      aria-hidden="true"
-                    />
-                  </span>
-                  <p className="ml-3 truncate font-medium text-white">
-                    <span className="md:hidden">
-                      We announced a new product!
-                    </span>
-                    <span className="hidden md:inline">
-                      Heads up! You're still on our free plan. Our free plan
-                      limits you to 100 emails in your Notion inbox.
-                    </span>
+          <div className="rounded-md bg-yellow-50 p-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <ExclamationTriangleIcon
+                  className="h-5 w-5 text-yellow-400"
+                  aria-hidden="true"
+                />
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-yellow-800">
+                  Heads up! You're still on our free plan.
+                </h3>
+                <div className="mt-2 text-sm text-yellow-700">
+                  <p>
+                    Our free plan limits you to 100 emails in your Notion inbox.
                   </p>
                 </div>
-                <div className="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
-                  <button
-                    onClick={(e) => handleStripeBillingPortal(e)}
-                    className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-indigo-600 shadow-sm hover:bg-indigo-50"
-                  >
-                    Upgrade
-                  </button>
+                <div className="mt-4">
+                  <div className="-mx-2 -my-1.5 flex">
+                    <button
+                      type="button"
+                      className="rounded-md bg-yellow-50 px-2 py-1.5 text-sm font-medium text-yellow-800 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2 focus:ring-offset-yellow-50"
+                      onClick={(e) => handleStripeBillingPortal(e)}
+                    >
+                      Upgrade
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         )}
         <div className="px-4 py-5 sm:p-6">
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="pb-4 text-2xl font-semibold text-gray-900">
             Signup Information
           </h2>
           <p>Your signup email: {userData?.signupEmail}</p>
 
           <div className="my-8 w-full border-t border-gray-300"></div>
 
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="pb-4 text-2xl font-semibold text-gray-900">
             Manage Billing
           </h2>
 
+          <p className="py-2">
+            Don't want to worry about email limits? Upgrade to get unlimited
+            delivery!
+          </p>
           <button
             type="button"
             className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
