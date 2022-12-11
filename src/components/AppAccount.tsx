@@ -103,26 +103,20 @@ function AppAccount() {
                   aria-hidden="true"
                 />
               </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800">
-                  Heads up! You're still on our free plan.
-                </h3>
-                <div className="mt-2 text-sm text-yellow-700">
-                  <p>
-                    Our free plan limits you to 100 emails in your Notion inbox.
-                  </p>
-                </div>
-                <div className="mt-4">
-                  <div className="-mx-2 -my-1.5 flex">
-                    <button
-                      type="button"
-                      className="rounded-md bg-yellow-50 px-2 py-1.5 text-sm font-medium text-yellow-800 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2 focus:ring-offset-yellow-50"
-                      onClick={(e) => handleStripeBillingPortal(e)}
-                    >
-                      Upgrade
-                    </button>
-                  </div>
-                </div>
+              <div className="ml-3 flex-1 md:flex md:justify-between">
+                <p className="text-sm text-yellow-700">
+                  Heads up! You're still on our free plan. Our free plan limits
+                  you to 100 emails in your Notion inbox.
+                </p>
+                <p className="mt-3 text-sm md:mt-0 md:ml-6">
+                  <button
+                    onClick={(e) => handleStripeBillingPortal(e)}
+                    className="whitespace-nowrap font-medium text-yellow-700 hover:text-yellow-600"
+                  >
+                    Upgrade
+                    <span aria-hidden="true"> &rarr;</span>
+                  </button>
+                </p>
               </div>
             </div>
           </div>

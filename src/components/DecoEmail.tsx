@@ -1,18 +1,29 @@
 import React, { useState } from 'react'
 import type { User } from '../types/types'
-import { useQuery } from '@apollo/client'
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import {
   GET_CURRENT_USER_NOTION_DATABASE_INFO,
   GET_CURRENT_USER_NOTION_INTEGRATION,
+  EMAIL_DOMAIN,
+  GET_EMAIL_AVAILABILITY,
 } from '../graphql/queries'
+import { SET_USERS_DECO_EMAIL } from '../graphql/mutations'
 import { GET_USER_META } from '../graphql/queries'
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import { EnvelopeIcon } from '@heroicons/react/24/outline'
 import ReconnectNotionModal from './Modal'
 
 function DecoEmail() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
+  const { data: emailDomainData } = useQuery(EMAIL_DOMAIN)
+  const [
+    getEmailAvailable,
+    { loading: emailAvailableLoading, data: emailAvailableData },
+  ] = useLazyQuery(GET_EMAIL_AVAILABILITY)
+
+  const emailDomain = emailDomainData?.emailDomain
 
   const notionIntegrationData =
     notionIntegration.data?.getCurrentUserNotionIntegration
@@ -24,6 +35,61 @@ function DecoEmail() {
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
   const [openReconnectModal, setOpenReconnectModal] = useState(false)
+
+  const [newDecoEmailUsername, setNewDecoEmail] = useState('')
+  const [timer, setTimer] = useState<any>()
+  const [emailAvailable, setEmailAvailable] = useState(true)
+
+  const isValidEmailUsername = (email: string) => {
+    const emailRegex = /^\w+([\.-]?\w+)*$/
+    return emailRegex.test(email)
+  }
+
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+  }
+
+  const [handleSetEmail, { data: setEmailData }] = useMutation(
+    SET_USERS_DECO_EMAIL,
+    {
+      refetchQueries: [{ query: GET_USER_META }],
+    },
+  )
+
+  const handleSubmitSetDecoEmail = (e: any) => {
+    e.preventDefault()
+
+    handleSetEmail({
+      variables: { username: newDecoEmailUsername },
+    })
+
+    setNewDecoEmail('')
+  }
+
+  const handleDecoEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    const decoEmailUsername = e.target.value
+
+    setNewDecoEmail(decoEmailUsername)
+
+    clearTimeout(timer)
+
+    const newTimer = setTimeout(() => {
+      getEmailAvailable({ variables: { username: newDecoEmailUsername } })
+
+      if (
+        decoEmailUsername.length > 3 &&
+        emailAvailableData?.emailUsernameAvailable &&
+        isValidEmailUsername(decoEmailUsername)
+      ) {
+        setEmailAvailable(true)
+      } else {
+        setEmailAvailable(false)
+      }
+    }, 500)
+
+    setTimer(newTimer)
+  }
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
     event.preventDefault()
@@ -58,13 +124,14 @@ function DecoEmail() {
       </div>
     )
   }
-  console.log(notionDatabaseData)
+  console.log(emailAvailable)
   return (
     <>
       <h1 className="text-3xl font-semibold text-gray-900 px-4 sm:p-6">
         Manage Notion Connection
       </h1>
       <div className="overflow-hidden rounded-lg bg-white shadow-xl">
+        {/* START UPGRADE BANNER CALLOUT */}
         {paywallEnabled && (
           <div className="rounded-md bg-yellow-50 p-4">
             <div className="flex">
@@ -74,48 +141,71 @@ function DecoEmail() {
                   aria-hidden="true"
                 />
               </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800">
-                  Heads up! You're still on our free plan.
-                </h3>
-                <div className="mt-2 text-sm text-yellow-700">
-                  <p>
-                    Our free plan limits you to 100 emails in your Notion inbox.
-                  </p>
-                </div>
-                <div className="mt-4">
-                  <div className="-mx-2 -my-1.5 flex">
-                    <button
-                      type="button"
-                      className="rounded-md bg-yellow-50 px-2 py-1.5 text-sm font-medium text-yellow-800 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2 focus:ring-offset-yellow-50"
-                      onClick={handleStripeBillingPortal}
-                    >
-                      Upgrade
-                    </button>
-                  </div>
-                </div>
+              <div className="ml-3 flex-1 md:flex md:justify-between">
+                <p className="text-sm text-yellow-700">
+                  Heads up! You're still on our free plan. Our free plan limits
+                  you to 100 emails in your Notion inbox.
+                </p>
+                <p className="mt-3 text-sm md:mt-0 md:ml-6">
+                  <button
+                    onClick={handleStripeBillingPortal}
+                    className="whitespace-nowrap font-medium text-yellow-700 hover:text-yellow-600"
+                  >
+                    Upgrade
+                    <span aria-hidden="true"> &rarr;</span>
+                  </button>
+                </p>
               </div>
             </div>
           </div>
         )}
-        <div className="px-4 py-5 sm:p-6">
-          {/* <ManageDecoEmail userData={userData} />
+        {/* END UPGRADE BANNER CALLOUT */}
 
-          <NotionInitiateAuth
-            userData={userData}
-            notionDatabase={notionDatabase}
-            notionIntegration={notionIntegration}
-          />
-          <NotionSelectDatabase
-            userData={userData}
-            notionDatabase={notionDatabase}
-            notionIntegration={notionIntegration}
-          />
-          <NotionSuccessOrFormat
-            userData={userData}
-            notionDatabase={notionDatabase}
-            notionIntegration={notionIntegration}
-          /> */}
+        <div className="px-4 py-5 sm:p-6">
+          {/* START CHOOSE / DISPLAY DECO EMAIL */}
+          {!userData?.emailAddress ? (
+            <div className="mb-6">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                Select your Hellodeco email
+              </h3>
+              <div className="mt-2 max-w-xl text-sm text-gray-500">
+                <p>
+                  This is the shiny new email address you'll use to send emails
+                  to your Notion workspace. Once you decide, you can't change
+                  it, so choose wisely!
+                </p>
+              </div>
+              <form className="mt-5 sm:flex sm:items-center">
+                <div className="w-1/2 mr-2 sm:max-w-xs">
+                  <label htmlFor="email" className="sr-only">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    name="decoEmail"
+                    id="decoEmail"
+                    value={newDecoEmailUsername}
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    placeholder="name"
+                    onChange={handleDecoEmailChange}
+                  />
+                </div>
+                <p className="mr-4">@{emailDomain}</p>
+
+                <button
+                  type="submit"
+                  className="disabled:bg-indigo-300 mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  disabled={!emailAvailable}
+                  onClick={(e) => handleSubmitSetDecoEmail(e)}
+                >
+                  Save
+                </button>
+              </form>
+            </div>
+          ) : (
+            <></>
+          )}
+          {/* END CHOOSE / DISPLAY DECO EMAIL */}
 
           <h3 className="text-lg font-medium leading-6 text-gray-900">
             Connected Notion account
@@ -127,6 +217,25 @@ function DecoEmail() {
         </div>
         <div className="border-t border-gray-200">
           <dl>
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500">
+                Hellodeco Email
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {userData && userData.emailAddress ? (
+                  <a
+                    href={userData ? `mailto:${userData.emailAddress}` : '#'}
+                    className="underline"
+                  >
+                    {userData.emailAddress}
+                  </a>
+                ) : (
+                  <p className="text-sm text-red-600">
+                    Please choose your Hellodeco email address!
+                  </p>
+                )}
+              </dd>
+            </div>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">
                 Connection status
