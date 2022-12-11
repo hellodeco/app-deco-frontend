@@ -7,19 +7,19 @@ const Help = () => {
       <div className="overflow-hidden rounded-lg bg-white shadow-xl">
         <div className="px-4 pt-5 mb-4 sm:p-6">
           <h2 className="pb-4 text-2xl font-semibold text-gray-900">
-            Have questions or feedback?
+            Documentation
           </h2>
           <p>
-            For starters, you can{' '}
+            For FAQ and a video walkthrough of the product,{' '}
             <a
               href="https://hellodeco.so/how-it-works"
               className="underline"
               target="_blank"
               rel="noreferrer"
             >
-              check out our FAQ doc
-            </a>{' '}
-            that provides a video walkthrough of the product.
+              check out our FAQ doc here
+            </a>
+            .
           </p>
 
           <div className="my-8 w-full border-t border-gray-300"></div>
