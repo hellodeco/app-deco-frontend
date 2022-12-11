@@ -142,14 +142,7 @@ function App() {
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route
-          path="/forgot-password"
-          element={
-            <TopNavigationLayout>
-              <ForgotPasswordPage />
-            </TopNavigationLayout>
-          }
-        />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route
           path="/post-checkout"
           element={
