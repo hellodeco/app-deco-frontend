@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Userfront from '@userfront/core'
 import {
   Bars3Icon,
@@ -22,6 +22,7 @@ interface SideNavigationLayoutProps {
 function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   let location = useLocation()
+  let navigate = useNavigate()
 
   const navigation = [
     {
@@ -109,9 +110,9 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
                     </div>
                     <nav className="mt-5 space-y-1 px-2">
                       {navigation.map((item) => (
-                        <a
+                        <button
                           key={item.name}
-                          href={item.href}
+                          onClick={() => navigate(item.href)}
                           className={classNames(
                             item.current
                               ? 'bg-indigo-800 text-white'
@@ -124,7 +125,7 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </button>
                       ))}
                       <button
                         className={classNames(
@@ -164,13 +165,13 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
               </div>
               <nav className="mt-5 flex-1 space-y-1 px-2">
                 {navigation.map((item) => (
-                  <a
+                  <button
                     key={item.name}
-                    href={item.href}
+                    onClick={() => navigate(item.href)}
                     className={classNames(
                       item.current
-                        ? 'bg-indigo-800 text-white'
-                        : 'text-white hover:bg-indigo-600 hover:bg-opacity-75',
+                        ? 'bg-indigo-800 text-white w-full'
+                        : 'text-white w-full hover:bg-indigo-600 hover:bg-opacity-75',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                     )}
                   >
@@ -179,13 +180,10 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
                       aria-hidden="true"
                     />
                     {item.name}
-                  </a>
+                  </button>
                 ))}
                 <button
-                  className={classNames(
-                    'text-white hover:bg-indigo-600 hover:bg-opacity-75 w-full',
-                    'group flex items-center px-2 py-2 text-base font-medium rounded-md',
-                  )}
+                  className="text-white hover:bg-indigo-600 hover:bg-opacity-75 w-full group flex items-center px-2 py-2 text-base font-medium rounded-md"
                   onClick={() => Userfront.logout()}
                 >
                   <CalendarIcon
