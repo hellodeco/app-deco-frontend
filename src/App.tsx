@@ -1,7 +1,6 @@
 import React from 'react'
 import Userfront from '@userfront/core'
 import { Helmet } from 'react-helmet'
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import PasswordResetPage from './auth-components/PasswordResetPage'
 import AuthedRoute from './auth-components/AuthedRoute'
@@ -23,35 +22,10 @@ import ForgotPasswordPage from './auth-components/ForgotPasswordPage'
 import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
-import TopNavigationLayout from './components/layouts/TopNavigationLayout'
 import SideNavigationLayout from './components/layouts/SideNavigationLayout'
 import { Navigate } from 'react-router-dom'
 
 const MAIN_YELLOW = '#F7CD45'
-
-const theme = extendTheme({
-  colors: {
-    yellow: {
-      primary: '#F7CD45',
-    },
-    black: {
-      primary: '#202020',
-    },
-    white: {
-      brand: '#F7F4EA',
-    },
-    blue: {
-      light: '#20A4F3',
-      dark: '#007EA7',
-    },
-  },
-  fonts: {
-    body: '"HK-Grotesk, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol""',
-    heading:
-      '"HK-Grotesk, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol""',
-    mono: '"SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace"',
-  },
-})
 
 const httpLink = createHttpLink({
   uri: `${process.env.REACT_APP_GRAPHQL_URL}`,
@@ -134,32 +108,16 @@ function App() {
         <Route path="/reset-password" element={<PasswordResetPage />} />
 
         <Route path="/login" element={<LoginPage />} />
+
         <Route path="/signup" element={<SignupPage />} />
+
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route
-          path="/post-checkout"
-          element={
-            <TopNavigationLayout>
-              <PostCheckout />
-            </TopNavigationLayout>
-          }
-        />
-        <Route
-          path="/oauth/notion/fail"
-          element={
-            <TopNavigationLayout>
-              <NotionAuthFail />
-            </TopNavigationLayout>
-          }
-        />
-        <Route
-          path="/oauth/notion/success"
-          element={
-            <TopNavigationLayout>
-              <NotionAuthSuccess />
-            </TopNavigationLayout>
-          }
-        />
+
+        <Route path="/post-checkout" element={<PostCheckout />} />
+
+        <Route path="/oauth/notion/fail" element={<NotionAuthFail />} />
+
+        <Route path="/oauth/notion/success" element={<NotionAuthSuccess />} />
 
         <Route
           path="/files/attachments/:attachmentId/:filename/preview"
