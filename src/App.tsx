@@ -140,22 +140,8 @@ function App() {
           }
         />
 
-        <Route
-          path="/login"
-          element={
-            <TopNavigationLayout>
-              <LoginPage />
-            </TopNavigationLayout>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <TopNavigationLayout>
-              <SignupPage />
-            </TopNavigationLayout>
-          }
-        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route
           path="/forgot-password"
           element={

@@ -1,22 +1,10 @@
 import React from 'react'
-import {
-  Divider,
-  Heading,
-  Button,
-  Flex,
-  Stack,
-  InputGroup,
-  Input,
-  Image,
-  Alert,
-  AlertTitle,
-  AlertIcon,
-} from '@chakra-ui/react'
 import { useMutation } from '@apollo/client'
 import { CREATE_NEW_USER } from '../graphql/mutations'
 import Userfront from '@userfront/core'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import mailmanIllustration from '../media/hellodeco-logo.png'
+import HelloDecoFontLogo from '../media/hellodeco-logo-2.svg'
 
 function getEmailParam() {
   let params = new URLSearchParams(window.location.search)
@@ -28,6 +16,8 @@ const SignupPage = () => {
   const [password, setPassword] = React.useState('')
   const [passwordVerify, setPasswordVerify] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
+
+  let navigate = useNavigate()
 
   const [handleCreateUser, { data, loading, error }] = useMutation(
     CREATE_NEW_USER,
@@ -73,65 +63,120 @@ const SignupPage = () => {
   }
 
   return (
-    <Flex>
-      <Flex width={'400px'} mt="80px" flexDirection={'column'}>
-        <Heading size={'md'} mb="20px">
-          Signup
-        </Heading>
-        <Stack spacing={4} pb="6">
-          <>
-            <InputGroup>
-              <Input
-                placeholder="Email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+    <div className="flex max-w-7xl mx-auto">
+      <div className="flex min-h-full">
+        <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+          <div className="mx-auto w-full max-w-sm lg:w-96">
+            <div>
+              <img
+                className="h-12 w-auto"
+                src={HelloDecoFontLogo}
+                alt="Your Company"
               />
-            </InputGroup>
+              <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
+                Sign up for a new account
+              </h2>
+              <p className="mt-2 text-sm text-gray-600">
+                Or{' '}
+                <button
+                  onClick={() => navigate('/login')}
+                  className="font-medium underline text-indigo-600 hover:text-indigo-500"
+                >
+                  login to an existing account
+                </button>
+              </p>
+            </div>
 
-            <InputGroup>
-              <Input
-                type="password"
-                placeholder="Enter password"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </InputGroup>
+            <div className="mt-8">
+              <div className="mt-6">
+                <form action="#" method="POST" className="space-y-6">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Email address
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        onChange={(event) => setEmail(event.target.value)}
+                      />
+                    </div>
+                  </div>
 
-            <InputGroup>
-              <Input
-                type="password"
-                placeholder="Verify password"
-                onChange={(event) => setPasswordVerify(event.target.value)}
-              />
-            </InputGroup>
-          </>
-          {errorMessage.length && (
-            <Alert status="error">
-              <AlertIcon />
-              <AlertTitle mr={2}>{errorMessage}!</AlertTitle>
-            </Alert>
-          )}
-          <Divider my="5px" />
-          <Button
-            mt="30px"
-            color={'white'}
-            backgroundColor={'blue.dark'}
-            border={'1px solid blue.light'}
-            _hover={{ backgroundColor: 'blue.light' }}
-            onClick={(event) => handleSignup(event)}
-            disabled={loading}
-          >
-            Signup
-          </Button>
-        </Stack>
-      </Flex>
-      <Image
-        ml="80px"
-        maxWidth={'350px'}
-        maxHeight={'350px'}
-        src={mailmanIllustration}
-        alt="A stylized illustration of a mailman delivers a letter to a mailbox"
-      />
-    </Flex>
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Password
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        onChange={(event) => setPassword(event.target.value)}
+                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="verifyPassword"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Verify Password
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="verifyPassword"
+                        name="verifyPassword"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        onChange={(event) =>
+                          setPasswordVerify(event.target.value)
+                        }
+                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {errorMessage && (
+                    <p className="text-sm text-red-600" id="password-error">
+                      {errorMessage}
+                    </p>
+                  )}
+
+                  <div>
+                    <button
+                      type="submit"
+                      onClick={(event) => handleSignup(event)}
+                      className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      Sign in
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-1 h-1/2 w-1/2 my-auto">
+          <img className="" src={mailmanIllustration} alt="" />
+        </div>
+      </div>
+    </div>
   )
 }
 
