@@ -55,7 +55,7 @@ const ForgotPasswordPage = () => {
                 alt="Your Company"
               />
               <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
-                Reset Password
+                Reset password
               </h2>
               <p className="mt-2 text-sm text-gray-600">
                 Or{' '}
@@ -123,7 +123,10 @@ const ForgotPasswordPage = () => {
           </div>
         </div>
         <div className="flex flex-1 h-1/2 w-1/2 my-auto">
-          <img className="" src={mailmanIllustration} alt="" />
+          <img
+            src={mailmanIllustration}
+            alt="A stylized illustration of a mailman delivering a letter to a mailbox"
+          />
         </div>
       </div>
     </div>

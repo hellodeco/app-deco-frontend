@@ -173,7 +173,10 @@ const SignupPage = () => {
           </div>
         </div>
         <div className="flex flex-1 h-1/2 w-1/2 my-auto">
-          <img className="" src={mailmanIllustration} alt="" />
+          <img
+            src={mailmanIllustration}
+            alt="A stylized illustration of a mailman delivering a letter to a mailbox"
+          />
         </div>
       </div>
     </div>

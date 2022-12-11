@@ -131,14 +131,7 @@ function App() {
           }
         />
 
-        <Route
-          path="/reset-password"
-          element={
-            <TopNavigationLayout>
-              <PasswordResetPage />
-            </TopNavigationLayout>
-          }
-        />
+        <Route path="/reset-password" element={<PasswordResetPage />} />
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
