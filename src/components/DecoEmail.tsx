@@ -346,7 +346,7 @@ function DecoEmail() {
                 {notionIntegrationData && notionIntegrationData.email}
               </dd>
             </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 rounded-b-lg">
               <dt className="text-sm font-medium text-gray-500">
                 Database name
               </dt>
