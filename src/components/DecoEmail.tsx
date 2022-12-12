@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import type { User } from '../types/types'
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import {
@@ -9,12 +9,11 @@ import {
 } from '../graphql/queries'
 import { SET_USERS_DECO_EMAIL } from '../graphql/mutations'
 import { GET_USER_META } from '../graphql/queries'
-import {
-  ExclamationTriangleIcon,
-  ChevronRightIcon,
-} from '@heroicons/react/20/solid'
+import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import ReconnectNotionModal from './Modal'
 import DatabaseSelect from './deco-email/DatabaseSelect'
+import { Menu, Transition } from '@headlessui/react'
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 
 function DecoEmail() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
@@ -133,7 +132,7 @@ function DecoEmail() {
       <h1 className="text-3xl font-semibold text-gray-900 px-4 sm:p-6">
         Manage Notion Connection
       </h1>
-      <div className="overflow-hidden rounded-lg bg-white shadow-lg max-w-4xl">
+      <div className="rounded-lg bg-white shadow-lg max-w-4xl">
         {/* START UPGRADE BANNER CALLOUT */}
         {paywallEnabled && (
           <div className="rounded-md bg-yellow-50 p-4">
@@ -204,41 +203,114 @@ function DecoEmail() {
                   Save
                 </button>
               </form>
+              {!emailAvailable ? (
+                <p className="text-sm text-red-600" id="password-error">
+                  That email is not available!
+                </p>
+              ) : (
+                <p className="text-sm text-green-600" id="password-error">
+                  That email is available!
+                </p>
+              )}
             </div>
           ) : (
             <></>
           )}
           {/* END CHOOSE / DISPLAY DECO EMAIL */}
 
-          <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Connected Notion account details
-          </h3>
+          <div className="sm:flex sm:items-baseline sm:justify-between">
+            <div className="sm:w-0 sm:flex-1">
+              <h1
+                id="message-heading"
+                className="text-lg font-medium text-gray-900"
+              >
+                Notion details
+              </h1>
+              <p className="mt-1 truncate text-sm text-gray-500">
+                View details about your Hellodeco email, and your connected
+                Notion inbox.
+              </p>
+            </div>
 
-          <div className="ml-4 flex-shrink-0">
-            <button className="font-medium text-indigo-600 hover:text-indigo-500">
-              Download
-            </button>
+            <div className="mt-4 flex items-center justify-between sm:mt-0 sm:ml-6 sm:flex-shrink-0 sm:justify-start">
+              {notionDatabaseData ? (
+                <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-gray-800">
+                  <svg
+                    className="-ml-1 mr-1.5 h-2 w-2 text-green-400"
+                    fill="currentColor"
+                    viewBox="0 0 8 8"
+                  >
+                    <circle cx={4} cy={4} r={3} />
+                  </svg>
+                  Connected
+                </span>
+              ) : (
+                <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-0.5 text-sm font-medium text-gray-800">
+                  <svg
+                    className="-ml-1 mr-1.5 h-2 w-2 text-red-400"
+                    fill="currentColor"
+                    viewBox="0 0 8 8"
+                  >
+                    <circle cx={4} cy={4} r={3} />
+                  </svg>
+                  Disconnected
+                </span>
+              )}
+              <Menu as="div" className="relative ml-3 inline-block text-left">
+                <div>
+                  <Menu.Button className="-my-2 flex items-center rounded-full bg-white p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <span className="sr-only">Open options</span>
+                    <EllipsisVerticalIcon
+                      className="h-5 w-5"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            type="button"
+                            className={classNames(
+                              active
+                                ? 'bg-gray-100 text-gray-900'
+                                : 'text-gray-700',
+                              'flex w-full justify-between px-4 py-2 text-sm',
+                            )}
+                            onClick={() => setOpenReconnectModal(true)}
+                          >
+                            <span>
+                              {notionIntegrationData
+                                ? 'Connect to Notion'
+                                : 'Connect new workspace'}
+                            </span>
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            </div>
           </div>
-          {/* <p className="mt-1 max-w-2xl text-sm text-gray-500">
-              Changed your mind, and want to choose a new Notion workspace or
-              Database?
-            </p>
-
-            <button
-              type="button"
-              className="max-w-[300px] items-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-              onClick={() => setOpenReconnectModal(true)}
-            >
-              {notionIntegrationData
-                ? 'Connect a different Notion workspace'
-                : 'Connect your Notion workspace'}
-            </button> */}
         </div>
+
         <div className="border-t border-gray-200">
           <dl>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">
-                Hellodeco Email
+                Hellodeco email
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 {userData && userData.emailAddress ? (
@@ -252,36 +324,6 @@ function DecoEmail() {
                   <p className="text-sm text-red-600">
                     Please choose your Hellodeco email address!
                   </p>
-                )}
-              </dd>
-            </div>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">
-                Connection status
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {notionDatabaseData ? (
-                  <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-gray-800">
-                    <svg
-                      className="-ml-1 mr-1.5 h-2 w-2 text-green-400"
-                      fill="currentColor"
-                      viewBox="0 0 8 8"
-                    >
-                      <circle cx={4} cy={4} r={3} />
-                    </svg>
-                    Connected
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-0.5 text-sm font-medium text-gray-800">
-                    <svg
-                      className="-ml-1 mr-1.5 h-2 w-2 text-red-400"
-                      fill="currentColor"
-                      viewBox="0 0 8 8"
-                    >
-                      <circle cx={4} cy={4} r={3} />
-                    </svg>
-                    Disconnected
-                  </span>
                 )}
               </dd>
             </div>
