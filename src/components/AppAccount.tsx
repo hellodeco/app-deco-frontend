@@ -93,7 +93,7 @@ function AppAccount() {
       <h1 className="text-3xl font-semibold text-gray-900 px-4 sm:p-6">
         Account Details
       </h1>
-      <div className="overflow-hidden rounded-lg bg-white shadow-xl">
+      <div className="overflow-hidden rounded-lg bg-white shadow-lg max-w-4xl">
         {paywallEnabled && (
           <div className="rounded-md bg-yellow-50 p-4">
             <div className="flex">
@@ -129,7 +129,7 @@ function AppAccount() {
 
           <div className="my-8 w-full border-t border-gray-300"></div>
 
-          <h2 className="pb-4 text-2xl font-semibold text-gray-900">
+          <h2 className="pb-2 text-2xl font-semibold text-gray-900">
             Manage Billing
           </h2>
 
@@ -139,7 +139,7 @@ function AppAccount() {
           </p>
           <button
             type="button"
-            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
             onClick={handleStripeBillingPortal}
           >
             {paywallEnabled ? 'Upgrade to Pro' : 'Go to billing'}
@@ -164,7 +164,7 @@ function AppAccount() {
                   type="password"
                   name="oldPassword"
                   id="oldPassword"
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
                   placeholder="Old password"
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
@@ -183,7 +183,7 @@ function AppAccount() {
                   type="password"
                   name="newPassword"
                   id="newPassword"
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
                   placeholder="New password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
@@ -202,7 +202,7 @@ function AppAccount() {
                   type="password"
                   name="verifyPassword"
                   id="verifyPassword"
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
                   placeholder="Verify new password"
                   value={validateNewPassword}
                   onChange={(e) => setValidateNewPassword(e.target.value)}
@@ -234,7 +234,7 @@ function AppAccount() {
 
           <button
             type="button"
-            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
             onClick={handlePasswordReset}
           >
             Reset password

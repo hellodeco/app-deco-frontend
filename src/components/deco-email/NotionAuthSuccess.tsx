@@ -35,7 +35,7 @@ export const NotionAuthSuccess = () => {
               <p className="mt-4 text-sm text-gray-600">
                 <button
                   onClick={() => navigate('/login')}
-                  className="font-medium underline text-indigo-600 hover:text-indigo-500"
+                  className="font-medium underline text-sky-600 hover:text-sky-500"
                 >
                   Head back to login
                 </button>
