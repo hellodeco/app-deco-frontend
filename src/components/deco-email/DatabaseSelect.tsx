@@ -66,7 +66,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
       {({ open }) => (
         <>
           <div className="relative mt-1 max-w-xs">
-            <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+            <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm">
               <span className="block truncate">{selected.title}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon
@@ -90,7 +90,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
                       key={notionPage.id}
                       className={({ active }) =>
                         classNames(
-                          active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                          active ? 'text-white bg-sky-600' : 'text-gray-900',
                           'relative cursor-default select-none py-2 pl-3 pr-9',
                         )
                       }
@@ -110,7 +110,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
                           {selected ? (
                             <span
                               className={classNames(
-                                active ? 'text-white' : 'text-indigo-600',
+                                active ? 'text-white' : 'text-sky-600',
                                 'absolute inset-y-0 right-0 flex items-center pr-4',
                               )}
                             >

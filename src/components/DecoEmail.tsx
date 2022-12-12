@@ -9,7 +9,10 @@ import {
 } from '../graphql/queries'
 import { SET_USERS_DECO_EMAIL } from '../graphql/mutations'
 import { GET_USER_META } from '../graphql/queries'
-import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import {
+  ExclamationTriangleIcon,
+  ChevronRightIcon,
+} from '@heroicons/react/20/solid'
 import ReconnectNotionModal from './Modal'
 import DatabaseSelect from './deco-email/DatabaseSelect'
 
@@ -130,7 +133,7 @@ function DecoEmail() {
       <h1 className="text-3xl font-semibold text-gray-900 px-4 sm:p-6">
         Manage Notion Connection
       </h1>
-      <div className="overflow-hidden rounded-lg bg-white shadow-xl">
+      <div className="overflow-hidden rounded-lg bg-white shadow-lg max-w-4xl">
         {/* START UPGRADE BANNER CALLOUT */}
         {paywallEnabled && (
           <div className="rounded-md bg-yellow-50 p-4">
@@ -185,7 +188,7 @@ function DecoEmail() {
                     name="decoEmail"
                     id="decoEmail"
                     value={newDecoEmailUsername}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
                     placeholder="name"
                     onChange={handleDecoEmailChange}
                   />
@@ -194,7 +197,7 @@ function DecoEmail() {
 
                 <button
                   type="submit"
-                  className="disabled:bg-indigo-300 mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="disabled:bg-sky-300 mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   disabled={!emailAvailable}
                   onClick={(e) => handleSubmitSetDecoEmail(e)}
                 >
@@ -208,12 +211,28 @@ function DecoEmail() {
           {/* END CHOOSE / DISPLAY DECO EMAIL */}
 
           <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Connected Notion account
+            Connected Notion account details
           </h3>
-          <p className="mt-1 max-w-2xl text-sm text-gray-500">
-            Manage your deco email address and the connected Notion database
-            you're using for your Notion inbox.
-          </p>
+
+          <div className="ml-4 flex-shrink-0">
+            <button className="font-medium text-indigo-600 hover:text-indigo-500">
+              Download
+            </button>
+          </div>
+          {/* <p className="mt-1 max-w-2xl text-sm text-gray-500">
+              Changed your mind, and want to choose a new Notion workspace or
+              Database?
+            </p>
+
+            <button
+              type="button"
+              className="max-w-[300px] items-center rounded-md border border-transparent bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+              onClick={() => setOpenReconnectModal(true)}
+            >
+              {notionIntegrationData
+                ? 'Connect a different Notion workspace'
+                : 'Connect your Notion workspace'}
+            </button> */}
         </div>
         <div className="border-t border-gray-200">
           <dl>
@@ -308,17 +327,6 @@ function DecoEmail() {
                   )
                 )}
               </dd>
-            </div>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <button
-                type="button"
-                className="max-w-[300px] items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                onClick={() => setOpenReconnectModal(true)}
-              >
-                {notionIntegrationData
-                  ? 'Connect a different Notion workspace'
-                  : 'Connect your Notion workspace'}
-              </button>
             </div>
           </dl>
         </div>

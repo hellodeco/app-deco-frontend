@@ -58,7 +58,7 @@ const LoginPage = () => {
                 Or{' '}
                 <button
                   onClick={() => navigate('/signup')}
-                  className="font-medium underline text-indigo-600 hover:text-indigo-500"
+                  className="font-medium underline text-sky-600 hover:text-sky-500"
                 >
                   sign up for a new account
                 </button>
@@ -82,7 +82,7 @@ const LoginPage = () => {
                         type="email"
                         autoComplete="email"
                         required
-                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
                         onChange={(event) => setEmail(event.target.value)}
                       />
                     </div>
@@ -103,7 +103,7 @@ const LoginPage = () => {
                         autoComplete="current-password"
                         required
                         onChange={(event) => setPassword(event.target.value)}
-                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
                       />
                     </div>
                   </div>
@@ -118,7 +118,7 @@ const LoginPage = () => {
                     <div className="text-sm">
                       <button
                         onClick={() => navigate('/forgot-password')}
-                        className="font-medium underline text-indigo-600 hover:text-indigo-500"
+                        className="font-medium underline text-sky-600 hover:text-sky-500"
                       >
                         Forgot your password?
                       </button>
@@ -129,7 +129,7 @@ const LoginPage = () => {
                     <button
                       type="submit"
                       onClick={(event) => handleLogin(event)}
-                      className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="flex w-full justify-center rounded-md border border-transparent bg-sky-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                     >
                       Sign in
                     </button>
