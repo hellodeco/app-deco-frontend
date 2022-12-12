@@ -12,10 +12,11 @@ import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 interface ModalProps {
   open: boolean
   setOpen: () => void
+  isReconnect: boolean
 }
 
 const ReconnectNotionModal = (props: ModalProps) => {
-  const { open, setOpen } = props
+  const { open, setOpen, isReconnect } = props
 
   const cancelButtonRef = useRef(null)
 
@@ -73,24 +74,28 @@ const ReconnectNotionModal = (props: ModalProps) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                 <div>
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
-                    <ExclamationTriangleIcon
-                      className="h-6 w-6 text-yellow-600"
-                      aria-hidden="true"
-                    />
-                  </div>
+                  {isReconnect && (
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
+                      <ExclamationTriangleIcon
+                        className="h-6 w-6 text-yellow-600"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  )}
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
-                      Are you sure you want to proceed?
+                      {isReconnect
+                        ? 'Are you sure you want to proceed?'
+                        : 'Connect your Notion Workspace'}
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Changing the connected Notion page will temporarily
-                        interrupt email delivery until you have finished setting
-                        up the new page.
+                        {isReconnect
+                          ? 'Changing the connected Notion page will temporarily interrupt email delivery until you have finished setting up the new page.'
+                          : 'Click continue to authorize Notion to connect to Hellodeco.'}
                       </p>
                     </div>
                   </div>

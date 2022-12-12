@@ -10,8 +10,8 @@ import {
 import { SET_USERS_DECO_EMAIL } from '../graphql/mutations'
 import { GET_USER_META } from '../graphql/queries'
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
-import { EnvelopeIcon } from '@heroicons/react/24/outline'
 import ReconnectNotionModal from './Modal'
+import DatabaseSelect from './deco-email/DatabaseSelect'
 
 function DecoEmail() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
@@ -124,7 +124,7 @@ function DecoEmail() {
       </div>
     )
   }
-  console.log(emailAvailable)
+
   return (
     <>
       <h1 className="text-3xl font-semibold text-gray-900 px-4 sm:p-6">
@@ -282,7 +282,7 @@ function DecoEmail() {
                 Workspace owner email
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {notionIntegrationData.email}
+                {notionIntegrationData && notionIntegrationData.email}
               </dd>
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -300,17 +300,24 @@ function DecoEmail() {
                     {notionDatabaseData.icon} {notionDatabaseData.title}
                   </a>
                 ) : (
-                  <p className="text-sm text-red-600">Database not selected!</p>
+                  notionIntegrationData && (
+                    <DatabaseSelect
+                      notionIntegration={notionIntegration}
+                      notionDatabase={notionDatabase}
+                    />
+                  )
                 )}
               </dd>
             </div>
             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <button
                 type="button"
-                className="max-w-[260px] items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="max-w-[300px] items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 onClick={() => setOpenReconnectModal(true)}
               >
-                Connect a different Notion page
+                {notionIntegrationData
+                  ? 'Connect a different Notion workspace'
+                  : 'Connect your Notion workspace'}
               </button>
             </div>
           </dl>
@@ -319,6 +326,7 @@ function DecoEmail() {
       <ReconnectNotionModal
         open={openReconnectModal}
         setOpen={() => setOpenReconnectModal(false)}
+        isReconnect={!!notionIntegrationData}
       />
     </>
   )
