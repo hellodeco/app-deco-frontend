@@ -134,8 +134,9 @@ function AppAccount() {
           </h2>
 
           <p className="py-2">
-            Don't want to worry about email limits? Upgrade to get unlimited
-            delivery!
+            {paywallEnabled
+              ? "Don't want to worry about email limits? Upgrade to get unlimited delivery!"
+              : 'Visit the Stripe dashboard using the button below to manage your subscription.'}
           </p>
           <button
             type="button"

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import type { User } from '../types/types'
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client'
 import {
@@ -27,6 +27,10 @@ function DecoEmail() {
     { loading: emailAvailableLoading, data: emailAvailableData },
   ] = useLazyQuery(GET_EMAIL_AVAILABILITY)
 
+  useEffect(() => {
+    getEmailAvailable({ variables: { username: newDecoEmailUsername } })
+  }, [])
+
   const emailDomain = emailDomainData?.emailDomain
 
   const notionIntegrationData =
@@ -41,8 +45,7 @@ function DecoEmail() {
   const [openReconnectModal, setOpenReconnectModal] = useState(false)
 
   const [newDecoEmailUsername, setNewDecoEmail] = useState('')
-  const [timer, setTimer] = useState<any>()
-  const [emailAvailable, setEmailAvailable] = useState(true)
+  const [emailAvailableError, setEmailAvailableError] = useState('')
 
   const isValidEmailUsername = (email: string) => {
     const emailRegex = /^\w+([\.-]?\w+)*$/
@@ -60,39 +63,41 @@ function DecoEmail() {
     },
   )
 
-  const handleSubmitSetDecoEmail = (e: any) => {
+  const handleSubmitSetDecoEmail = async (e: any) => {
     e.preventDefault()
 
-    handleSetEmail({
-      variables: { username: newDecoEmailUsername },
-    })
+    if (newDecoEmailUsername.length < 3) {
+      setEmailAvailableError('Email must be longer than 3 characters')
+      return
+    }
 
-    setNewDecoEmail('')
+    if (!isValidEmailUsername(newDecoEmailUsername)) {
+      setEmailAvailableError('Email cannot contain special characters')
+      return
+    }
+
+    await getEmailAvailable({ variables: { username: newDecoEmailUsername } })
+
+    if (emailAvailableData?.emailUsernameAvailable) {
+      handleSetEmail({
+        variables: { username: newDecoEmailUsername },
+      })
+
+      setNewDecoEmail('')
+
+      return
+    } else {
+      setEmailAvailableError('Email is already taken')
+      return
+    }
   }
 
   const handleDecoEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     const decoEmailUsername = e.target.value
+    setEmailAvailableError('')
 
     setNewDecoEmail(decoEmailUsername)
-
-    clearTimeout(timer)
-
-    const newTimer = setTimeout(() => {
-      getEmailAvailable({ variables: { username: newDecoEmailUsername } })
-
-      if (
-        decoEmailUsername.length > 3 &&
-        emailAvailableData?.emailUsernameAvailable &&
-        isValidEmailUsername(decoEmailUsername)
-      ) {
-        setEmailAvailable(true)
-      } else {
-        setEmailAvailable(false)
-      }
-    }, 500)
-
-    setTimer(newTimer)
   }
 
   const handleStripeBillingPortal = async (event: React.SyntheticEvent) => {
@@ -199,19 +204,14 @@ function DecoEmail() {
                 <button
                   type="submit"
                   className="disabled:bg-sky-300 mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                  disabled={!emailAvailable}
                   onClick={(e) => handleSubmitSetDecoEmail(e)}
                 >
                   Save
                 </button>
               </form>
-              {!emailAvailable ? (
+              {emailAvailableError && (
                 <p className="text-sm text-red-600" id="password-error">
-                  That email is not available!
-                </p>
-              ) : (
-                <p className="text-sm text-green-600" id="password-error">
-                  That email is available!
+                  {emailAvailableError}
                 </p>
               )}
             </div>
