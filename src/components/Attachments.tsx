@@ -1,24 +1,16 @@
 import React, { useEffect } from 'react'
 import Userfront from '@userfront/core'
-import { Text, Link, Image } from '@chakra-ui/react'
 import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
-import { Flex } from '@chakra-ui/react'
 import { HAS_FILE_ACCESS } from '../graphql/queries'
 
 const PUBLIC_URL = process.env.PUBLIC_URL
 
 function FullScreenContainer({ children }: { children: React.ReactNode }) {
   return (
-    <Flex
-      width="100vw"
-      height="100vh"
-      alignItems="center"
-      justifyContent="center"
-      flexDir="column"
-    >
+    <div className="h-screen w-screen items-center justify-center flex flex-col">
       {children}
-    </Flex>
+    </div>
   )
 }
 
@@ -40,7 +32,7 @@ export function Attachments() {
   if (!fileUrl || loading) {
     return (
       <FullScreenContainer>
-        <Text fontSize="1.5rem">loading...</Text>
+        <h1>loading...</h1>
       </FullScreenContainer>
     )
   }
@@ -50,20 +42,20 @@ export function Attachments() {
     let href = `/login?redirect_to=${encodeURIComponent(location.pathname)}`
     return (
       <FullScreenContainer>
-        <Image
+        <img
           src={`${PUBLIC_URL}/schoolgirl.png`}
           width="300px"
           height="300px"
           alt="Know-it-all holding book and pointing into the air while looking self satisfied"
         />
-        <Text fontSize="1.5rem">You are not logged in!</Text>
-        <Text>
+        <h2 className="font-bold text-lg">You are not logged in!</h2>
+        <p>
           Please{' '}
-          <Link href={href} color="blue.dark">
+          <a href={href} className="text-sky-700 underline">
             login
-          </Link>{' '}
+          </a>{' '}
           to view file.
-        </Text>
+        </p>
       </FullScreenContainer>
     )
   }
@@ -72,26 +64,26 @@ export function Attachments() {
   if (!data?.currentUserHasFileAccess) {
     return (
       <FullScreenContainer>
-        <Image
+        <img
           src={`${PUBLIC_URL}/lost-the-way.png`}
           width="300px"
           height="300px"
           alt="Lost person looking at direction signs"
         />
-        <Text fontSize="1.5rem">
+        <h2 className="font-bold text-lg">
           Uh-oh, looks like you don't have access to this file!
-        </Text>
-        <Text>
+        </h2>
+        <p>
           If you think this is a mistake, try{' '}
-          <Link href={'/login'} color="blue.dark">
+          <a href={'/login'} className="text-sky-700 underline">
             logging in
-          </Link>{' '}
+          </a>{' '}
           or{' '}
-          <Link href="/signup" color="blue.dark">
+          <a href="/signup" className="text-sky-700 underline">
             create an account
-          </Link>{' '}
+          </a>{' '}
           to get started using Deco.
-        </Text>
+        </p>
       </FullScreenContainer>
     )
   }
