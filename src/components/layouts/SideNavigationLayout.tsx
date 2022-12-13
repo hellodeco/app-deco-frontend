@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Userfront from '@userfront/core'
 import {
   Bars3Icon,
-  CalendarIcon,
-  FolderIcon,
+  ArrowLeftOnRectangleIcon,
+  QuestionMarkCircleIcon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,
@@ -41,7 +41,7 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
     {
       name: 'Help + Support',
       href: '/help',
-      icon: FolderIcon,
+      icon: QuestionMarkCircleIcon,
       current: location.pathname === '/help' ? true : false,
     },
   ]
@@ -135,7 +135,7 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
                         )}
                         onClick={() => Userfront.logout()}
                       >
-                        <CalendarIcon
+                        <ArrowLeftOnRectangleIcon
                           className="mr-4 h-6 w-6 flex-shrink-0 text-sky-300"
                           aria-hidden="true"
                         />
@@ -187,7 +187,7 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
                   className="text-gray-900 hover:bg-sky-700 hover:text-white hover:bg-opacity-75 w-full group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                   onClick={() => Userfront.logout()}
                 >
-                  <CalendarIcon
+                  <ArrowLeftOnRectangleIcon
                     className="mr-3 h-6 w-6 flex-shrink-0 text-sky-400"
                     aria-hidden="true"
                   />

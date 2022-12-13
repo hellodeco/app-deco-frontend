@@ -9,11 +9,13 @@ import {
 } from '../graphql/queries'
 import { SET_USERS_DECO_EMAIL } from '../graphql/mutations'
 import { GET_USER_META } from '../graphql/queries'
-import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
+import {
+  ExclamationTriangleIcon,
+  EllipsisVerticalIcon,
+} from '@heroicons/react/20/solid'
 import ReconnectNotionModal from './Modal'
 import DatabaseSelect from './deco-email/DatabaseSelect'
 import { Menu, Transition } from '@headlessui/react'
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 
 function DecoEmail() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
@@ -290,11 +292,7 @@ function DecoEmail() {
                             )}
                             onClick={() => setOpenReconnectModal(true)}
                           >
-                            <span>
-                              {notionIntegrationData
-                                ? 'Connect to Notion'
-                                : 'Connect new workspace'}
-                            </span>
+                            <span>Connect new workspace</span>
                           </button>
                         )}
                       </Menu.Item>
@@ -333,7 +331,6 @@ function DecoEmail() {
               </dt>
               {notionIntegrationData && (
                 <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                  {notionIntegrationData.workspaceIcon}{' '}
                   {notionIntegrationData.workspaceName}
                 </dd>
               )}
