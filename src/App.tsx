@@ -6,7 +6,6 @@ import PasswordResetPage from './auth-components/PasswordResetPage'
 import AuthedRoute from './auth-components/AuthedRoute'
 import AppAccount from './components/AppAccount'
 import Help from './components/HelpAccount'
-import './App.css'
 import {
   ApolloClient,
   InMemoryCache,
