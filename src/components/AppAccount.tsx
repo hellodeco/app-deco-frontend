@@ -3,10 +3,8 @@ import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import type { User } from '../types/types'
 import { GET_USER_META } from '../graphql/queries'
-import {
-  ExclamationCircleIcon,
-  ExclamationTriangleIcon,
-} from '@heroicons/react/20/solid'
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
+import PaymentBanner from './PaymentBanner'
 
 function AppAccount() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
@@ -94,33 +92,7 @@ function AppAccount() {
         Account Details
       </h1>
       <div className="overflow-hidden rounded-lg bg-white shadow-lg max-w-4xl">
-        {paywallEnabled && (
-          <div className="rounded-md bg-yellow-50 p-4">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <ExclamationTriangleIcon
-                  className="h-5 w-5 text-yellow-400"
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="ml-3 flex-1 md:flex md:justify-between">
-                <p className="text-sm text-yellow-700">
-                  Heads up! You're still on our free plan. Our free plan limits
-                  you to 100 emails in your Notion inbox.
-                </p>
-                <p className="mt-3 text-sm md:mt-0 md:ml-6">
-                  <button
-                    onClick={(e) => handleStripeBillingPortal(e)}
-                    className="whitespace-nowrap font-medium text-yellow-700 hover:text-yellow-600"
-                  >
-                    Upgrade
-                    <span aria-hidden="true"> &rarr;</span>
-                  </button>
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
+        {paywallEnabled && <PaymentBanner userData={userData} />}
         <div className="px-4 py-5 sm:p-6">
           <h2 className="pb-4 text-2xl font-semibold text-gray-900">
             Signup Information
