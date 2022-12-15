@@ -41,7 +41,7 @@ function DecoEmail() {
     return classes.filter(Boolean).join(' ')
   }
 
-  if (!loading || notionDatabase.loading || notionIntegration.loading) {
+  if (loading || notionDatabase.loading || notionIntegration.loading) {
     return (
       <div className="flex w-full mt-24 align-center justify-center">
         <h1 className="text-2xl font-semibold text-gray-900">Loading...</h1>
