@@ -41,12 +41,58 @@ function DecoEmail() {
     return classes.filter(Boolean).join(' ')
   }
 
-  if (loading || notionDatabase.loading || notionIntegration.loading) {
+  if (!loading || notionDatabase.loading || notionIntegration.loading) {
     return (
-      <div>
+      <div className="flex w-full mt-24 align-center justify-center">
         <h1 className="text-2xl font-semibold text-gray-900">Loading...</h1>
       </div>
     )
+  }
+
+  const renderConditionalOnboarding = () => {
+    if (!notionIntegrationData) {
+      return (
+        <div className="pb-6 mb-6 border-b border-gray-200">
+          <h3 className="text-lg font-medium leading-6 text-gray-900">
+            Connect your Notion workspace
+          </h3>
+          <div className="flex justify-between w-full">
+            <div className="my-2 max-w-xl text-sm text-gray-900">
+              <p>
+                You will need to have a top level database created in Notion to
+                use as your inbox.
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              className="disabled:bg-sky-300 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm"
+              onClick={() => setOpenReconnectModal(true)}
+            >
+              Connect Notion
+            </button>
+          </div>
+        </div>
+      )
+    }
+
+    if (notionIntegrationData && !notionDatabaseData) {
+      return (
+        <DatabaseSelect
+          notionIntegration={notionIntegration}
+          notionDatabase={notionDatabase}
+          setOpenReconnectModal={setOpenReconnectModal}
+        />
+      )
+    }
+
+    if (
+      notionIntegrationData &&
+      notionDatabaseData &&
+      !userData?.emailAddress
+    ) {
+      return <ChooseDecoEmail handleSetEmail={handleSetEmail} />
+    }
   }
 
   return (
@@ -56,15 +102,15 @@ function DecoEmail() {
       </h1>
       <div className="rounded-lg bg-white shadow-lg max-w-4xl">
         {/* START UPGRADE BANNER CALLOUT */}
-        {paywallEnabled && <PaymentBanner userData={userData} />}
+        {paywallEnabled && userData && userData?.emailAddress && (
+          <PaymentBanner userData={userData} />
+        )}
         {/* END UPGRADE BANNER CALLOUT */}
 
         <div className="px-4 py-5 sm:p-6">
-          {/* START CHOOSE / DISPLAY DECO EMAIL */}
-          {!userData?.emailAddress && (
-            <ChooseDecoEmail handleSetEmail={handleSetEmail} />
-          )}
-          {/* END CHOOSE / DISPLAY DECO EMAIL */}
+          {/* START DISPLAY ONBOARDING ACTIONS */}
+          {renderConditionalOnboarding()}
+          {/* END DISPLAY ONBOARDING ACTIONS */}
 
           <div className="sm:flex sm:items-baseline sm:justify-between">
             <div className="sm:w-0 sm:flex-1">
@@ -104,48 +150,50 @@ function DecoEmail() {
                   Disconnected
                 </span>
               )}
-              <Menu as="div" className="relative ml-3 inline-block text-left">
-                <div>
-                  <Menu.Button className="-my-2 flex items-center rounded-full bg-white p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <span className="sr-only">Open options</span>
-                    <EllipsisVerticalIcon
-                      className="h-5 w-5"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
+              {userData && userData?.emailAddress && (
+                <Menu as="div" className="relative ml-3 inline-block text-left">
+                  <div>
+                    <Menu.Button className="-my-2 flex items-center rounded-full bg-white p-2 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                      <span className="sr-only">Open options</span>
+                      <EllipsisVerticalIcon
+                        className="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </Menu.Button>
+                  </div>
 
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            type="button"
-                            className={classNames(
-                              active
-                                ? 'bg-gray-100 text-gray-900'
-                                : 'text-gray-700',
-                              'flex w-full justify-between px-4 py-2 text-sm',
-                            )}
-                            onClick={() => setOpenReconnectModal(true)}
-                          >
-                            <span>Connect new workspace</span>
-                          </button>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div className="py-1">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              type="button"
+                              className={classNames(
+                                active
+                                  ? 'bg-gray-100 text-gray-900'
+                                  : 'text-gray-700',
+                                'flex w-full justify-between px-4 py-2 text-sm',
+                              )}
+                              onClick={() => setOpenReconnectModal(true)}
+                            >
+                              <span>Connect new workspace</span>
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              )}
             </div>
           </div>
         </div>
@@ -157,17 +205,13 @@ function DecoEmail() {
                 Hellodeco email
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {userData && userData.emailAddress ? (
+                {userData && userData.emailAddress && (
                   <a
                     href={userData ? `mailto:${userData.emailAddress}` : '#'}
                     className="underline"
                   >
                     {userData.emailAddress}
                   </a>
-                ) : (
-                  <p className="text-sm text-red-600">
-                    Please choose your Hellodeco email address!
-                  </p>
                 )}
               </dd>
             </div>
@@ -194,7 +238,7 @@ function DecoEmail() {
                 Database name
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {notionDatabaseData ? (
+                {notionDatabaseData && (
                   <a
                     href={notionDatabaseData.url}
                     target="_blank"
@@ -203,13 +247,6 @@ function DecoEmail() {
                   >
                     {notionDatabaseData.icon} {notionDatabaseData.title}
                   </a>
-                ) : (
-                  notionIntegrationData && (
-                    <DatabaseSelect
-                      notionIntegration={notionIntegration}
-                      notionDatabase={notionDatabase}
-                    />
-                  )
                 )}
               </dd>
             </div>
