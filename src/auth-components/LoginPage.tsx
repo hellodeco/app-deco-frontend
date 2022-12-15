@@ -117,7 +117,6 @@ const LoginPage = () => {
           </div>
           <div className="text-sm mt-3">
             <p className="text-sm text-gray-600">
-              {/* or{' '} */}
               <button
                 onClick={() => navigate('/signup')}
                 className="font-medium underline text-sky-600 hover:text-sky-500"
