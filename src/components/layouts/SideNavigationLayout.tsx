@@ -156,39 +156,39 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex min-h-0 flex-1 flex-col bg-white ml-6 mt-2">
-            <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
+            <div className="flex flex-1 flex-col overflow-y-auto pt-10 pb-4">
               <div className="flex flex-shrink-0 items-center px-4">
                 <img
-                  className="h-8 w-auto"
+                  className="h-6 w-auto"
                   src={HelloDecoFontLogo}
                   alt="HelloDeco company logo"
                 />
               </div>
-              <nav className="mt-5 flex-1 space-y-1 px-2">
+              <nav className="mt-6 flex-1 space-y-1 px-2">
                 {navigation.map((item) => (
                   <button
                     key={item.name}
                     onClick={() => navigate(item.href)}
                     className={classNames(
                       item.current
-                        ? 'bg-sky-800 text-white w-full'
-                        : 'text-gray-900 w-full hover:bg-sky-700 hover:text-white hover:bg-opacity-75',
+                        ? 'bg-gray-100 w-full'
+                        : 'w-full hover:bg-gray-100 text-gray-600',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                     )}
                   >
                     <item.icon
-                      className="mr-3 h-6 w-6 flex-shrink-0 text-sky-400"
+                      className="mr-3 h-6 w-6 flex-shrink-0"
                       aria-hidden="true"
                     />
                     {item.name}
                   </button>
                 ))}
                 <button
-                  className="text-gray-900 hover:bg-sky-700 hover:text-white hover:bg-opacity-75 w-full group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                  className="text-gray-600 hover:bg-gray-100 w-full group flex items-center px-2 py-2 text-sm font-medium rounded-md mt-auto"
                   onClick={() => Userfront.logout()}
                 >
                   <ArrowLeftOnRectangleIcon
-                    className="mr-3 h-6 w-6 flex-shrink-0 text-sky-400"
+                    className="mr-3 h-6 w-6 flex-shrink-0"
                     aria-hidden="true"
                   />
                   Logout
@@ -197,7 +197,7 @@ function SideNavigationLayout({ children }: SideNavigationLayoutProps) {
             </div>
           </div>
         </div>
-        <div className="flex flex-1 flex-col md:pl-64">
+        <div className="flex flex-1 flex-col md:pl-64 mt-8">
           <div className="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden">
             <button
               type="button"
