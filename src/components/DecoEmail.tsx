@@ -16,7 +16,9 @@ import { ChooseDecoEmail } from './deco-email/ChooseDecoEmail'
 
 function DecoEmail() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
-  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
+  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO, {
+    fetchPolicy: 'no-cache',
+  })
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
 
   const [handleSetEmail, { data: setEmailData }] = useMutation(
@@ -59,14 +61,15 @@ function DecoEmail() {
           <div className="flex justify-between w-full">
             <div className="my-2 max-w-xl text-sm text-gray-900">
               <p>
-                You will need to have a top level database created in Notion to
-                use as your inbox.
+                Select the option to "Use a template provided by the developer"
+                for best results! If you'd like to use your own template, be
+                sure to select a database instead of a page.
               </p>
             </div>
 
             <button
               type="submit"
-              className="disabled:bg-sky-300 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm"
+              className="disabled:bg-sky-300 h-10 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-sky-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm"
               onClick={() => setOpenReconnectModal(true)}
             >
               Connect Notion
@@ -79,7 +82,7 @@ function DecoEmail() {
     if (notionIntegrationData && !notionDatabaseData) {
       return (
         <DatabaseSelect
-          notionIntegration={notionIntegration}
+          notionIntegrationData={notionIntegrationData}
           notionDatabase={notionDatabase}
           setOpenReconnectModal={setOpenReconnectModal}
         />
