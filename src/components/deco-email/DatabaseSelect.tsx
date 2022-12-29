@@ -49,7 +49,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
           data.connectedNotionPages.forEach(async (page: any) => {
             if (page.title === 'Email') {
               await setSelectedDatabase(page)
-              await notionDatabase.refetch()
+              setPolling(false)
             }
           })
         }
