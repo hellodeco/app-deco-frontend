@@ -41,8 +41,7 @@ export const GET_CURRENT_USER_NOTION_DATABASE_INFO = gql`
     getCurrentUserNotionDatabaseInfo {
       title
       url
-      icon
-      needsFormatting
+      type
       needsManualFormatting
     }
   }

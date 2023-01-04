@@ -34,6 +34,14 @@ function DecoEmail() {
   const notionDatabaseData =
     notionDatabase.data?.getCurrentUserNotionDatabaseInfo
 
+  const [emailDatabaseData] = notionDatabaseData?.filter(
+    (db: any) => db.type === 'EMAIL',
+  )
+
+  const [contactsDatabaseData] = notionDatabaseData?.filter(
+    (db: any) => db.type === 'CONTACTS',
+  )
+
   const userData = data?.currentUser
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
 
@@ -238,17 +246,34 @@ function DecoEmail() {
             </div>
             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 rounded-b-lg">
               <dt className="text-sm font-medium text-gray-500">
-                Database name
+                Email database name
               </dt>
               <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {notionDatabaseData && (
+                {emailDatabaseData && (
                   <a
-                    href={notionDatabaseData.url}
+                    href={emailDatabaseData.url}
                     target="_blank"
                     rel="noreferrer"
                     className="underline"
                   >
-                    {notionDatabaseData.icon} {notionDatabaseData.title}
+                    {emailDatabaseData.title}
+                  </a>
+                )}
+              </dd>
+            </div>
+            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 rounded-b-lg">
+              <dt className="text-sm font-medium text-gray-500">
+                Contacts database name
+              </dt>
+              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                {contactsDatabaseData && (
+                  <a
+                    href={contactsDatabaseData.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline"
+                  >
+                    {contactsDatabaseData.title}
                   </a>
                 )}
               </dd>

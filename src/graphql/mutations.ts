@@ -27,7 +27,10 @@ export const DROP_AND_MIGRATE_USERS_NOTION_DATABASE = gql`
 `
 
 export const SELECT_NOTION_DATABASE = gql`
-  mutation selectNotionDatabase($databaseId: String!) {
-    selectNotionDatabase(databaseId: $databaseId)
+  mutation selectNotionDatabase(
+    $databaseId: String!
+    $type: NotionDatabaseType!
+  ) {
+    selectNotionDatabase(databaseId: $databaseId, type: $type)
   }
 `
