@@ -34,14 +34,13 @@ function DecoEmail() {
   const notionDatabaseData =
     notionDatabase.data?.getCurrentUserNotionDatabaseInfo
 
-  let emailDatabaseData
-  let contactsDatabaseData
+  let emailDatabaseData: any
+  let contactsDatabaseData: any
 
   if (notionDatabaseData) {
     ;[emailDatabaseData] = notionDatabaseData?.filter(
       (db: any) => db.type === 'EMAIL',
     )
-
     ;[contactsDatabaseData] = notionDatabaseData?.filter(
       (db: any) => db.type === 'CONTACTS',
     )
@@ -92,7 +91,7 @@ function DecoEmail() {
       )
     }
 
-    if (notionIntegrationData && !notionDatabaseData) {
+    if (notionIntegrationData && !contactsDatabaseData && !emailDatabaseData) {
       return (
         <DatabaseSelect
           notionIntegrationData={notionIntegrationData}

@@ -30,7 +30,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
   const { notionIntegrationData, notionDatabase, setOpenReconnectModal } = props
   const [emailSelected, setEmailSelected] = useState<NotionPage>({
     id: '0',
-    title: 'Choose your database',
+    title: 'Choose email database',
     url: '#',
     icon: {
       type: '#',
@@ -40,7 +40,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
   })
   const [contactsSelected, setContactsSelected] = useState<NotionPage>({
     id: '0',
-    title: 'Choose your database',
+    title: 'Choose contacts database',
     url: '#',
     icon: {
       type: '#',
@@ -100,7 +100,6 @@ export default function DatabaseSelect(props: NotionAuthProps) {
   }
 
   const setSelectedContactsDatabase = async (notionPage: any) => {
-    console.log('SETTING CONTACTS', notionPage.id)
     setContactsSelected(notionPage)
     await selectNotionDatabase({
       variables: {
@@ -214,13 +213,13 @@ export default function DatabaseSelect(props: NotionAuthProps) {
       <h3 className="text-lg font-medium leading-6 text-gray-900">
         Choose your Notion Database
       </h3>
-      <div className="flex justify-between w-full">
+      <p className="my-2 max-w-xl text-sm">
+        Note that Email and Contacts require a database, not a page, so only the
+        databases you shared with Deco will show up in the selection list.
+      </p>
+      <div className="flex justify-between w-full border-t py-6">
         <div className="my-2 max-w-xl text-sm text-gray-900">
-          <p>
-            Use the dropdown to select the database you want your EMAILS
-            delivered to. Note that only Notion databases are eligible for use
-            as an inbox, so only databases will show up in the dropdown list.
-          </p>
+          <p>Select the database you want your EMAILS delivered to.</p>
         </div>
         <Listbox value={emailSelected} onChange={setSelectedEmailDatabase}>
           {({ open }) => (
@@ -246,47 +245,54 @@ export default function DatabaseSelect(props: NotionAuthProps) {
                   <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {data && data.connectedNotionPages ? (
                       data.connectedNotionPages.map(
-                        (notionPage: NotionPage) => (
-                          <Listbox.Option
-                            key={notionPage.id}
-                            className={({ active }) =>
-                              classNames(
-                                active
-                                  ? 'text-white bg-sky-600'
-                                  : 'text-gray-900',
-                                'relative cursor-default select-none py-2 pl-3 pr-9',
-                              )
-                            }
-                            value={notionPage}
-                          >
-                            {({ selected, active }) => (
-                              <>
-                                <span
-                                  className={classNames(
-                                    selected ? 'font-semibold' : 'font-normal',
-                                    'block truncate',
-                                  )}
-                                >
-                                  {notionPage.title}
-                                </span>
-
-                                {selected ? (
+                        (notionPage: NotionPage) => {
+                          if (notionPage.id === contactsSelected.id) {
+                            return <></>
+                          }
+                          return (
+                            <Listbox.Option
+                              key={notionPage.id}
+                              className={({ active }) =>
+                                classNames(
+                                  active
+                                    ? 'text-white bg-sky-600'
+                                    : 'text-gray-900',
+                                  'relative cursor-default select-none py-2 pl-3 pr-9',
+                                )
+                              }
+                              value={notionPage}
+                            >
+                              {({ selected, active }) => (
+                                <>
                                   <span
                                     className={classNames(
-                                      active ? 'text-white' : 'text-sky-600',
-                                      'absolute inset-y-0 right-0 flex items-center pr-4',
+                                      selected
+                                        ? 'font-semibold'
+                                        : 'font-normal',
+                                      'block truncate',
                                     )}
                                   >
-                                    <CheckIcon
-                                      className="h-5 w-5"
-                                      aria-hidden="true"
-                                    />
+                                    {notionPage.title}
                                   </span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        ),
+
+                                  {selected ? (
+                                    <span
+                                      className={classNames(
+                                        active ? 'text-white' : 'text-sky-600',
+                                        'absolute inset-y-0 right-0 flex items-center pr-4',
+                                      )}
+                                    >
+                                      <CheckIcon
+                                        className="h-5 w-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          )
+                        },
                       )
                     ) : (
                       <></>
@@ -299,13 +305,9 @@ export default function DatabaseSelect(props: NotionAuthProps) {
         </Listbox>
       </div>
 
-      <div className="flex justify-between w-full">
+      <div className="flex justify-between w-full border-t py-6">
         <div className="my-2 max-w-xl text-sm text-gray-900">
-          <p>
-            Use the dropdown to select the database you want your CONTACTS
-            delivered to. Note that only Notion databases are eligible for use
-            as an inbox, so only databases will show up in the dropdown list.
-          </p>
+          <p>Select the database you want your CONTACTS saved to.</p>
         </div>
         <Listbox
           value={contactsSelected}
@@ -315,7 +317,9 @@ export default function DatabaseSelect(props: NotionAuthProps) {
             <>
               <div className="relative mt-1 max-w-xs">
                 <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm">
-                  <span className="block truncate">{emailSelected.title}</span>
+                  <span className="block truncate">
+                    {contactsSelected.title}
+                  </span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <ChevronUpDownIcon
                       className="h-5 w-5 text-gray-400"
@@ -334,47 +338,54 @@ export default function DatabaseSelect(props: NotionAuthProps) {
                   <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {data && data.connectedNotionPages ? (
                       data.connectedNotionPages.map(
-                        (notionPage: NotionPage) => (
-                          <Listbox.Option
-                            key={notionPage.id}
-                            className={({ active }) =>
-                              classNames(
-                                active
-                                  ? 'text-white bg-sky-600'
-                                  : 'text-gray-900',
-                                'relative cursor-default select-none py-2 pl-3 pr-9',
-                              )
-                            }
-                            value={notionPage}
-                          >
-                            {({ selected, active }) => (
-                              <>
-                                <span
-                                  className={classNames(
-                                    selected ? 'font-semibold' : 'font-normal',
-                                    'block truncate',
-                                  )}
-                                >
-                                  {notionPage.title}
-                                </span>
-
-                                {selected ? (
+                        (notionPage: NotionPage) => {
+                          if (notionPage.id === emailSelected.id) {
+                            return <></>
+                          }
+                          return (
+                            <Listbox.Option
+                              key={notionPage.id}
+                              className={({ active }) =>
+                                classNames(
+                                  active
+                                    ? 'text-white bg-sky-600'
+                                    : 'text-gray-900',
+                                  'relative cursor-default select-none py-2 pl-3 pr-9',
+                                )
+                              }
+                              value={notionPage}
+                            >
+                              {({ selected, active }) => (
+                                <>
                                   <span
                                     className={classNames(
-                                      active ? 'text-white' : 'text-sky-600',
-                                      'absolute inset-y-0 right-0 flex items-center pr-4',
+                                      selected
+                                        ? 'font-semibold'
+                                        : 'font-normal',
+                                      'block truncate',
                                     )}
                                   >
-                                    <CheckIcon
-                                      className="h-5 w-5"
-                                      aria-hidden="true"
-                                    />
+                                    {notionPage.title}
                                   </span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        ),
+
+                                  {selected ? (
+                                    <span
+                                      className={classNames(
+                                        active ? 'text-white' : 'text-sky-600',
+                                        'absolute inset-y-0 right-0 flex items-center pr-4',
+                                      )}
+                                    >
+                                      <CheckIcon
+                                        className="h-5 w-5"
+                                        aria-hidden="true"
+                                      />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          )
+                        },
                       )
                     ) : (
                       <></>
@@ -386,7 +397,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
           )}
         </Listbox>
       </div>
-      <div className="flex justify-between w-full">
+      <div className="flex justify-between w-full border-t pt-6">
         <div className="my-2 max-w-xl text-sm text-gray-900">
           <p>
             Changed your mind about what database you want to use? No worries,
