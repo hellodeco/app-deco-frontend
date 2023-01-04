@@ -34,13 +34,18 @@ function DecoEmail() {
   const notionDatabaseData =
     notionDatabase.data?.getCurrentUserNotionDatabaseInfo
 
-  const [emailDatabaseData] = notionDatabaseData?.filter(
-    (db: any) => db.type === 'EMAIL',
-  )
+  let emailDatabaseData
+  let contactsDatabaseData
 
-  const [contactsDatabaseData] = notionDatabaseData?.filter(
-    (db: any) => db.type === 'CONTACTS',
-  )
+  if (notionDatabaseData) {
+    ;[emailDatabaseData] = notionDatabaseData?.filter(
+      (db: any) => db.type === 'EMAIL',
+    )
+
+    ;[contactsDatabaseData] = notionDatabaseData?.filter(
+      (db: any) => db.type === 'CONTACTS',
+    )
+  }
 
   const userData = data?.currentUser
   const paywallEnabled = userData?.subscriptionStatus !== 'active'
