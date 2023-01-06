@@ -90,8 +90,10 @@ function DecoEmail() {
         </div>
       )
     }
-
-    if (notionIntegrationData && !contactsDatabaseData && !emailDatabaseData) {
+    if (
+      notionIntegrationData &&
+      (!contactsDatabaseData || !emailDatabaseData)
+    ) {
       return (
         <DatabaseSelect
           notionIntegrationData={notionIntegrationData}
@@ -103,7 +105,8 @@ function DecoEmail() {
 
     if (
       notionIntegrationData &&
-      notionDatabaseData &&
+      contactsDatabaseData &&
+      emailDatabaseData &&
       !userData?.emailAddress
     ) {
       return <ChooseDecoEmail handleSetEmail={handleSetEmail} />
