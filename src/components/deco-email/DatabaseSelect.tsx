@@ -96,7 +96,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
         type: 'EMAIL',
       },
     })
-    //  await notionDatabase.refetch()
+    await notionDatabase.refetch()
   }
 
   const setSelectedContactsDatabase = async (notionPage: any) => {
@@ -107,7 +107,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
         type: 'CONTACTS',
       },
     })
-    //  await notionDatabase.refetch()
+    await notionDatabase.refetch()
   }
 
   const [selectNotionDatabase] = useMutation(SELECT_NOTION_DATABASE)
