@@ -247,7 +247,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
                       data.connectedNotionPages.map(
                         (notionPage: NotionPage) => {
                           if (notionPage.id === contactsSelected.id) {
-                            return <></>
+                            return null
                           }
                           return (
                             <Listbox.Option
@@ -340,7 +340,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
                       data.connectedNotionPages.map(
                         (notionPage: NotionPage) => {
                           if (notionPage.id === emailSelected.id) {
-                            return <></>
+                            return null
                           }
                           return (
                             <Listbox.Option
