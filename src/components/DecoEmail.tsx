@@ -97,7 +97,7 @@ function DecoEmail() {
       return (
         <DatabaseSelect
           notionIntegrationData={notionIntegrationData}
-          notionDatabase={notionDatabase}
+          notionDatabaseRefetch={notionDatabase.refetch}
           setOpenReconnectModal={setOpenReconnectModal}
         />
       )
@@ -292,6 +292,7 @@ function DecoEmail() {
         open={openReconnectModal}
         setOpen={() => setOpenReconnectModal(false)}
         isReconnect={!!notionIntegrationData}
+        refetchDatabase={notionDatabase.refetch}
       />
     </>
   )

@@ -3,25 +3,22 @@ import { Dialog, Transition } from '@headlessui/react'
 
 import Userfront from '@userfront/core'
 import { useQuery } from '@apollo/client'
-import {
-  GET_CURRENT_USER_NOTION_INTEGRATION,
-  GET_CURRENT_USER_NOTION_DATABASE_INFO,
-} from '../graphql/queries'
+import { GET_CURRENT_USER_NOTION_INTEGRATION } from '../graphql/queries'
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 
 interface ModalProps {
   open: boolean
   setOpen: () => void
   isReconnect: boolean
+  refetchDatabase: () => void
 }
 
 const ReconnectNotionModal = (props: ModalProps) => {
-  const { open, setOpen, isReconnect } = props
+  const { open, setOpen, isReconnect, refetchDatabase } = props
 
   const cancelButtonRef = useRef(null)
 
   const notionIntegration = useQuery(GET_CURRENT_USER_NOTION_INTEGRATION)
-  const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO)
 
   const handleAuthWithNotion = useCallback(() => {
     const params = new URLSearchParams()
@@ -35,11 +32,11 @@ const ReconnectNotionModal = (props: ModalProps) => {
     const interval = setInterval(() => {
       if (tab?.closed) {
         notionIntegration.refetch()
-        notionDatabase.refetch()
+        refetchDatabase()
         clearInterval(interval)
       }
     }, 300)
-  }, [notionIntegration, notionDatabase])
+  }, [notionIntegration, refetchDatabase])
 
   return (
     <Transition.Root show={open} as={Fragment}>

@@ -22,12 +22,16 @@ interface NotionPage {
 
 interface NotionAuthProps {
   notionIntegrationData: any
-  notionDatabase: any
+  notionDatabaseRefetch: () => void
   setOpenReconnectModal: (e: boolean) => void
 }
 
 export default function DatabaseSelect(props: NotionAuthProps) {
-  const { notionIntegrationData, notionDatabase, setOpenReconnectModal } = props
+  const {
+    notionIntegrationData,
+    notionDatabaseRefetch,
+    setOpenReconnectModal,
+  } = props
   const [emailSelected, setEmailSelected] = useState<NotionPage>({
     id: '0',
     title: 'Choose email database',
@@ -74,10 +78,10 @@ export default function DatabaseSelect(props: NotionAuthProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setPolling(false)
-      notionDatabase.refetch()
+      notionDatabaseRefetch()
     }, 60000)
     return () => clearTimeout(timer)
-  }, [])
+  }, [notionDatabaseRefetch])
 
   // handle display loading state if polling
   useEffect(() => {
@@ -96,7 +100,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
         type: 'EMAIL',
       },
     })
-    await notionDatabase.refetch()
+    notionDatabaseRefetch()
   }
 
   const setSelectedContactsDatabase = async (notionPage: any) => {
@@ -107,7 +111,7 @@ export default function DatabaseSelect(props: NotionAuthProps) {
         type: 'CONTACTS',
       },
     })
-    await notionDatabase.refetch()
+    notionDatabaseRefetch()
   }
 
   const [selectNotionDatabase] = useMutation(SELECT_NOTION_DATABASE)
