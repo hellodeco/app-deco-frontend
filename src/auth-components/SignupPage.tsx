@@ -16,6 +16,7 @@ const SignupPage = () => {
   const [password, setPassword] = React.useState('')
   const [passwordVerify, setPasswordVerify] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
+  const [signinDisabled, setSigninDisabled] = React.useState(false)
 
   let navigate = useNavigate()
 
@@ -45,12 +46,19 @@ const SignupPage = () => {
   const handleSignup = async (event: React.FormEvent) => {
     event.preventDefault()
 
-    if (password.length < 8) {
+    const regExp = /.*@deco.so$/g
+    if (regExp.test(email))  {
+      setErrorMessage('Signup address cannot end in "@deco.so"')
+      setSigninDisabled(true)
+    } else if (password.length < 8) {
       setErrorMessage('Password must be at least 8 characters')
+      setSigninDisabled(true)
     } else if (password !== passwordVerify) {
       setErrorMessage('Oops! Please make sure your passwords match')
+      setSigninDisabled(true)
     } else {
       setErrorMessage('')
+      setSigninDisabled(false)
 
       await handleCreateUser({
         variables: { email: email, password: password },
@@ -105,7 +113,10 @@ const SignupPage = () => {
                         autoComplete="email"
                         required
                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
-                        onChange={(event) => setEmail(event.target.value)}
+                        onChange={(event) => {
+                          setEmail(event.target.value)
+                          setSigninDisabled(false)
+                        }}
                       />
                     </div>
                   </div>
@@ -124,7 +135,10 @@ const SignupPage = () => {
                         type="password"
                         autoComplete="current-password"
                         required
-                        onChange={(event) => setPassword(event.target.value)}
+                        onChange={(event) => {
+                          setPassword(event.target.value)
+                          setSigninDisabled(false)
+                        }}
                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
                       />
                     </div>
@@ -144,9 +158,10 @@ const SignupPage = () => {
                         type="password"
                         autoComplete="current-password"
                         required
-                        onChange={(event) =>
+                        onChange={(event) => {
                           setPasswordVerify(event.target.value)
-                        }
+                          setSigninDisabled(false)
+                        }}
                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm"
                       />
                     </div>
@@ -162,7 +177,8 @@ const SignupPage = () => {
                     <button
                       type="submit"
                       onClick={(event) => handleSignup(event)}
-                      className="flex w-full justify-center rounded-md border border-transparent bg-sky-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                      disabled={signinDisabled}
+                      className="disabled:bg-sky-300 flex w-full justify-center rounded-md border border-transparent bg-sky-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                     >
                       Sign up
                     </button>
