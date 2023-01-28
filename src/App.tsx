@@ -13,6 +13,7 @@ import {
   createHttpLink,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import { Navigate } from 'react-router-dom'
 import LoginPage from './auth-components/LoginPage'
 import SignupPage from './auth-components/SignupPage'
 import PostCheckout from './components/PostCheckout'
@@ -22,7 +23,8 @@ import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
 import SideNavigationLayout from './components/layouts/SideNavigationLayout'
-import { Navigate } from 'react-router-dom'
+import { ReplyCreateLoader } from './components/ReplyCreateLoader'
+import { ReplySendLoader } from './components/ReplySendLoader'
 
 const MAIN_YELLOW = '#F7CD45'
 
@@ -123,6 +125,16 @@ function App() {
           element={<Attachments />}
         />
 
+        <Route
+          path="/email/reply/create-notion-page/:originalEmailUUID"
+          element={<ReplyCreateLoader />}
+        />
+
+        <Route
+          path="/email/reply/send/:originalEmailUUID/:notionPageID"
+          element={<ReplySendLoader />}
+        />
+
         <Route path="*" element={<Navigate to={wildCardNavigateTo} />} />
       </Routes>
     </div>
@@ -140,3 +152,5 @@ const WrappedApp = () => {
 }
 
 export default WrappedApp
+
+// http://localhost:3000/email/reply/send/5f7583a7-a3ff-47d3-a125-f0a946c6a614/468b123b28b4489d9ab5470c72c32f29

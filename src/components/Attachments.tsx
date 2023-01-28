@@ -3,16 +3,9 @@ import Userfront from '@userfront/core'
 import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { HAS_FILE_ACCESS } from '../graphql/queries'
+import { FullScreenContainer } from './FullScreenContainer'
 
 const PUBLIC_URL = process.env.PUBLIC_URL
-
-function FullScreenContainer({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="h-screen w-screen items-center justify-center flex flex-col">
-      {children}
-    </div>
-  )
-}
 
 export function Attachments() {
   const { attachmentId, filename } = useParams()
