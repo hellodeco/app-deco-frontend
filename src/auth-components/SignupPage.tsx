@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { CREATE_NEW_USER } from '../graphql/mutations'
 import Userfront from '@userfront/core'
@@ -12,11 +12,16 @@ function getEmailParam() {
 }
 
 const SignupPage = () => {
-  const [email, setEmail] = React.useState(getEmailParam())
+  const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [passwordVerify, setPasswordVerify] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
   const [signinDisabled, setSigninDisabled] = React.useState(false)
+
+  useEffect(() => {
+    const emailParam = getEmailParam()
+    setEmail(emailParam)
+  }, [])
 
   let navigate = useNavigate()
 
@@ -47,7 +52,7 @@ const SignupPage = () => {
     event.preventDefault()
 
     const regExp = /.*@deco.so$/g
-    if (regExp.test(email))  {
+    if (regExp.test(email)) {
       setErrorMessage('Signup address cannot end in "@deco.so"')
       setSigninDisabled(true)
     } else if (password.length < 8) {
@@ -117,6 +122,7 @@ const SignupPage = () => {
                           setEmail(event.target.value)
                           setSigninDisabled(false)
                         }}
+                        value={email}
                       />
                     </div>
                   </div>
