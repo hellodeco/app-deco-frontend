@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import Userfront from '@userfront/core'
 import { useParams } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
@@ -9,23 +9,28 @@ import { CREATE_EMAIL_REPLY_PAGE } from '../../graphql/mutations'
 
 export function ReplyCreateLoader() {
   const { originalEmailUUID } = useParams()
-  const [pageCreated, setPageCreated] = useState(false)
   const [createEmailReplyPage, { data, loading, error }] = useMutation(
     CREATE_EMAIL_REPLY_PAGE
   )
 
-  const handleCreatePage = async () => {
-    setPageCreated(true)
-    try {
-      await createEmailReplyPage({
-        variables: {
-          originalEmailUUID,
-        },
-      })
-    } catch (err) {
-      console.debug(err)
-    }
-  }
+  const handleCreatePage = useCallback(
+    async () => {
+      try {
+        await createEmailReplyPage({
+          variables: {
+            originalEmailUUID,
+          },
+        })
+      } catch (err) {
+        console.debug(err)
+      }
+    },
+    [createEmailReplyPage, originalEmailUUID]
+  )
+
+  useEffect(() => {
+    handleCreatePage()
+  }, [])
 
   // user not logged in
   if (!Userfront?.tokens?.accessToken) {
@@ -52,15 +57,12 @@ export function ReplyCreateLoader() {
   if (error) {
     return (
       <ReplyError
-        heading="Error creating reply page in Notion"
+        heading="Error creating reply page!"
         error={error}
       />
     )
   }
 
-  if (!pageCreated) {
-    handleCreatePage()
-  }
-
+  // TODO figure out a default state
   return null
 }
