@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import Userfront from '@userfront/core'
 import { useParams } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
@@ -9,24 +9,29 @@ import { SEND_EMAIL_REPLY } from '../../graphql/mutations'
 
 export function ReplySendLoader() {
   const { originalEmailUUID, notionPageID } = useParams()
-  const [replySent, setReplySent] = useState(false)
   const [sendEmailReply, { data, loading, error }] = useMutation(
     SEND_EMAIL_REPLY,
   )
 
-  const handleSendReply = async () => {
-    setReplySent(true)
-    try {
-      await sendEmailReply({
-        variables: {
-          originalEmailUUID,
-          notionPageID,
-        },
-      })
-    } catch (err) {
-      console.debug(err)
-    }
-  }
+  const handleSendReply = useCallback(
+    async () => {
+      try {
+        await sendEmailReply({
+          variables: {
+            originalEmailUUID,
+            notionPageID,
+          },
+        })
+      } catch (err) {
+        console.debug(err)
+      }
+    },
+    [sendEmailReply, originalEmailUUID, notionPageID]
+  ) 
+
+  useEffect(() => {
+    handleSendReply()
+  }, [])
 
   // user not logged in
   if (!Userfront?.tokens?.accessToken) {
@@ -45,7 +50,7 @@ export function ReplySendLoader() {
   if (loading) {
     return (
       <FullScreenContainer>
-        <h1 className="text-xl">Sending email reply...</h1>
+        <h1 className="text-xl">Sending your reply from Notion...</h1>
       </FullScreenContainer>
     )
   }
@@ -53,15 +58,12 @@ export function ReplySendLoader() {
   if (error) {
     return (
       <ReplyError
-        heading="Error sending email reply"
+        heading="Error sending email reply!"
         error={error}
       />
     )
   }
 
-  if (!replySent) {
-    handleSendReply()
-  }
-
+  // TODO figure out a default state
   return null
 }
