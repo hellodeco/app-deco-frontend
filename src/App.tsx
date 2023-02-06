@@ -23,8 +23,8 @@ import { NotionAuthFail } from './components/deco-email/NotionAuthFail'
 import { Attachments } from './components/Attachments'
 import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
 import SideNavigationLayout from './components/layouts/SideNavigationLayout'
-import { ReplyCreateLoader } from './components/ReplyCreateLoader'
-import { ReplySendLoader } from './components/ReplySendLoader'
+import { ReplyCreateLoader } from './components/email-reply/ReplyCreateLoader'
+import { ReplySendLoader } from './components/email-reply/ReplySendLoader'
 
 const MAIN_YELLOW = '#F7CD45'
 
