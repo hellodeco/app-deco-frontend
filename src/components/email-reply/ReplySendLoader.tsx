@@ -9,25 +9,21 @@ import { SEND_EMAIL_REPLY } from '../../graphql/mutations'
 
 export function ReplySendLoader() {
   const { originalEmailUUID, notionPageID } = useParams()
-  const [sendEmailReply, { data, loading, error }] = useMutation(
-    SEND_EMAIL_REPLY,
-  )
+  const [sendEmailReply, { data, loading, error }] =
+    useMutation(SEND_EMAIL_REPLY)
 
-  const handleSendReply = useCallback(
-    async () => {
-      try {
-        await sendEmailReply({
-          variables: {
-            originalEmailUUID,
-            notionPageID,
-          },
-        })
-      } catch (err) {
-        console.debug(err)
-      }
-    },
-    [sendEmailReply, originalEmailUUID, notionPageID]
-  ) 
+  const handleSendReply = useCallback(async () => {
+    try {
+      await sendEmailReply({
+        variables: {
+          originalEmailUUID,
+          notionPageID,
+        },
+      })
+    } catch (err) {
+      console.debug(err)
+    }
+  }, [sendEmailReply, originalEmailUUID, notionPageID])
 
   useEffect(() => {
     handleSendReply()
@@ -35,15 +31,13 @@ export function ReplySendLoader() {
 
   // user not logged in
   if (!Userfront?.tokens?.accessToken) {
-    return (
-      <LoginRedirect />
-    )
+    return <LoginRedirect />
   }
 
-  const notionPageUrl = data?.sendEmailReply?.notionPageUrl
+  const inboxPageURL = data?.sendEmailReply?.inboxPageURL
 
-  if (notionPageUrl) {
-    window.location = notionPageUrl
+  if (inboxPageURL) {
+    window.location = inboxPageURL
     return null
   }
 
@@ -56,12 +50,7 @@ export function ReplySendLoader() {
   }
 
   if (error) {
-    return (
-      <ReplyError
-        heading="Error sending email reply!"
-        error={error}
-      />
-    )
+    return <ReplyError heading="Error sending email reply!" error={error} />
   }
 
   // TODO figure out a default state
