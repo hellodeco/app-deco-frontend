@@ -38,20 +38,20 @@ export const SELECT_NOTION_DATABASE = gql`
 export const CREATE_EMAIL_REPLY_PAGE = gql`
   mutation createEmailReplyPage($originalEmailUUID: String) {
     createEmailReplyPage(originalEmailUUID: $originalEmailUUID) {
-        pageId
-        notionEmailDatabaseId
-        notionPageUrl
+      pageId
+      notionEmailDatabaseId
+      notionPageUrl
     }
   }
 `
 
 export const SEND_EMAIL_REPLY = gql`
-  mutation sendEmailReply(
-    $notionPageID: String
-    $originalEmailUUID: String
-  ) {
-    sendEmailReply(notionPageID: $notionPageID, originalEmailUUID: $originalEmailUUID) {
-      notionPageUrl
+  mutation sendEmailReply($notionPageID: String, $originalEmailUUID: String) {
+    sendEmailReply(
+      notionPageID: $notionPageID
+      originalEmailUUID: $originalEmailUUID
+    ) {
+      inboxPageURL
     }
   }
 `
