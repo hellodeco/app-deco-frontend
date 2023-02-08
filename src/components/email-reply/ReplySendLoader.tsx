@@ -37,7 +37,11 @@ export function ReplySendLoader() {
   const inboxPageURL = data?.sendEmailReply?.inboxPageURL
 
   if (inboxPageURL) {
-    window.location = inboxPageURL
+    let url = inboxPageURL
+    if (navigator?.appVersion?.includes('Linux')) {
+      url = inboxPageURL.replace(/^notion:\/\//, 'https://')
+    }
+    window.location = url 
     return null
   }
 

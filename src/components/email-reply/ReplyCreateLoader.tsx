@@ -39,12 +39,12 @@ export function ReplyCreateLoader() {
     )
   }
 
-  const notionPageUrl = data?.createEmailReplyPage?.notionPageUrl
+  const notionPageURL = data?.createEmailReplyPage?.notionPageURL
 
-  if (notionPageUrl) {
-    let url = notionPageUrl
+  if (notionPageURL) {
+    let url = notionPageURL
     if (navigator?.appVersion?.includes('Linux')) {
-      url = notionPageUrl.replace(/^notion:\/\//, 'https://')
+      url = notionPageURL.replace(/^notion:\/\//, 'https://')
     }
 
     window.location = url

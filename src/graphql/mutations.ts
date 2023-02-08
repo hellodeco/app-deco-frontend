@@ -40,7 +40,7 @@ export const CREATE_EMAIL_REPLY_PAGE = gql`
     createEmailReplyPage(originalEmailUUID: $originalEmailUUID) {
       pageId
       notionEmailDatabaseId
-      notionPageUrl
+      notionPageURL
     }
   }
 `
