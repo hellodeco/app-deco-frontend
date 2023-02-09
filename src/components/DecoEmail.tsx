@@ -14,6 +14,10 @@ import { Menu, Transition } from '@headlessui/react'
 import PaymentBanner from './PaymentBanner'
 import { ChooseDecoEmail } from './deco-email/ChooseDecoEmail'
 
+interface NotionDatabase {
+  type: string
+}
+
 function DecoEmail() {
   const { loading, data } = useQuery<{ currentUser: User }>(GET_USER_META)
   const notionDatabase = useQuery(GET_CURRENT_USER_NOTION_DATABASE_INFO, {
@@ -39,10 +43,10 @@ function DecoEmail() {
 
   if (notionDatabaseData) {
     ;[emailDatabaseData] = notionDatabaseData?.filter(
-      (db: any) => db.type === 'EMAIL',
+      (db?: NotionDatabase) => db?.type === 'EMAIL',
     )
     ;[contactsDatabaseData] = notionDatabaseData?.filter(
-      (db: any) => db.type === 'CONTACTS',
+      (db?: NotionDatabase) => db?.type === 'CONTACTS',
     )
   }
 
