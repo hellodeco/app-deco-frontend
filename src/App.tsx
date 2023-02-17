@@ -25,7 +25,6 @@ import { NotionAuthSuccess } from './components/deco-email/NotionAuthSuccess'
 import SideNavigationLayout from './components/layouts/SideNavigationLayout'
 import { ReplyCreateLoader } from './components/email-reply/ReplyCreateLoader'
 import { ReplySendLoader } from './components/email-reply/ReplySendLoader'
-
 const MAIN_YELLOW = '#F7CD45'
 
 const httpLink = createHttpLink({
@@ -152,5 +151,3 @@ const WrappedApp = () => {
 }
 
 export default WrappedApp
-
-// http://localhost:3000/email/reply/send/5f7583a7-a3ff-47d3-a125-f0a946c6a614/468b123b28b4489d9ab5470c72c32f29
