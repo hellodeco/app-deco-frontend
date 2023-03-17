@@ -18,14 +18,6 @@ export const CREATE_NEW_USER = gql`
   }
 `
 
-export const DROP_AND_MIGRATE_USERS_NOTION_DATABASE = gql`
-  mutation dropAndMigrateUsersNotionDatabase {
-    wipeNotionDatabase
-    deleteNotionTableProperties
-    formatNotionTable
-  }
-`
-
 export const SELECT_NOTION_DATABASE = gql`
   mutation selectNotionDatabase(
     $databaseId: String!
