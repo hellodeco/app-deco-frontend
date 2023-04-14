@@ -15,6 +15,7 @@ export default function PaymentBanner(props: { userData: User }) {
         email: userData?.signupEmail,
       }),
     }
+
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/stripe/checkout-session`,
       payload,
@@ -41,7 +42,7 @@ export default function PaymentBanner(props: { userData: User }) {
         <div className="ml-3 flex-1 md:flex md:justify-between">
           <p className="text-sm text-yellow-700">
             Heads up! You're still on our free plan. Our free plan limits you to
-            100 emails in your Notion inbox.
+            20 emails in your Notion inbox.
           </p>
           <p className="mt-3 text-sm md:mt-0 md:ml-6">
             <button
