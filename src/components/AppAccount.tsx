@@ -28,33 +28,18 @@ function AppAccount() {
     event.preventDefault()
 
     let stripeURL
-    const payload = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userfrontUserId: userData?.userfrontID,
-        email: userData?.signupEmail,
-      }),
-    }
-
     if (paywallEnabled) {
       stripeURL = '/stripe/checkout-session'
     } else {
       stripeURL = '/stripe/billing-portal'
     }
 
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}${stripeURL}`,
-      payload,
-    )
-
-    if (response.status !== 200) {
-      console.log('Error opening Stripe billing portal')
-      return
-    }
-
-    const resBody = await response.json()
-    window.location = resBody.sessionUrl
+    const p = new URLSearchParams()
+    p.append('userfrontUserId', userData?.userfrontID as string)
+    p.append('email', userData?.signupEmail as string)
+    
+    // @ts-ignore
+    window.location = `${process.env.REACT_APP_API_URL}${stripeURL}?${p.toString()}`
   }
 
   const handlePasswordReset = async (event: React.SyntheticEvent) => {
