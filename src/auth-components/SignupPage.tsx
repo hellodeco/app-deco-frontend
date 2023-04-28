@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useMutation } from '@apollo/client'
+import { useSearchParams } from 'react-router-dom'
 import { CREATE_NEW_USER } from '../graphql/mutations'
 import Userfront from '@userfront/core'
 import { Navigate, useNavigate } from 'react-router-dom'
@@ -17,6 +18,7 @@ const SignupPage = () => {
   const [passwordVerify, setPasswordVerify] = React.useState('')
   const [errorMessage, setErrorMessage] = React.useState('')
   const [signinDisabled, setSigninDisabled] = React.useState(false)
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     const emailParam = getEmailParam()
@@ -36,6 +38,18 @@ const SignupPage = () => {
             method: 'password',
             email: email,
             password: password,
+            redirect: false,
+          })
+          .then(() => {
+            const isCheckoutSignup = Boolean(searchParams.get('checkout'))
+            const p = new URLSearchParams()
+            p.append('email', Userfront.user.email)
+            p.append('userfrontUserId', Userfront.user.userUuid)
+
+            const stripeCheckoutEndpoint = `${process.env.REACT_APP_API_URL}/stripe/checkout-session?${p.toString()}`
+
+            // @ts-ignore
+            window.location = isCheckoutSignup ? stripeCheckoutEndpoint : '/email'
           }).catch((error: any) => {
             setErrorMessage(error.message)
           })
